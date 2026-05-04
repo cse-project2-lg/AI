@@ -1,23 +1,20 @@
-from app.schemas.document import Document
-from app.schemas.chunk import Chunk
+from app.ingestion.loader import load_document
 
 
 def main():
-    doc = Document(
-        doc_id="test_doc",
-        source="test.txt",
-        text="이것은 테스트 문서입니다."
-    )
+    file_path = "data/raw/srs/요구사항분석_v2.0.docx"
 
-    chunk = Chunk(
-        chunk_id="chunk_1",
-        doc_id=doc.doc_id,
-        text="이것은 chunk입니다.",
-        metadata={"section": "1.1"}
-    )
+    doc = load_document(file_path)
 
-    print(doc.to_dict())
-    print(chunk.to_dict())
+    print("문서 ID:", doc.doc_id)
+    print("문서 타입:", doc.doc_type)
+    print("문서 제목:", doc.title)
+    print("원본 경로:", doc.source)
+    print("텍스트 길이:", len(doc.text))
+    print()
+    print("본문 미리보기")
+    print("-" * 50)
+    print(doc.text[:1000])
 
 
 if __name__ == "__main__":

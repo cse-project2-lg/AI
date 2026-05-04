@@ -15,7 +15,10 @@ def main() -> None:
 
     print("\n검색 결과:")
     for index, result in enumerate(results, start=1):
-        print(f"\n[{index}] score: {result['score']:.4f}")
+        print(f"\n[{index}] final_score: {result['final_score']:.4f}")
+        print(f"embedding_score: {result['embedding_score']:.4f}")
+        print(f"keyword_score: {result['keyword_score']:.4f}")
+        print(f"metadata_score: {result['metadata_score']:.4f}")
         print("metadata:", result["metadata"])
         print("text:")
         print(result["text"][:500])

@@ -60,24 +60,73 @@ def split_into_chunks(document: Document) -> List[Chunk]:
 
 
 def _is_section_title(line: str) -> bool:
+    """
+    제목 여부를 판단한다.
 
-    # 길이 기준
+    SRS 문서에서 실제 제목은 보통 다음 특징을 가진다.
+    - 영어 제목 + 한글 번역 괄호 형태
+    - 비교적 짧은 길이
+    - 문장형 서술이 아님
+    - 목록 항목이 아님
+    """
+
     if len(line) < 3:
         return False
 
-    # 문장 형태 제거
-    if line.endswith("."):
+    if len(line) > 80:
         return False
 
-    # 괄호 포함
-    if "(" in line and ")" in line:
+    if line.endswith((".", "다", "요", "함")):
+        return False
+
+    # 목록/본문 항목으로 자주 등장하는 표현은 제목으로 보지 않음
+    body_like_keywords = [
+        "개발자",
+        "담당자",
+        "테스터",
+        "기획자",
+        "평가자",
+        "기능",
+        "시스템",
+        "환경에서",
+        "포함되지",
+        "활용",
+    ]
+
+    if any(keyword in line for keyword in body_like_keywords):
+        return False
+
+    # 실제 SRS 제목 형태: English Title (한글)
+    english_korean_title_pattern = re.compile(
+        r"^[A-Za-z][A-Za-z0-9\s/\-]+ \([가-힣A-Za-z0-9\s/·\-]+\)$"
+    )
+
+    if english_korean_title_pattern.match(line):
         return True
 
-    # 영어 + 한글 혼합 제목
-    if re.match(r"^[A-Za-z\s]+\(.+\)", line):
-        return True
+    # 큰 장 제목 중 번호가 제거된 경우 대응
+    known_section_titles = {
+        "Introduction (개요)",
+        "Purpose (목표)",
+        "Product Scope (범위)",
+        "Document Conventions (문서규칙)",
+        "Terms and Abbreviations (정의 및 약어)",
+        "Related Documents (관련문서)",
+        "Intended Audience and Reading Suggestions (대상 및 읽는 방법)",
+        "Project Output (프로젝트 산출물)",
+        "Overall Description (전체 설명)",
+        "Product Perspective (제품 조망)",
+        "Overall System Configuration (전체 시스템 구성)",
+        "Overall Operation (전체 동작방식)",
+        "Product Functions (제품 주요 기능)",
+        "User Classes and Characteristics (사용자 계층과 특징)",
+        "Assumptions and Dependencies (가정과 종속 관계)",
+        "Environment (환경)",
+        "Functional Requirements (기능 요구사항)",
+        "Non-functional Requirements (비기능 요구사항)",
+    }
 
-    return False
+    return line in known_section_titles
 
 # "제목 + 내용" 단위로 Chunk 객체를 생성
 def _build_chunk(document: Document, title: str, content_lines: List[str]) -> Chunk:

@@ -3,7 +3,7 @@ from pathlib import Path
 from typing import List, Dict, Any
 
 from sentence_transformers import SentenceTransformer
-
+from app.retrieval.reranker import rerank_results
 from app.retrieval.similarity import cosine_similarity
 from app.retrieval.scoring import (
     calculate_keyword_score,
@@ -104,4 +104,11 @@ class JsonRetriever:
 
         scored_chunks.sort(key=lambda item: item["final_score"], reverse=True)
 
-        return scored_chunks[:top_k]
+        candidate_results = scored_chunks[: top_k * 3]
+
+        reranked_results = rerank_results(
+            query=query,
+            results=candidate_results,
+        )
+
+        return reranked_results[:top_k]

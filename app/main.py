@@ -1,6 +1,6 @@
 from app.query.query_generator import generate_query_from_event
 from app.retrieval.retriever import JsonRetriever
-
+from app.prompt.prompt_builder import build_rag_prompt
 
 def main() -> None:
     retriever = JsonRetriever(
@@ -20,6 +20,15 @@ def main() -> None:
 
     results = retriever.retrieve(query=query, top_k=3)
 
+    rag_prompt = build_rag_prompt(
+        sensor_event=sensor_event,
+        query=query,
+        retrieved_chunks=results,
+    )
+
+    print("\n생성된 RAG Prompt:")
+    print(rag_prompt)
+    
     print("\n센서 이벤트:")
     print(sensor_event)
 

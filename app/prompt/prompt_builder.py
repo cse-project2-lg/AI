@@ -1,5 +1,7 @@
 from typing import Dict, Any, List
 
+from app.context.context_builder import build_context_summary
+
 
 def build_rag_prompt(
     sensor_event: Dict[str, Any],
@@ -7,22 +9,21 @@ def build_rag_prompt(
     retrieved_chunks: List[Dict[str, Any]],
 ) -> str:
 
+
+    summarized_chunks = build_context_summary(retrieved_chunks)
+
     evidence_blocks = []
 
-    for index, chunk in enumerate(retrieved_chunks, start=1):
-        metadata = chunk.get("metadata", {})
-
+    for item in summarized_chunks:
         evidence_blocks.append(
             f"""
-[근거 {index}]
-section_title: {metadata.get("section_title", "unknown")}
-category: {metadata.get("category", "unknown")}
-priority: {metadata.get("priority", "unknown")}
-chunk_index: {metadata.get("chunk_index", "unknown")}
-score: {chunk.get("rerank_score", 0):.4f}
+[근거 {item['index']}]
+section_title: {item['section_title']}
+chunk_index: {item['chunk_index']}
+score: {item['score']:.4f}
 
-content:
-{chunk.get("text", "")}
+핵심 요약:
+{item['summary']}
 """.strip()
         )
 

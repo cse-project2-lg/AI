@@ -238,12 +238,39 @@ def rerank_results(
 
         category_penalty = min(category_penalty, 0.15)
 
+        section_title = metadata.get("section_title", "").lower()
+        normalized_query = query.lower()
+
+        intent_priority_boost = 0.0
+        intent_priority_penalty = 0.0
+
+        # ToF/CSI/PIR의 "역할"을 묻는 경우: Communication Interface보다 Overall Operation / Hardware Interface가 더 적절함
+        if "역할" in normalized_query or "어떻게 활용" in normalized_query:
+            if "overall operation" in section_title or "전체 동작방식" in section_title:
+                intent_priority_boost += 0.08
+
+            if "hardware interface" in section_title or "하드웨어 인터페이스" in section_title:
+                intent_priority_boost += 0.06
+
+            if "communication interface" in section_title or "통신 인터페이스" in section_title:
+                intent_priority_penalty += 0.06
+
+        # "통신 방식", "전달"을 묻는 경우: Communication Interface가 가장 우선되어야 함
+        if "통신 방식" in normalized_query or "전달" in normalized_query:
+            if "communication interface" in section_title or "통신 인터페이스" in section_title:
+                intent_priority_boost += 0.10
+
+            if "hardware interface" in section_title or "하드웨어 인터페이스" in section_title:
+                intent_priority_penalty += 0.06
+
         rerank_score = (
             result["final_score"]
             + section_boost
             + text_boost
+            + intent_priority_boost
             - category_penalty
             - context_penalty
+            - intent_priority_penalty
         )
 
         reranked_results.append(
@@ -255,6 +282,8 @@ def rerank_results(
                 "text_boost": text_boost,
                 "category_penalty": category_penalty,
                 "context_penalty": context_penalty,
+                "intent_priority_boost": intent_priority_boost,
+                "intent_priority_penalty": intent_priority_penalty,
                 "rerank_score": rerank_score,
             }
         )

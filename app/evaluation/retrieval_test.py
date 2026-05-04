@@ -44,6 +44,7 @@ def run_retrieval_test() -> None:
             print(f"      chunk_index: {metadata.get('chunk_index')}")
             print(f"      text_preview: {result['text'][:180].replace(chr(10), ' ')}")
             print(f"      intent_weights: {result.get('intent_weights', {})}")
-
+            print(f"      intent_priority_boost: {result['intent_priority_boost']:.4f}")
+            print(f"      intent_priority_penalty: {result['intent_priority_penalty']:.4f}")
 if __name__ == "__main__":
     run_retrieval_test()

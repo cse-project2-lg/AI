@@ -35,13 +35,15 @@ def run_retrieval_test() -> None:
             print(f"      keyword_score: {result['keyword_score']:.4f}")
             print(f"      metadata_score: {result['metadata_score']:.4f}")
             print(f"      section_boost: {result['section_boost']:.4f}")
+            print(f"      text_boost: {result['text_boost']:.4f}")
+            print(f"      category_penalty: {result['category_penalty']:.4f}")
             print(f"      context_penalty: {result['context_penalty']:.4f}")
             print(f"      section_title: {metadata.get('section_title')}")
             print(f"      category: {metadata.get('category')}")
             print(f"      priority: {metadata.get('priority')}")
             print(f"      chunk_index: {metadata.get('chunk_index')}")
             print(f"      text_preview: {result['text'][:180].replace(chr(10), ' ')}")
-
+            print(f"      intent_weights: {result.get('intent_weights', {})}")
 
 if __name__ == "__main__":
     run_retrieval_test()

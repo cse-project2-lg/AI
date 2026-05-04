@@ -1,36 +1,24 @@
-from app.ingestion.ingest_pipeline import run_ingestion_pipeline
-from app.embeddings.embedding_service import create_chunk_embeddings
+from app.retrieval.retriever import JsonRetriever
 
 
-def main():
-    input_file_path = "data/raw/srs/요구사항분석_v2.0.docx"
-    chunk_file_path = "data/chunks/chunks.json"
-    embedding_file_path = "data/chunks/chunk_embeddings.json"
-
-    chunks = run_ingestion_pipeline(
-        input_file_path=input_file_path,
-        output_file_path=chunk_file_path,
+def main() -> None:
+    retriever = JsonRetriever(
+        embedding_file_path="data/chunks/chunk_embeddings.json"
     )
 
-    embedded_chunks = create_chunk_embeddings(
-        chunk_file_path=chunk_file_path,
-        output_file_path=embedding_file_path,
-    )
+    query = "PIR 센서에서 움직임이 감지되고 ToF 거리 값이 급격히 감소했을 때 낙상 후보로 판단하는 기준"
 
-    print("Ingestion + Embedding 완료")
-    print("chunk 저장 위치:", chunk_file_path)
-    print("embedding 저장 위치:", embedding_file_path)
-    print("총 chunk 개수:", len(chunks))
-    print("총 embedding 개수:", len(embedded_chunks))
+    results = retriever.retrieve(query=query, top_k=3)
 
-    sample = embedded_chunks[0]
+    print("\n검색 Query:")
+    print(query)
 
-    print("\n샘플 embedding 정보")
-    print("-" * 50)
-    print("chunk_id:", sample["chunk_id"])
-    print("section_title:", sample["metadata"]["section_title"])
-    print("embedding_dimension:", sample["embedding_metadata"]["embedding_dimension"])
-    print("embedding 앞 5개 값:", sample["embedding"][:5])
+    print("\n검색 결과:")
+    for index, result in enumerate(results, start=1):
+        print(f"\n[{index}] score: {result['score']:.4f}")
+        print("metadata:", result["metadata"])
+        print("text:")
+        print(result["text"][:500])
 
 
 if __name__ == "__main__":

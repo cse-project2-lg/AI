@@ -60,8 +60,7 @@ REQUIREMENT_KEYWORDS = [
     "확장성",
 ]
 
-# 문서에서 자주 나오는 섹션 제목들
-# chunking 시 섹션 제목을 기준으로 내용을 묶기 위해 사용
+
 def enrich_chunk_metadata(chunks: List[Chunk]) -> List[Chunk]:
 
     enriched_chunks = []
@@ -77,7 +76,7 @@ def enrich_chunk_metadata(chunks: List[Chunk]) -> List[Chunk]:
                 "chunk_index": index,
                 "category": _classify_category(text, section_title),
                 "keywords": _extract_keywords(text),
-                "priority": _classify_priority(text),
+                "priority": _classify_priority(text, section_title),
                 "chunk_length": len(text),
                 "contains_requirement_id": len(requirement_ids) > 0,
                 "requirement_ids": requirement_ids,
@@ -91,7 +90,7 @@ def enrich_chunk_metadata(chunks: List[Chunk]) -> List[Chunk]:
 
 def _classify_category(text: str, section_title: str) -> str:
     """
-    chunk 내용을 기반으로 category를 분류한다.
+    chunk 내용을 기반으로 category를 분류
 
     분류 우선순위:
     1. 명확한 문서/개요성 섹션은 general
@@ -159,27 +158,63 @@ def _extract_keywords(text: str) -> List[str]:
     return sorted(set(found_keywords))
 
 
-def _classify_priority(text: str) -> str:
+def _classify_priority(text: str, section_title: str = "") -> str:
     """
-    chunk의 중요도를 분류
-        high: 낙상 판단, 보호자 알림, 긴급/응급 대응
-        medium: 센서, 요구사항, 시스템 구성
-        low: 문서 설명, 용어, 일반 안내
+    chunk 중요도 분류
+
+    기준:
+    - 실제 판단/행동과 연결된 chunk만 high
+    - 설명/개요/배경은 낮춤
     """
 
-    high_score = _count_keywords(text, HIGH_PRIORITY_KEYWORDS)
+    title = section_title.lower()
 
-    if high_score >= 2:
+    # low로 강제 분류해야 하는 섹션
+    low_priority_titles = [
+        "purpose",
+        "product scope",
+        "document conventions",
+        "terms and abbreviations",
+        "intended audience",
+        "related documents",
+        "project output",
+        "output format",
+        "patent information",
+        "product perspective",
+        "overall description",
+    ]
+
+    if any(keyword in title for keyword in low_priority_titles):
+        return "low"
+
+    # high 후보 (판단/행동 관련)
+    decision_keywords = [
+        "낙상 판단",
+        "낙상 감지",
+        "낙상 의심",
+        "이상 행동",
+        "보호자 알림",
+        "알림 전송",
+        "응답 없음",
+        "사용자 확인",
+        "응급",
+        "긴급",
+    ]
+
+    decision_score = _count_keywords(text, decision_keywords)
+
+    if decision_score >= 2:
         return "high"
 
-    if high_score == 1 and _contains_any(text, NOTIFICATION_KEYWORDS + SENSOR_KEYWORDS):
+    # 요구사항 기반
+    if _contains_any(text, ["해야 한다", "요구사항", "필수", "조건"]):
         return "high"
 
-    if _contains_any(text, SENSOR_KEYWORDS + NOTIFICATION_KEYWORDS + REQUIREMENT_KEYWORDS):
+    # 센서 / 시스템 설명
+    if _contains_any(text, SENSOR_KEYWORDS + SYSTEM_KEYWORDS):
         return "medium"
 
     return "low"
-
 
 def _extract_requirement_ids(text: str) -> List[str]:
 
@@ -193,8 +228,12 @@ def _contains_any(text: str, keywords: List[str]) -> bool:
 
     return any(keyword.lower() in lower_text for keyword in keywords)
 
-# chunk metadata enrichment 과정에서 chunk text와 섹션 제목을 활용하여 category, priority, keywords 등을 추출
+
 def _count_keywords(text: str, keywords: List[str]) -> int:
+    """
+    text에 포함된 keyword 개수를 센다.
+    단순 포함 여부가 아니라 점수 기반 분류에 사용
+    """
 
     lower_text = text.lower()
 

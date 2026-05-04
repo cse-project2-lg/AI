@@ -41,19 +41,55 @@ def _normalize_line_endings(text: str) -> str:
 
 def _remove_table_of_contents(text: str) -> str:
     """
-    문서 앞부분의 목차 영역을 제거
+    SRS 문서의 목차 영역을 제거한다.
 
-    ( SRS 문서는 초반에 목차가 포함되어 있는데,
-      목차의 1.1, 1.2 같은 번호가 실제 본문 section으로 오인될 수 있다.
-      따라서 '목 차' 이후부터 실제 1 Introduction 시작 전까지 제거)
+    제거 기준:
+    - '목 차' 또는 '목차'가 등장하면 목차 시작으로 판단
+    - 이후 실제 본문 시작인 'Introduction (개요)'가 나오기 전까지 제거
+    - 목차 제목이 깨져서 일부 항목만 남는 경우도 추가 제거
     """
 
-    toc_pattern = re.compile(
-        r"목\s*차.*?(?=\n1\s+Introduction|\n1\s+개요|\n1\s+Introduction\s*\(개요\))",
-        re.DOTALL,
-    )
+    lines = text.split("\n")
+    cleaned_lines = []
 
-    return re.sub(toc_pattern, "", text)
+    in_toc_area = False
+    toc_started = False
+
+    toc_title_pattern = re.compile(r"^\s*목\s*차\s*$")
+    intro_body_pattern = re.compile(r"^\s*Introduction\s*\(개요\)\s*$")
+    toc_line_pattern = re.compile(r"^\s*\d+(\.\d+)*\.?\s+.+\s+\d+\s*$")
+
+    for line in lines:
+        stripped = line.strip()
+
+        # 목차 제목 발견
+        if toc_title_pattern.match(stripped):
+            in_toc_area = True
+            toc_started = True
+            continue
+
+        # 목차 영역 이후 실제 본문 시작 발견
+        if in_toc_area and intro_body_pattern.match(stripped):
+            in_toc_area = False
+            cleaned_lines.append(line)
+            continue
+
+        # 목차 영역 안의 모든 줄 제거
+        if in_toc_area:
+            continue
+
+        # 목차 제목 탐지가 불완전했을 경우를 대비해
+        # 문서 초반의 "section 번호 + 제목 + 페이지번호" 형태 줄 제거
+        if not toc_started and toc_line_pattern.match(stripped):
+            continue
+
+        # 목차 제거 후 남은 잔여 목차 줄 제거
+        if toc_started and toc_line_pattern.match(stripped):
+            continue
+
+        cleaned_lines.append(line)
+
+    return "\n".join(cleaned_lines)
 
 
 def _normalize_spaces(text: str) -> str:

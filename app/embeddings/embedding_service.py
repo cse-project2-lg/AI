@@ -61,3 +61,6 @@ def _save_embeddings(
 
     with output_path.open("w", encoding="utf-8") as file:
         json.dump(embedded_chunks, file, ensure_ascii=False, indent=2)
+
+if __name__ == "__main__":
+    create_chunk_embeddings()

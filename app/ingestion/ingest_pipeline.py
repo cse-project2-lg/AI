@@ -42,3 +42,38 @@ def _save_chunks(chunks: List[Chunk], output_file_path: str) -> None:
 
     with output_path.open("w", encoding="utf-8") as file:
         json.dump(chunk_dicts, file, ensure_ascii=False, indent=2)
+
+def run_ingestion_directory(
+    input_dir_path: str = "data/raw",
+    output_file_path: str = "data/chunks/chunks.json",
+) -> List[Chunk]:
+    all_chunks = []
+
+    input_dir = Path(input_dir_path)
+
+    if not input_dir.exists():
+        raise FileNotFoundError(f"입력 폴더를 찾을 수 없습니다: {input_dir_path}")
+
+    for file_path in sorted(input_dir.rglob("*")):
+        print("FOUND:", file_path)
+
+        if file_path.suffix.lower() not in [".txt", ".docx"]:
+            continue
+
+        document = load_document(str(file_path))
+        document = clean_document(document)
+
+        chunks = split_into_chunks(document)
+        chunks = enrich_chunk_metadata(chunks)
+
+        print(file_path.name, "chunk 수:", len(chunks))
+
+        all_chunks.extend(chunks)
+        
+    _save_chunks(all_chunks, output_file_path)
+
+    return all_chunks
+
+if __name__ == "__main__":
+    chunks = run_ingestion_directory()
+    print(f"{len(chunks)}개의 chunk를 저장했습니다.")

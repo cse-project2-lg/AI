@@ -60,26 +60,35 @@ def split_into_chunks(document: Document) -> List[Chunk]:
 
 
 def _is_section_title(line: str) -> bool:
-    """
-    제목 여부를 판단한다.
-
-    SRS 문서에서 실제 제목은 보통 다음 특징을 가진다.
-    - 영어 제목 + 한글 번역 괄호 형태
-    - 비교적 짧은 길이
-    - 문장형 서술이 아님
-    - 목록 항목이 아님
-    """
-
     if len(line) < 3:
         return False
 
-    if len(line) > 80:
+    if len(line) > 120:
         return False
+
+    # Markdown 제목
+    if re.match(r"^#{1,6}\s+\S+", line):
+        return True
+
+    # 번호 제목: 1. 제목 / 5.1 제목 / 6.3 제목
+    if re.match(r"^\d+(\.\d+)*\.\s+.+", line):
+        return True
+
+    # 번호 제목: 1 제목 / 5.1 제목
+    if re.match(r"^\d+(\.\d+)*\s+.+", line):
+        return True
+
+    # 케이스 제목
+    if re.match(r"^케이스\s*\d+\s*[:：]\s*.+", line):
+        return True
+
+    # 원칙 제목
+    if re.match(r"^원칙\s*\d+\s*[:：]\s*.+", line):
+        return True
 
     if line.endswith((".", "다", "요", "함")):
         return False
 
-    # 목록/본문 항목으로 자주 등장하는 표현은 제목으로 보지 않음
     body_like_keywords = [
         "개발자",
         "담당자",
@@ -96,7 +105,6 @@ def _is_section_title(line: str) -> bool:
     if any(keyword in line for keyword in body_like_keywords):
         return False
 
-    # 실제 SRS 제목 형태: English Title (한글)
     english_korean_title_pattern = re.compile(
         r"^[A-Za-z][A-Za-z0-9\s/\-]+ \([가-힣A-Za-z0-9\s/·\-]+\)$"
     )
@@ -104,7 +112,6 @@ def _is_section_title(line: str) -> bool:
     if english_korean_title_pattern.match(line):
         return True
 
-    # 큰 장 제목 중 번호가 제거된 경우 대응
     known_section_titles = {
         "Introduction (개요)",
         "Purpose (목표)",

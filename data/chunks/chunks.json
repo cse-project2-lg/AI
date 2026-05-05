@@ -1,0 +1,2397 @@
+[
+  {
+    "chunk_id": "055b4470-3d2e-49e7-9f32-d6877d643bab",
+    "doc_id": "fall_definition",
+    "text": "1. 낙상(Fall)의 정의\n낙상이란 의도하지 않게 신체가 바닥 또는 낮은 위치로 갑작스럽게 이동하는 사건을 의미한다.\nWHO(세계보건기구)는 낙상을 \"의도하지 않게 지면, 바닥 또는 더 낮은 위치에 몸이 닿게 되는 사건\"으로 정의한다.\n낙상은 고령자, 환자, 1인 가구에서 심각한 신체적 손상과 사망으로 이어질 수 있으며, 신속한 감지와 대응이 중요하다.",
+    "metadata": {
+      "section_title": "1. 낙상(Fall)의 정의",
+      "doc_type": "unknown",
+      "source": "data/raw/knowledge_base/fall_definition.txt",
+      "chunk_index": 1,
+      "category": "general",
+      "keywords": [
+        "fall",
+        "낙상"
+      ],
+      "priority": "low",
+      "chunk_length": 199,
+      "contains_requirement_id": false,
+      "requirement_ids": []
+    },
+    "created_at": "2026-05-05T16:32:53.968085"
+  },
+  {
+    "chunk_id": "ae6e9c14-8a0d-4b10-873f-23f4fa8cf490",
+    "doc_id": "fall_definition",
+    "text": "2. 낙상의 물리적 특성\n낙상 발생 시 나타나는 물리적 특성은 다음과 같다.\n- 급격한 수직 이동: 사용자의 신체 중심이 짧은 시간 내에 급격히 하강한다. 일반적으로 0.5초 이내에 높이 변화가 발생한다.\n- 충격 후 정지: 낙상 후 사용자는 바닥에 충격을 받고 움직임이 감소하거나 정지한다.\n- 비정상적 자세 유지: 낙상 후 일어나지 못하고 낮은 위치에서 일정 시간 이상 머문다.\n- 불규칙한 움직임 패턴: 낙상 직전 불안정한 움직임이 감지될 수 있다.",
+    "metadata": {
+      "section_title": "2. 낙상의 물리적 특성",
+      "doc_type": "unknown",
+      "source": "data/raw/knowledge_base/fall_definition.txt",
+      "chunk_index": 2,
+      "category": "sensor",
+      "keywords": [
+        "낙상",
+        "움직임"
+      ],
+      "priority": "medium",
+      "chunk_length": 254,
+      "contains_requirement_id": false,
+      "requirement_ids": []
+    },
+    "created_at": "2026-05-05T16:32:53.968114"
+  },
+  {
+    "chunk_id": "44f2d7e5-397b-46a9-9de1-ccb66bbc2c79",
+    "doc_id": "fall_definition",
+    "text": "3. 낙상 유형\n낙상은 방향에 따라 다음과 같이 분류된다.\n- 전방 낙상(Forward Fall): 앞쪽으로 넘어지는 경우. 손이나 무릎으로 충격을 받는 경우가 많다.\n- 후방 낙상(Backward Fall): 뒤쪽으로 넘어지는 경우. 머리와 등 부위 부상 위험이 높다.\n- 측면 낙상(Lateral Fall): 옆으로 넘어지는 경우. 고관절 골절 위험이 높다.\n- 앉은 상태 낙상(Seated Fall): 의자나 앉은 상태에서 미끄러지거나 넘어지는 경우.",
+    "metadata": {
+      "section_title": "3. 낙상 유형",
+      "doc_type": "unknown",
+      "source": "data/raw/knowledge_base/fall_definition.txt",
+      "chunk_index": 3,
+      "category": "general",
+      "keywords": [
+        "fall",
+        "낙상",
+        "위험"
+      ],
+      "priority": "low",
+      "chunk_length": 255,
+      "contains_requirement_id": false,
+      "requirement_ids": []
+    },
+    "created_at": "2026-05-05T16:32:53.968139"
+  },
+  {
+    "chunk_id": "1b62f27d-99c4-4285-8914-7ec8f5651736",
+    "doc_id": "fall_definition",
+    "text": "4. 행동 상태 정의 (SRS 기준)\n본 시스템은 사용자 행동 상태를 다음 4가지로 정의하여 관리한다.\n- NORMAL: 사용자의 움직임이 정상 범위 내에 있으며 이상 징후가 없는 상태.\n- ABNORMAL_DETECTED: 센서 기반으로 일반적인 패턴과 다른 움직임이 감지된 상태. 낙상 가능성이 존재한다.\n- FALL_ANALYZING: 이상행동이 감지되어 LLM 분석 또는 추가 판단이 진행 중인 상태.\n- FALL_CONFIRMED: 분석 결과 실제 낙상으로 판단된 상태.\n상태 전이 흐름은 다음과 같다.\nNORMAL → ABNORMAL_DETECTED → FALL_ANALYZING → FALL_CONFIRMED",
+    "metadata": {
+      "section_title": "4. 행동 상태 정의 (SRS 기준)",
+      "doc_type": "unknown",
+      "source": "data/raw/knowledge_base/fall_definition.txt",
+      "chunk_index": 4,
+      "category": "sensor",
+      "keywords": [
+        "fall",
+        "낙상",
+        "센서",
+        "시스템",
+        "움직임"
+      ],
+      "priority": "medium",
+      "chunk_length": 347,
+      "contains_requirement_id": false,
+      "requirement_ids": []
+    },
+    "created_at": "2026-05-05T16:32:53.968184"
+  },
+  {
+    "chunk_id": "3283331f-afd0-42e1-8dcc-ec67c24b54db",
+    "doc_id": "fall_definition",
+    "text": "5.1 인체 감지(PIR) 우선순위 — 최우선 판단 기준\nPIR 센서는 인체의 열(적외선)을 감지하므로, PIR이 False인 경우 열을 가진 사람의 움직임이 없다는 것을 의미한다.\nCSI 변동이 크고 ToF 거리가 낮더라도 PIR이 지속적으로 False라면 사람의 낙상이 아닌 스마트폰, 물건 등 무생물의 낙하로 판단한다.\nPIR False 상태에서는 다른 센서 값이 낙상 패턴을 보이더라도 ABNORMAL_DETECTED로 전이하지 않고 NORMAL을 유지한다.",
+    "metadata": {
+      "section_title": "5.1 인체 감지(PIR) 우선순위 — 최우선 판단 기준",
+      "doc_type": "unknown",
+      "source": "data/raw/knowledge_base/fall_definition.txt",
+      "chunk_index": 5,
+      "category": "sensor",
+      "keywords": [
+        "CSI",
+        "PIR",
+        "ToF",
+        "거리",
+        "낙상",
+        "센서",
+        "움직임"
+      ],
+      "priority": "medium",
+      "chunk_length": 260,
+      "contains_requirement_id": false,
+      "requirement_ids": []
+    },
+    "created_at": "2026-05-05T16:32:53.968210"
+  },
+  {
+    "chunk_id": "de22914d-5b81-4996-81de-10dbbb34bbda",
+    "doc_id": "fall_definition",
+    "text": "5.2 높이 판단 기준(ToF) — 낙상 후보 판별 기준\nToF 센서로 측정된 거리 값을 기준으로 낙상 여부를 다음과 같이 판별한다.\n- 400mm 이상: 앉기, 눕기 등 정상 활동으로 간주한다. NORMAL 상태 유지.\n- 300mm 이하: 바닥 낙상 후보로 간주한다. ABNORMAL_DETECTED 전이 고려.\n- 300mm~400mm 구간: 불확실 구간으로, 다른 센서 패턴을 종합하여 판단한다.",
+    "metadata": {
+      "section_title": "5.2 높이 판단 기준(ToF) — 낙상 후보 판별 기준",
+      "doc_type": "unknown",
+      "source": "data/raw/knowledge_base/fall_definition.txt",
+      "chunk_index": 6,
+      "category": "sensor",
+      "keywords": [
+        "ToF",
+        "거리",
+        "낙상",
+        "센서"
+      ],
+      "priority": "medium",
+      "chunk_length": 225,
+      "contains_requirement_id": false,
+      "requirement_ids": []
+    },
+    "created_at": "2026-05-05T16:32:53.968231"
+  },
+  {
+    "chunk_id": "7bacf5e8-8e2e-4cce-8692-f3d57150f2b8",
+    "doc_id": "fall_definition",
+    "text": "5.3 무동작의 해석 — 고위험 지표\n낙상 의심 정황(CSI 급변 + ToF 급락) 직후의 PIR 무동작(False) 상태는 단순한 정지가 아닌 의식 불명이나 신체 정지 상태를 나타내는 고위험 지표로 해석한다.\n이 경우 FALL_ANALYZING 상태로 전이하여 LLM 분석을 수행하고, FALL_CONFIRMED 판단 시 즉시 TTS 음성 확인 절차를 수행한다.",
+    "metadata": {
+      "section_title": "5.3 무동작의 해석 — 고위험 지표",
+      "doc_type": "unknown",
+      "source": "data/raw/knowledge_base/fall_definition.txt",
+      "chunk_index": 7,
+      "category": "sensor",
+      "keywords": [
+        "CSI",
+        "PIR",
+        "TTS",
+        "ToF",
+        "fall",
+        "낙상",
+        "낙상 의심",
+        "위험"
+      ],
+      "priority": "medium",
+      "chunk_length": 203,
+      "contains_requirement_id": false,
+      "requirement_ids": []
+    },
+    "created_at": "2026-05-05T16:32:53.968245"
+  },
+  {
+    "chunk_id": "a59758af-ebf8-4db6-9423-7666261f93ee",
+    "doc_id": "fall_definition",
+    "text": "6.1 낙상 vs 앉기\n- 앉기: ToF 거리 값이 400mm 이상 유지 또는 완만하게 감소 후 안정화. 이후 PIR에서 지속적인 소규모 움직임 감지. → NORMAL 유지.\n- 낙상: ToF 거리 값이 300mm 이하로 급격히 감소. 이후 PIR 무동작 지속. → ABNORMAL_DETECTED 전이.",
+    "metadata": {
+      "section_title": "6.1 낙상 vs 앉기",
+      "doc_type": "unknown",
+      "source": "data/raw/knowledge_base/fall_definition.txt",
+      "chunk_index": 8,
+      "category": "sensor",
+      "keywords": [
+        "PIR",
+        "ToF",
+        "거리",
+        "낙상",
+        "움직임"
+      ],
+      "priority": "medium",
+      "chunk_length": 170,
+      "contains_requirement_id": false,
+      "requirement_ids": []
+    },
+    "created_at": "2026-05-05T16:32:53.968262"
+  },
+  {
+    "chunk_id": "b6d6f13f-e91d-4672-ad25-03b121b0babb",
+    "doc_id": "fall_definition",
+    "text": "6.2 낙상 vs 눕기\n- 눕기: ToF 거리 변화가 점진적(1초 이상). 충격성 급변 없음. → NORMAL 유지.\n- 낙상: ToF 거리 값이 0.5초 이내 급격히 감소. 충격 후 무동작 상태로 전환. → ABNORMAL_DETECTED 전이.",
+    "metadata": {
+      "section_title": "6.2 낙상 vs 눕기",
+      "doc_type": "unknown",
+      "source": "data/raw/knowledge_base/fall_definition.txt",
+      "chunk_index": 9,
+      "category": "sensor",
+      "keywords": [
+        "ToF",
+        "거리",
+        "낙상"
+      ],
+      "priority": "medium",
+      "chunk_length": 138,
+      "contains_requirement_id": false,
+      "requirement_ids": []
+    },
+    "created_at": "2026-05-05T16:32:53.968277"
+  },
+  {
+    "chunk_id": "1053ff07-951f-4ca5-9488-65ef028a7def",
+    "doc_id": "fall_definition",
+    "text": "6.3 낙상 vs 물건 낙하\n- 물건 낙하: PIR False 상태에서 CSI 변동 및 ToF 급락 발생. → NORMAL 유지.\n- 낙상: PIR True 상태에서 CSI 급변과 ToF 급락 발생. → ABNORMAL_DETECTED 전이.",
+    "metadata": {
+      "section_title": "6.3 낙상 vs 물건 낙하",
+      "doc_type": "unknown",
+      "source": "data/raw/knowledge_base/fall_definition.txt",
+      "chunk_index": 10,
+      "category": "sensor",
+      "keywords": [
+        "CSI",
+        "PIR",
+        "ToF",
+        "낙상"
+      ],
+      "priority": "medium",
+      "chunk_length": 135,
+      "contains_requirement_id": false,
+      "requirement_ids": []
+    },
+    "created_at": "2026-05-05T16:32:53.968294"
+  },
+  {
+    "chunk_id": "645cca58-83cd-436f-979d-1aecadea77e0",
+    "doc_id": "fall_definition",
+    "text": "6.4 낙상 vs 빠르게 앉기\n- 빠르게 앉기: ToF 급감하더라도 400mm 이상 유지. 이후 PIR 정상 움직임 재개. → NORMAL 유지.\n- 낙상: ToF 300mm 이하로 급감. PIR 무동작 및 사용자 무응답 지속. → FALL_ANALYZING 전이.",
+    "metadata": {
+      "section_title": "6.4 낙상 vs 빠르게 앉기",
+      "doc_type": "unknown",
+      "source": "data/raw/knowledge_base/fall_definition.txt",
+      "chunk_index": 11,
+      "category": "sensor",
+      "keywords": [
+        "PIR",
+        "ToF",
+        "fall",
+        "낙상",
+        "움직임"
+      ],
+      "priority": "medium",
+      "chunk_length": 148,
+      "contains_requirement_id": false,
+      "requirement_ids": []
+    },
+    "created_at": "2026-05-05T16:32:53.968309"
+  },
+  {
+    "chunk_id": "80f625ab-7dca-4fba-be7a-b19a9e82d718",
+    "doc_id": "fall_definition",
+    "text": "7. 낙상 판단 시 고려 사항\n- PIR 감지 여부 (최우선)\n- ToF 거리 값의 크기와 변화 속도 (300mm 이하 여부)\n- CSI 변화량의 크기\n- 낙상 의심 정황 직후 PIR 무동작 지속 여부\n- 사용자의 음성 응답 여부\n- 시간대 및 환경 요인\n낙상 판단이 불확실한 경우, 미탐(실제 낙상을 놓치는 것)이 오탐(정상을 낙상으로 판단하는 것)보다 위험하므로 보수적으로 판단하는 것을 원칙으로 한다.",
+    "metadata": {
+      "section_title": "7. 낙상 판단 시 고려 사항",
+      "doc_type": "unknown",
+      "source": "data/raw/knowledge_base/fall_definition.txt",
+      "chunk_index": 12,
+      "category": "sensor",
+      "keywords": [
+        "CSI",
+        "PIR",
+        "ToF",
+        "거리",
+        "낙상",
+        "낙상 의심",
+        "위험",
+        "환경"
+      ],
+      "priority": "high",
+      "chunk_length": 227,
+      "contains_requirement_id": false,
+      "requirement_ids": []
+    },
+    "created_at": "2026-05-05T16:32:53.968347"
+  },
+  {
+    "chunk_id": "c681f38c-10ae-4576-b18e-dd18b10228d2",
+    "doc_id": "false_positive_cases",
+    "text": "1. 오탐의 정의\n오탐(False Positive)이란 실제 낙상이 아닌 상황을 낙상으로 잘못 판단하는 경우를 의미한다.\n오탐이 많으면 보호자에게 불필요한 알림이 자주 전송되어 시스템 신뢰도가 낮아진다.\n오탐을 줄이기 위해 다음 케이스를 참고하여 판단한다.",
+    "metadata": {
+      "section_title": "1. 오탐의 정의",
+      "doc_type": "unknown",
+      "source": "data/raw/knowledge_base/false_positive_cases.txt",
+      "chunk_index": 1,
+      "category": "notification",
+      "keywords": [
+        "낙상",
+        "보호자",
+        "시스템",
+        "알림"
+      ],
+      "priority": "medium",
+      "chunk_length": 143,
+      "contains_requirement_id": false,
+      "requirement_ids": []
+    },
+    "created_at": "2026-05-05T16:32:53.969922"
+  },
+  {
+    "chunk_id": "b301ec95-e04a-45b2-aaba-b46d2eba2110",
+    "doc_id": "false_positive_cases",
+    "text": "케이스 1: 빠르게 앉는 동작\n- 상황: 사용자가 의자나 소파에 빠르게 앉는 경우\n- 센서 패턴:\n- ToF: 빠르게 감소하지만 400mm 이상 유지 (바닥 낙상 기준인 300mm 이하에 해당하지 않음)\n- PIR: 움직임 감지\n- CSI: 변화량 높음\n- 낙상과의 차이점: ToF가 400mm 이상으로 유지되며, 앉은 후 PIR에서 소규모 움직임이 지속 감지된다. 사용자 음성 응답이 가능하다.\n- 판단 기준: ToF 400mm 이상이고 앉은 후 5초 이내 PIR 재감지 또는 사용자 응답 시 NORMAL로 처리.",
+    "metadata": {
+      "section_title": "케이스 1: 빠르게 앉는 동작",
+      "doc_type": "unknown",
+      "source": "data/raw/knowledge_base/false_positive_cases.txt",
+      "chunk_index": 2,
+      "category": "sensor",
+      "keywords": [
+        "CSI",
+        "PIR",
+        "ToF",
+        "낙상",
+        "사용자 응답",
+        "센서",
+        "움직임"
+      ],
+      "priority": "medium",
+      "chunk_length": 288,
+      "contains_requirement_id": false,
+      "requirement_ids": []
+    },
+    "created_at": "2026-05-05T16:32:53.969965"
+  },
+  {
+    "chunk_id": "7cf13aac-562f-42ec-83b4-4d64675684a2",
+    "doc_id": "false_positive_cases",
+    "text": "케이스 2: 침대나 바닥에 눕는 동작\n- 상황: 사용자가 수면을 위해 침대나 바닥에 눕는 경우\n- 센서 패턴:\n- ToF: 점진적 감소 후 낮은 위치 유지\n- PIR: 초기 움직임 감지 후 정적 상태\n- CSI: 중간 수준 변화량\n- 낙상과의 차이점: ToF 거리 변화가 완만하고(1초 이상), 눕기 전 의도적인 이동 패턴이 선행된다. 낙상처럼 0.5초 이내의 급격한 변화가 없다.\n- 판단 기준: ToF 변화 속도가 완만하고 이후 정적 상태 유지 시 수면 상태로 판단하여 NORMAL 처리. 단, 장시간 무동작(30분 이상) 시 ABNORMAL_DETECTED로 전이하여 TTS 확인 수행.",
+    "metadata": {
+      "section_title": "케이스 2: 침대나 바닥에 눕는 동작",
+      "doc_type": "unknown",
+      "source": "data/raw/knowledge_base/false_positive_cases.txt",
+      "chunk_index": 3,
+      "category": "sensor",
+      "keywords": [
+        "CSI",
+        "PIR",
+        "TTS",
+        "ToF",
+        "거리",
+        "낙상",
+        "센서",
+        "움직임"
+      ],
+      "priority": "medium",
+      "chunk_length": 331,
+      "contains_requirement_id": false,
+      "requirement_ids": []
+    },
+    "created_at": "2026-05-05T16:32:53.970004"
+  },
+  {
+    "chunk_id": "f48d0931-aefd-40d3-864f-8636b1dad8e3",
+    "doc_id": "false_positive_cases",
+    "text": "케이스 3: 물건 낙하\n- 상황: 무거운 물건이 바닥에 떨어지는 경우\n- 센서 패턴:\n- ToF: 변화 없거나 미미함\n- PIR: False (사람 움직임 없음)\n- CSI: 순간적인 변화 후 즉시 안정화\n- 낙상과의 차이점: PIR이 False이므로 인체 열이 감지되지 않는다. PIR False 상태에서는 CSI 변동과 ToF 변화가 있어도 무생물 낙하로 판단한다.\n- 판단 기준: PIR False 상태에서 발생한 이벤트는 NORMAL로 처리.",
+    "metadata": {
+      "section_title": "케이스 3: 물건 낙하",
+      "doc_type": "unknown",
+      "source": "data/raw/knowledge_base/false_positive_cases.txt",
+      "chunk_index": 4,
+      "category": "sensor",
+      "keywords": [
+        "CSI",
+        "PIR",
+        "ToF",
+        "낙상",
+        "센서",
+        "움직임"
+      ],
+      "priority": "medium",
+      "chunk_length": 251,
+      "contains_requirement_id": false,
+      "requirement_ids": []
+    },
+    "created_at": "2026-05-05T16:32:53.970041"
+  },
+  {
+    "chunk_id": "40ec3f8d-b2d1-4756-965e-caecb683decc",
+    "doc_id": "false_positive_cases",
+    "text": "케이스 4: 반려동물 움직임\n- 상황: 반려동물이 빠르게 이동하거나 점프하는 경우\n- 센서 패턴:\n- ToF: 미미한 변화 또는 없음\n- PIR: 약한 반응 또는 없음 (체온이 낮아 PIR 반응이 약함)\n- CSI: 소규모 변화\n- 낙상과의 차이점: PIR 반응이 약하거나 없고, ToF 거리 변화가 없거나 미미하다. CSI 변화 패턴이 사람 움직임과 다르다.\n- 판단 기준: PIR 반응이 약하고 ToF 변화 없을 경우 NORMAL로 처리.",
+    "metadata": {
+      "section_title": "케이스 4: 반려동물 움직임",
+      "doc_type": "unknown",
+      "source": "data/raw/knowledge_base/false_positive_cases.txt",
+      "chunk_index": 5,
+      "category": "sensor",
+      "keywords": [
+        "CSI",
+        "PIR",
+        "ToF",
+        "거리",
+        "낙상",
+        "센서",
+        "움직임"
+      ],
+      "priority": "medium",
+      "chunk_length": 247,
+      "contains_requirement_id": false,
+      "requirement_ids": []
+    },
+    "created_at": "2026-05-05T16:32:53.970078"
+  },
+  {
+    "chunk_id": "d1413dc6-5dc8-4079-afb7-740458f97f2e",
+    "doc_id": "false_positive_cases",
+    "text": "케이스 5: 가구 이동 또는 청소\n- 상황: 청소기 사용, 가구 이동 등 큰 움직임이 발생하는 경우\n- 센서 패턴:\n- ToF: 변화 없거나 불규칙\n- PIR: 지속적인 움직임 감지\n- CSI: 높은 변화량 지속\n- 낙상과의 차이점: ToF 거리가 300mm 이하로 급감하지 않는다. PIR이 지속적으로 감지되어 무동작 상태로 전환되지 않는다.\n- 판단 기준: ToF 급감(300mm 이하) 없이 PIR이 지속 감지되는 경우 NORMAL로 처리.",
+    "metadata": {
+      "section_title": "케이스 5: 가구 이동 또는 청소",
+      "doc_type": "unknown",
+      "source": "data/raw/knowledge_base/false_positive_cases.txt",
+      "chunk_index": 6,
+      "category": "sensor",
+      "keywords": [
+        "CSI",
+        "PIR",
+        "ToF",
+        "거리",
+        "낙상",
+        "센서",
+        "움직임"
+      ],
+      "priority": "medium",
+      "chunk_length": 249,
+      "contains_requirement_id": false,
+      "requirement_ids": []
+    },
+    "created_at": "2026-05-05T16:32:53.970116"
+  },
+  {
+    "chunk_id": "a6d6eb27-8007-4104-9c07-ee37ec8881bd",
+    "doc_id": "false_positive_cases",
+    "text": "케이스 6: WiFi 환경 변화로 인한 CSI 드리프트\n- 상황: 주변 WiFi 기기 변화, 전자기기 간섭 등으로 CSI 신호가 변화하는 경우\n- 센서 패턴:\n- ToF: 변화 없음\n- PIR: False\n- CSI: 지속적이고 일정한 변화 (드리프트 패턴)\n- 낙상과의 차이점: PIR 및 ToF 변화 없음. CSI 변화가 급격하지 않고 점진적으로 지속된다.\n- 판단 기준: PIR False 및 ToF 변화 없이 CSI만 지속 변화 시 환경 드리프트로 NORMAL 처리.",
+    "metadata": {
+      "section_title": "케이스 6: WiFi 환경 변화로 인한 CSI 드리프트",
+      "doc_type": "unknown",
+      "source": "data/raw/knowledge_base/false_positive_cases.txt",
+      "chunk_index": 7,
+      "category": "sensor",
+      "keywords": [
+        "CSI",
+        "PIR",
+        "ToF",
+        "낙상",
+        "센서",
+        "신호",
+        "환경"
+      ],
+      "priority": "medium",
+      "chunk_length": 265,
+      "contains_requirement_id": false,
+      "requirement_ids": []
+    },
+    "created_at": "2026-05-05T16:32:53.970154"
+  },
+  {
+    "chunk_id": "a24c21a9-8e1c-49b1-88ad-01041be276f5",
+    "doc_id": "false_positive_cases",
+    "text": "케이스 7: 센서 오작동 또는 노이즈\n- 상황: 센서 이상으로 비정상적인 값이 순간적으로 발생하는 경우\n- 센서 패턴:\n- ToF: 유효 범위를 벗어난 값 또는 순간적 이상치\n- PIR: 간헐적 오작동 신호\n- CSI: 비정상적 spike\n- 낙상과의 차이점: 이상 값이 순간적이고 반복되지 않는다. 다른 센서와 패턴이 불일치한다.\n- 판단 기준: 단일 센서에서 순간적 이상치 발생 시 노이즈로 NORMAL 처리. 복수 센서 동시 이상 시 ABNORMAL_DETECTED로 전이.",
+    "metadata": {
+      "section_title": "케이스 7: 센서 오작동 또는 노이즈",
+      "doc_type": "unknown",
+      "source": "data/raw/knowledge_base/false_positive_cases.txt",
+      "chunk_index": 8,
+      "category": "sensor",
+      "keywords": [
+        "CSI",
+        "PIR",
+        "ToF",
+        "낙상",
+        "센서",
+        "신호"
+      ],
+      "priority": "medium",
+      "chunk_length": 268,
+      "contains_requirement_id": false,
+      "requirement_ids": []
+    },
+    "created_at": "2026-05-05T16:32:53.970191"
+  },
+  {
+    "chunk_id": "db809c75-57b0-4816-8440-69fd468d6e04",
+    "doc_id": "false_positive_cases",
+    "text": "3. 오탐 처리 원칙\n오탐을 줄이기 위해 다음 원칙을 따른다.\n- 원칙 1: PIR이 지속적으로 False라면 다른 센서 패턴과 무관하게 낙상으로 확정하지 않는다.\n- 원칙 2: ToF 거리가 400mm 이상이라면 FALL_CONFIRMED로 전이하지 않는다.\n- 원칙 3: ABNORMAL_DETECTED 또는 FALL_ANALYZING 상태에서 반드시 TTS 음성 확인을 수행한다.\n- 원칙 4: 사용자가 정상 응답하면 즉시 NORMAL로 처리하고 이벤트를 종료한다.\n- 원칙 5: 모든 오탐 이벤트는 로그로 저장하여 추후 임계값 조정에 활용한다.",
+    "metadata": {
+      "section_title": "3. 오탐 처리 원칙",
+      "doc_type": "unknown",
+      "source": "data/raw/knowledge_base/false_positive_cases.txt",
+      "chunk_index": 9,
+      "category": "sensor",
+      "keywords": [
+        "PIR",
+        "TTS",
+        "ToF",
+        "fall",
+        "거리",
+        "낙상",
+        "센서"
+      ],
+      "priority": "medium",
+      "chunk_length": 308,
+      "contains_requirement_id": false,
+      "requirement_ids": []
+    },
+    "created_at": "2026-05-05T16:32:53.970216"
+  },
+  {
+    "chunk_id": "b2e202e1-ba4d-4260-af99-4a5ef9b09561",
+    "doc_id": "false_positive_cases",
+    "text": "4. 오탐 vs 미탐 우선순위\n오탐(정상을 낙상으로 판단)과 미탐(낙상을 정상으로 판단) 중 미탐이 더 위험하다.\n따라서 판단이 불확실한 경우 오탐을 감수하더라도 FALL_ANALYZING 상태로 유지하고 TTS 확인 절차를 수행하는 것을 원칙으로 한다.\n단, 과도한 오탐은 보호자 알림 피로감을 유발하므로 TTS 확인 절차를 통해 FALL_CONFIRMED 확정 전에 필터링한다.",
+    "metadata": {
+      "section_title": "4. 오탐 vs 미탐 우선순위",
+      "doc_type": "unknown",
+      "source": "data/raw/knowledge_base/false_positive_cases.txt",
+      "chunk_index": 10,
+      "category": "notification",
+      "keywords": [
+        "TTS",
+        "fall",
+        "낙상",
+        "보호자",
+        "보호자 알림",
+        "알림",
+        "위험"
+      ],
+      "priority": "low",
+      "chunk_length": 213,
+      "contains_requirement_id": false,
+      "requirement_ids": []
+    },
+    "created_at": "2026-05-05T16:32:53.970232"
+  },
+  {
+    "chunk_id": "985d61b9-d54e-414d-9306-270b7fdeda98",
+    "doc_id": "sensor_pattern_guide",
+    "text": "1. 센서 개요\n본 시스템은 WiFi CSI, PIR, ToF 세 가지 센서를 융합하여 낙상을 감지한다.\n단일 센서만으로 판단하지 않고 세 센서의 복합 패턴을 분석하여 판단 정확도를 높인다.",
+    "metadata": {
+      "section_title": "1. 센서 개요",
+      "doc_type": "unknown",
+      "source": "data/raw/knowledge_base/sensor_pattern_guide.txt",
+      "chunk_index": 1,
+      "category": "sensor",
+      "keywords": [
+        "CSI",
+        "PIR",
+        "ToF",
+        "낙상",
+        "센서",
+        "시스템"
+      ],
+      "priority": "medium",
+      "chunk_length": 106,
+      "contains_requirement_id": false,
+      "requirement_ids": []
+    },
+    "created_at": "2026-05-05T16:32:53.971793"
+  },
+  {
+    "chunk_id": "9f34f270-3ff8-4dbe-ae7c-6c844797451c",
+    "doc_id": "sensor_pattern_guide",
+    "text": "2.1 WiFi CSI (Channel State Information)\n- 역할: WiFi 신호의 채널 상태 변화를 통해 사용자의 움직임 패턴을 감지한다.\n- 출력: amplitude 및 phase 변화량, 신호 분산값\n- 특성: 사용자의 큰 움직임(낙상, 걷기 등)에서 변화량이 크게 증가한다.\n- 한계: 물건 이동, 환경 변화에도 반응할 수 있어 단독 사용 시 오탐 가능성이 있다.",
+    "metadata": {
+      "section_title": "2.1 WiFi CSI (Channel State Information)",
+      "doc_type": "unknown",
+      "source": "data/raw/knowledge_base/sensor_pattern_guide.txt",
+      "chunk_index": 2,
+      "category": "sensor",
+      "keywords": [
+        "CSI",
+        "Channel State Information",
+        "낙상",
+        "신호",
+        "움직임",
+        "환경"
+      ],
+      "priority": "medium",
+      "chunk_length": 216,
+      "contains_requirement_id": false,
+      "requirement_ids": []
+    },
+    "created_at": "2026-05-05T16:32:53.971827"
+  },
+  {
+    "chunk_id": "624352a4-3a60-4385-b380-d32262d17893",
+    "doc_id": "sensor_pattern_guide",
+    "text": "2.2 PIR (Passive Infrared Sensor)\n- 역할: 적외선 감지를 통해 사용자의 재실 여부와 움직임 발생 여부를 감지한다.\n- 출력: High(움직임 있음) 또는 Low(움직임 없음) 이진 신호\n- 특성: 사람의 체온 변화를 감지하므로 물건 낙하에는 반응하지 않는다.\n- 한계: 움직임의 크기나 방향은 구분하지 못한다.",
+    "metadata": {
+      "section_title": "2.2 PIR (Passive Infrared Sensor)",
+      "doc_type": "unknown",
+      "source": "data/raw/knowledge_base/sensor_pattern_guide.txt",
+      "chunk_index": 3,
+      "category": "sensor",
+      "keywords": [
+        "PIR",
+        "신호",
+        "움직임"
+      ],
+      "priority": "medium",
+      "chunk_length": 189,
+      "contains_requirement_id": false,
+      "requirement_ids": []
+    },
+    "created_at": "2026-05-05T16:32:53.971851"
+  },
+  {
+    "chunk_id": "5a84c900-8fba-46ac-bfb3-ad5717894e8d",
+    "doc_id": "sensor_pattern_guide",
+    "text": "2.3 ToF (Time of Flight)\n- 역할: 레이저 펄스 반사 시간으로 사용자와 센서 간 거리를 측정하여 높이 변화를 감지한다.\n- 출력: 밀리미터(mm) 단위 거리 측정값\n- 특성: 낙상 시 발생하는 급격한 높이 하락 패턴을 정밀하게 감지한다.\n- 한계: 센서 설치 위치에 따라 측정 범위가 달라질 수 있다.",
+    "metadata": {
+      "section_title": "2.3 ToF (Time of Flight)",
+      "doc_type": "unknown",
+      "source": "data/raw/knowledge_base/sensor_pattern_guide.txt",
+      "chunk_index": 4,
+      "category": "sensor",
+      "keywords": [
+        "ToF",
+        "거리",
+        "낙상",
+        "설치",
+        "센서"
+      ],
+      "priority": "medium",
+      "chunk_length": 179,
+      "contains_requirement_id": false,
+      "requirement_ids": []
+    },
+    "created_at": "2026-05-05T16:32:53.971873"
+  },
+  {
+    "chunk_id": "b71c40b5-7620-4846-855e-f6d8b0bea7cb",
+    "doc_id": "sensor_pattern_guide",
+    "text": "3. 행동 상태 정의\n시스템은 사용자 행동 상태를 다음 4가지로 관리한다.\n- NORMAL: 사용자의 움직임이 정상 범위 내에 있으며 이상 징후가 없는 상태\n- ABNORMAL_DETECTED: 센서 기반으로 일반적인 패턴과 다른 움직임이 감지된 상태 (낙상 가능성 존재)\n- FALL_ANALYZING: 이상행동이 감지되어 LLM 분석 또는 추가 판단이 진행 중인 상태\n- FALL_CONFIRMED: 분석 결과 실제 낙상으로 판단된 상태",
+    "metadata": {
+      "section_title": "3. 행동 상태 정의",
+      "doc_type": "unknown",
+      "source": "data/raw/knowledge_base/sensor_pattern_guide.txt",
+      "chunk_index": 5,
+      "category": "sensor",
+      "keywords": [
+        "fall",
+        "낙상",
+        "센서",
+        "시스템",
+        "움직임"
+      ],
+      "priority": "medium",
+      "chunk_length": 246,
+      "contains_requirement_id": false,
+      "requirement_ids": []
+    },
+    "created_at": "2026-05-05T16:32:53.971905"
+  },
+  {
+    "chunk_id": "e924814c-415d-4639-bfad-ec1a3d1f6f1d",
+    "doc_id": "sensor_pattern_guide",
+    "text": "4.1 FALL_CONFIRMED 판단 패턴\n다음 패턴이 복합적으로 나타날 경우 FALL_CONFIRMED로 판단한다.\n- PIR 상태: True (움직임 감지) 후 일정 시간(10초 이상) False (무동작) 지속\n- ToF 거리: 300mm 이하로 급격히 감소 후 낮은 위치 유지\n- CSI 변화량: 높음 (급격한 신호 변화)\n- 사용자 응답: 없음\n- 특징: 낙상 의심 정황(CSI 급변 + ToF 급락) 직후 PIR 무동작은 의식 불명 또는 신체 정지 상태를 나타내는 고위험 지표로 해석한다.",
+    "metadata": {
+      "section_title": "4.1 FALL_CONFIRMED 판단 패턴",
+      "doc_type": "unknown",
+      "source": "data/raw/knowledge_base/sensor_pattern_guide.txt",
+      "chunk_index": 6,
+      "category": "sensor",
+      "keywords": [
+        "CSI",
+        "PIR",
+        "ToF",
+        "fall",
+        "거리",
+        "낙상",
+        "낙상 의심",
+        "사용자 응답",
+        "신호",
+        "움직임",
+        "위험"
+      ],
+      "priority": "medium",
+      "chunk_length": 280,
+      "contains_requirement_id": false,
+      "requirement_ids": []
+    },
+    "created_at": "2026-05-05T16:32:53.971944"
+  },
+  {
+    "chunk_id": "403df739-f71c-4a9f-9af3-19bace83cf7d",
+    "doc_id": "sensor_pattern_guide",
+    "text": "4.2 FALL_ANALYZING 판단 패턴\n다음 패턴이 나타날 경우 LLM 분석을 통한 추가 판단이 필요한 FALL_ANALYZING 상태로 전이한다.\n- PIR 상태: True 후 짧은 무반응(5~10초)\n- ToF 거리: 300mm 이하로 감소\n- CSI 변화량: 높음\n- 사용자 응답: 확인 중 (TTS 확인 절차 수행)\n- 특징: 낙상 여부가 불확실하여 LLM 및 RAG 기반 정밀 판단이 필요한 상태",
+    "metadata": {
+      "section_title": "4.2 FALL_ANALYZING 판단 패턴",
+      "doc_type": "unknown",
+      "source": "data/raw/knowledge_base/sensor_pattern_guide.txt",
+      "chunk_index": 7,
+      "category": "sensor",
+      "keywords": [
+        "CSI",
+        "PIR",
+        "TTS",
+        "ToF",
+        "fall",
+        "거리",
+        "낙상",
+        "사용자 응답"
+      ],
+      "priority": "medium",
+      "chunk_length": 229,
+      "contains_requirement_id": false,
+      "requirement_ids": []
+    },
+    "created_at": "2026-05-05T16:32:53.971980"
+  },
+  {
+    "chunk_id": "2f1f9f60-4faa-411d-953f-749ba830f2b1",
+    "doc_id": "sensor_pattern_guide",
+    "text": "4.3 ABNORMAL_DETECTED 판단 패턴\n다음 패턴이 나타날 경우 이상 행동이 감지된 ABNORMAL_DETECTED 상태로 전이한다.\n- PIR 상태: True (움직임 감지)\n- ToF 거리: 300mm~400mm 구간 (불확실 구간)\n- CSI 변화량: 중간 또는 높음\n- 특징: 낙상 가능성이 있으나 추가 센서 데이터 확인이 필요한 상태. 복수 센서 동시 이상 여부를 확인한다.",
+    "metadata": {
+      "section_title": "4.3 ABNORMAL_DETECTED 판단 패턴",
+      "doc_type": "unknown",
+      "source": "data/raw/knowledge_base/sensor_pattern_guide.txt",
+      "chunk_index": 8,
+      "category": "sensor",
+      "keywords": [
+        "CSI",
+        "PIR",
+        "ToF",
+        "거리",
+        "낙상",
+        "센서",
+        "움직임",
+        "이상 행동"
+      ],
+      "priority": "medium",
+      "chunk_length": 220,
+      "contains_requirement_id": false,
+      "requirement_ids": []
+    },
+    "created_at": "2026-05-05T16:32:53.972010"
+  },
+  {
+    "chunk_id": "ade1d43d-e1e1-4952-b3d0-dacaa86eb8c2",
+    "doc_id": "sensor_pattern_guide",
+    "text": "4.4 NORMAL 판단 패턴\n다음 패턴이 나타날 경우 정상 상태(NORMAL)로 판단한다.\n앉기 또는 눕기:\n- ToF 거리: 400mm 이상 유지 또는 점진적 감소 후 안정화\n- PIR 상태: 움직임 감지 후 지속적인 소규모 움직임 유지\n- CSI 변화량: 중간 수준\n- 사용자 응답: 정상 응답 가능\n물건 낙하 (오탐):\n- PIR 상태: False (사람 움직임 없음)\n- ToF 거리: 변화 없거나 미미함\n- CSI 변화량: 낮거나 순간적 변화 후 즉시 안정화\n- 특징: PIR False 상태에서는 CSI 변동과 ToF 급락이 있어도 사람의 낙상이 아닌 무생물 낙하로 판단한다.\n환경 드리프트 (오탐):\n- PIR 상태: False\n- ToF 거리: 변화 없음\n- CSI 변화량: 지속적이고 일정한 변화 (드리프트 패턴)\n- 특징: 사람 움직임 없이 CSI만 지속 변화하는 경우 환경 변화로 인한 오탐으로 처리한다.",
+    "metadata": {
+      "section_title": "4.4 NORMAL 판단 패턴",
+      "doc_type": "unknown",
+      "source": "data/raw/knowledge_base/sensor_pattern_guide.txt",
+      "chunk_index": 9,
+      "category": "sensor",
+      "keywords": [
+        "CSI",
+        "PIR",
+        "ToF",
+        "거리",
+        "낙상",
+        "사용자 응답",
+        "움직임",
+        "환경"
+      ],
+      "priority": "medium",
+      "chunk_length": 462,
+      "contains_requirement_id": false,
+      "requirement_ids": []
+    },
+    "created_at": "2026-05-05T16:32:53.972082"
+  },
+  {
+    "chunk_id": "b3f2e790-5fcd-43cb-8f33-5050be873c14",
+    "doc_id": "sensor_pattern_guide",
+    "text": "5. 센서 융합 판단 원칙\n낙상 판단 시 다음 원칙을 따른다.\n- 원칙 1: PIR 감지 여부를 최우선 판단 기준으로 사용한다. PIR이 지속적으로 False라면 낙상으로 확정하지 않는다.\n- 원칙 2: ToF 거리 300mm 이하를 낙상 후보 기준으로 사용하고, 400mm 이상은 정상 활동으로 간주한다.\n- 원칙 3: 단일 센서 이상만으로는 FALL_CONFIRMED로 확정하지 않는다. 복수 센서 조합을 통해 상태를 결정한다.\n- 원칙 4: ABNORMAL_DETECTED 또는 FALL_ANALYZING 상태에서는 반드시 TTS 음성 확인 절차를 수행한다.\n- 원칙 5: 판단이 불확실한 경우 FALL_ANALYZING 상태를 유지하며 LLM 분석을 수행한다.\n- 원칙 6: LLM 판단 실패 시 rule-based 보수적 판단으로 폴백하여 FALL_CONFIRMED로 처리한다.",
+    "metadata": {
+      "section_title": "5. 센서 융합 판단 원칙",
+      "doc_type": "unknown",
+      "source": "data/raw/knowledge_base/sensor_pattern_guide.txt",
+      "chunk_index": 10,
+      "category": "sensor",
+      "keywords": [
+        "PIR",
+        "TTS",
+        "ToF",
+        "fall",
+        "거리",
+        "낙상",
+        "센서"
+      ],
+      "priority": "medium",
+      "chunk_length": 440,
+      "contains_requirement_id": false,
+      "requirement_ids": []
+    },
+    "created_at": "2026-05-05T16:32:53.972109"
+  },
+  {
+    "chunk_id": "279a815c-1999-463b-872e-171d8ceec704",
+    "doc_id": "sensor_pattern_guide",
+    "text": "## 6. 시간대별 민감도 조정\n- 주간(06시~22시): 일반 민감도 적용. 복수 센서 확인을 통해 오탐 방지.\n- 야간(22시~06시): 높은 민감도 적용. ABNORMAL_DETECTED 발생 시 즉시 FALL_ANALYZING으로 전이 가능.\n- 장시간 무동작(30분 이상): ABNORMAL_DETECTED 상태로 전이하고 TTS 음성 확인 권장.",
+    "metadata": {
+      "section_title": "## 6. 시간대별 민감도 조정",
+      "doc_type": "unknown",
+      "source": "data/raw/knowledge_base/sensor_pattern_guide.txt",
+      "chunk_index": 11,
+      "category": "notification",
+      "keywords": [
+        "TTS",
+        "fall",
+        "센서"
+      ],
+      "priority": "medium",
+      "chunk_length": 199,
+      "contains_requirement_id": false,
+      "requirement_ids": []
+    },
+    "created_at": "2026-05-05T16:32:53.972125"
+  },
+  {
+    "chunk_id": "48dc3476-1211-4f26-8737-2d12d7c399f9",
+    "doc_id": "요구사항분석_v2.0",
+    "text": "Purpose (목표)\n본 Software Requirements Specifications(SRS)의 목적은 Wi-Fi CSI(Channel State Information) 기반 사용자 행동 인식 및 낙상 감지 시스템의 소프트웨어 요구사항을 명확하게 정의하는 데 있다.\n이 문서는 시스템의 기능적 요구사항과 비기능적 요구사항을 명확하고 체계적으로 정의함으로써 개발 과정에서 발생할 수 있는 혼선을 줄이고 요구사항의 일관성을 확보하며 프로젝트 이해관계자 간의 공통된 기준을 마련하는 것을 목표로 한다.\n본 SRS는 다음과 같은 대상을 위해 작성되었다.\n시스템을 구현하는 개발자 및 엔지니어(경북대학교 학생)\n전체 진행을 관리하는 프로젝트 매니저 및 협력 기업 담당자(LG전자)\n시스템 품질을 검증하는 테스터 및 QA 담당자\n시스템 설계 및 운영 전략을 수집하는 기획자 및 연구자\n이 프로젝트를 확인하는 지도교수 및 평가자\n본 문서에서 정의하는 소프트웨어는 Wi-Fi CSI 데이터와 PIR/ToF 센서를 활용하여 사용자의 움직임을 분석하고, 낙상 여부를 판단한 뒤 사용자 확인 및 보호자 알림까지 수행하는 통합 시스템이다.\n또한, 본 문서는 향후 시스템 개발, 테스트, 배포 및 유지보수 과정에서 기준 문서로 활용되며, 프로젝트의 버전 관리 및 기능 확장 시 참조 기준으로 사용된다.",
+    "metadata": {
+      "section_title": "Purpose (목표)",
+      "doc_type": "srs",
+      "source": "data/raw/srs/요구사항분석_v2.0.docx",
+      "chunk_index": 1,
+      "category": "general",
+      "keywords": [
+        "CSI",
+        "Channel State Information",
+        "PIR",
+        "ToF",
+        "Wi-Fi CSI",
+        "기능적 요구사항",
+        "낙상",
+        "배포",
+        "보호자",
+        "보호자 알림",
+        "센서",
+        "시스템",
+        "알림",
+        "요구사항",
+        "운영",
+        "움직임"
+      ],
+      "priority": "low",
+      "chunk_length": 663,
+      "contains_requirement_id": false,
+      "requirement_ids": []
+    },
+    "created_at": "2026-05-05T16:32:54.160861"
+  },
+  {
+    "chunk_id": "548a60ac-1a60-40f1-bf7c-2570b7c9cfbe",
+    "doc_id": "요구사항분석_v2.0",
+    "text": "Product Scope (범위)\n본 프로젝트에서 개발하는 소프트웨어는 “Wi-Fi CSI 기반 사용자 행동 인식 및 낙상 감지 시스템”이다.\n이 시스템은 기존 카메라 기반 감시 시스템의 사생활 침해 문제를 해결하기 위해, 가정 내 Wi-Fi 신호 (Channel State Information)와 PIR, ToF 센서를 활용하여 사용자의 움직임을 분석하고 낙상 여부를 판단하는 것을 목적으로 한다.\n본 소프트웨어는 사용자의 움직임 데이터를 기반으로 이상 행동(낙상 의심 상황)을 감지하고, 이를 검증한 뒤 사용자에게 음성 안내를 통해 상태를 확인하며, 응답이 없을 경우 보호자에게 알림을 전달하는 기능을 수행한다. 이를 통해 비침습적(Non-intrusive) 방식의 안전 모니터링 환경을 제공하는 것을 목표로 한다.\n또한, 본 시스템은 다음과 같은 범위를 포함한다.\nWi-Fi CSI 및 센서 데이터를 활용한 사용자 행동 분석 및 낙상 감지 기능\n낙상 의심 이벤트 발생 시 확인(Verification) 및 응답(Response) 처리 흐름\n사용자 상태 확인을 위한 음성 안내(TTS) 기반 인터페이스\n보호자에게 상황을 전달하는 알림 시스템(메시지, 푸시 등)\n반면, 본 소프트웨어는 다음 범위를 포함하지 않는다.\n영상(카메라) 기반 사용자 감시 및 분석 기능\n의료 진단 수준의 정확도를 보장하는 시스템\n병원 또는 응급 구조 시스템과의 직접적인 연동 기능은 본 프로젝트의 기본 구현 범위에는 포함되지 않으며, 현재는 보호자 알림 중심의 대응 구조를 갖는다.\n본 시스템은 고령자 및 1인 가구의 안전 관리 환경에서의 이상 행동 감지 등 다양한 생활 환경에서 활용될 수 있다. 또한, Wi-Fi CSI 기반의 비침습적 센싱 구조를 활용함으로써 카메라 없이도 사용자 상태를 인식할 수 있으며 프라이버시를 고려한 안전 관리 시스템으로 적용 가능하다. 나아가, 향후 서비스 확장을 통해 고령자 및 1인 가구 환경뿐만 아니라 스마트홈, 산업 환경(공장) 등 다양한 도메인에서도 활용 가능한 구조로 설계된다.",
+    "metadata": {
+      "section_title": "Product Scope (범위)",
+      "doc_type": "srs",
+      "source": "data/raw/srs/요구사항분석_v2.0.docx",
+      "chunk_index": 2,
+      "category": "general",
+      "keywords": [
+        "CSI",
+        "Channel State Information",
+        "PIR",
+        "TTS",
+        "ToF",
+        "Wi-Fi CSI",
+        "낙상",
+        "낙상 의심",
+        "메시지",
+        "보호자",
+        "보호자 알림",
+        "센서",
+        "시스템",
+        "신호",
+        "알림",
+        "움직임",
+        "음성 안내",
+        "응급",
+        "이상 행동",
+        "푸시",
+        "환경"
+      ],
+      "priority": "low",
+      "chunk_length": 1008,
+      "contains_requirement_id": false,
+      "requirement_ids": []
+    },
+    "created_at": "2026-05-05T16:32:54.160913"
+  },
+  {
+    "chunk_id": "9eca9b6c-8471-40ce-af69-b6e75c7dd78f",
+    "doc_id": "요구사항분석_v2.0",
+    "text": "Document Conventions (문서규칙)\n본 문서는 소프트웨어 요구사항을 명확하고 일관되게 전달하기 위해 다음과 같은 문서 작성 규칙을 따른다.\n본 문서는 계층적인 구조(장, 절, 항목)를 기반으로 구성되며 각 요구사항은 논리적인 순서에 따라 정리된다.\n주요 용어 및 기술 용어는 최초 등장 시 전체 명칭과 함께 정의하며, 이후에는 약어를 사용한다.\n기능적 요구사항과 비기능적 요구사항은 구분하여 작성하며, 각 요구사항은 명확하고 간결한 문장으로 표현한다.\n요구사항 문장은 “~해야 한다”와 같은 명확한 표현을 사용하여 모호성을 최소화한다.\n요구사항은 식별 가능하도록 번호 또는 항목 단위로 관리되며, 추적 가능성을 고려하여 작성한다.\n목록 형태의 항목은 동일한 수준의 중요도를 가지며, 별도의 우선순위는 명시하지 않는다.\n영문 용어(예: Wi-Fi CSI, PIR, ToF, TTS 등)는 혼동을 방지하기 위해 원문 표기를 병기한다.",
+    "metadata": {
+      "section_title": "Document Conventions (문서규칙)",
+      "doc_type": "srs",
+      "source": "data/raw/srs/요구사항분석_v2.0.docx",
+      "chunk_index": 3,
+      "category": "general",
+      "keywords": [
+        "CSI",
+        "PIR",
+        "TTS",
+        "ToF",
+        "Wi-Fi CSI",
+        "구성",
+        "기능적 요구사항",
+        "요구사항",
+        "해야 한다"
+      ],
+      "priority": "low",
+      "chunk_length": 472,
+      "contains_requirement_id": false,
+      "requirement_ids": []
+    },
+    "created_at": "2026-05-05T16:32:54.160952"
+  },
+  {
+    "chunk_id": "51568628-6e19-4cb1-ab5c-3247fbe10bc2",
+    "doc_id": "요구사항분석_v2.0",
+    "text": "1.4.1 네트워크 및 신호 관련\nWi-Fi CSI (Channel State Information): 무선 채널의 상태 정보를 나타내며, 신호의 세기와 위상 변화를 통해 사용자 움직임 및 환경 변화를 분석하는 데 활용된다.\nRSSI (Received Signal Strength Indicator): 수신된 무선 신호의 세기를 나타내는 지표로, CSI보다 단순한 신호 강도 기반 정보이다.\nChannel (채널): 무선 통신에서 데이터가 전송되는 주파수 경로를 의미한다.",
+    "metadata": {
+      "section_title": "1.4.1 네트워크 및 신호 관련",
+      "doc_type": "srs",
+      "source": "data/raw/srs/요구사항분석_v2.0.docx",
+      "chunk_index": 4,
+      "category": "sensor",
+      "keywords": [
+        "CSI",
+        "Channel State Information",
+        "Wi-Fi CSI",
+        "신호",
+        "움직임",
+        "환경"
+      ],
+      "priority": "medium",
+      "chunk_length": 264,
+      "contains_requirement_id": false,
+      "requirement_ids": []
+    },
+    "created_at": "2026-05-05T16:32:54.160977"
+  },
+  {
+    "chunk_id": "cd12789b-12e9-4b47-8947-616c4e3ce286",
+    "doc_id": "요구사항분석_v2.0",
+    "text": "1.4.2 센서 및 인식 기술\nPIR (Passive Infrared Sensor): 적외선을 감지하여 사람의 움직임이나 존재 여부를 판단하는 센서이다.\nToF (Time of Flight): 빛이 대상에 반사되어 돌아오는 시간을 측정하여 거리 변화를 감지하는 센서 기술이다.\nMultimodal Sensing (멀티모달 센싱): 여러 센서(CSI, PIR, ToF 등)의 데이터를 결합하여 보다 정확한 판단을 수행하는 방식이다.\nActivity Recognition (행동 인식): 사용자의 움직임 패턴을 분석하여 특정 행동을 식별하는 기술이다.",
+    "metadata": {
+      "section_title": "1.4.2 센서 및 인식 기술",
+      "doc_type": "srs",
+      "source": "data/raw/srs/요구사항분석_v2.0.docx",
+      "chunk_index": 5,
+      "category": "sensor",
+      "keywords": [
+        "CSI",
+        "PIR",
+        "ToF",
+        "거리",
+        "센서",
+        "움직임"
+      ],
+      "priority": "medium",
+      "chunk_length": 306,
+      "contains_requirement_id": false,
+      "requirement_ids": []
+    },
+    "created_at": "2026-05-05T16:32:54.160998"
+  },
+  {
+    "chunk_id": "39d05a19-99de-4e42-86bb-92dd05ea132d",
+    "doc_id": "요구사항분석_v2.0",
+    "text": "1.4.3 시스템 처리 및 구조\nDetect (감지 단계): Wi-Fi CSI 및 센서 데이터를 기반으로 낙상 의심 이벤트를 탐지하는 단계이다.\nVerification (확인 단계): 낙상 의심 이벤트 발생 후 센서 데이터의 신뢰도를 기반으로 실제 낙상 여부를 판단하는 과정이다.\nResponse (대응 단계): 낙상으로 판단된 경우 사용자 확인 및 보호자 알림 등 후속 조치를 수행하는 단계이다.\nEvent (이벤트): 시스템에서 감지된 특정 상태 변화 또는 행동을 의미한다.\nEdge Computing (엣지 컴퓨팅): 데이터를 클라우드가 아닌 로컬 장치에서 처리하는 방식으로, 지연 감소 및 프라이버시 보호에 유리하다.\nHeadless System (헤드리스 시스템): 디스플레이 없이 음성 또는 자동화된 방식으로 동작하는 시스템 구조를 의미한다.",
+    "metadata": {
+      "section_title": "1.4.3 시스템 처리 및 구조",
+      "doc_type": "srs",
+      "source": "data/raw/srs/요구사항분석_v2.0.docx",
+      "chunk_index": 6,
+      "category": "sensor",
+      "keywords": [
+        "CSI",
+        "Wi-Fi CSI",
+        "낙상",
+        "낙상 의심",
+        "보호자",
+        "보호자 알림",
+        "센서",
+        "시스템",
+        "알림"
+      ],
+      "priority": "high",
+      "chunk_length": 421,
+      "contains_requirement_id": false,
+      "requirement_ids": []
+    },
+    "created_at": "2026-05-05T16:32:54.161021"
+  },
+  {
+    "chunk_id": "316a90e4-1815-4539-b08b-f3db6a5c13fe",
+    "doc_id": "요구사항분석_v2.0",
+    "text": "1.4.4. 인터페이스 및 통신\nTTS (Text-To-Speech): 텍스트 정보를 음성으로 변환하여 사용자에게 안내를 제공하는 기술이다.\nMQTT (Message Queuing Telemetry Transport): 경량 메시지 프로토콜로, IoT 환경에서 장치 간 데이터 통신을 위해 사용된다.\nREST API: HTTP 기반으로 시스템 간 데이터를 주고받는 인터페이스 방식이다.\nNotification (알림): 시스템 이벤트 발생 시 사용자 또는 보호자에게 전달되는 메시지이다.",
+    "metadata": {
+      "section_title": "1.4.4. 인터페이스 및 통신",
+      "doc_type": "srs",
+      "source": "data/raw/srs/요구사항분석_v2.0.docx",
+      "chunk_index": 7,
+      "category": "notification",
+      "keywords": [
+        "TTS",
+        "메시지",
+        "보호자",
+        "시스템",
+        "알림",
+        "환경"
+      ],
+      "priority": "medium",
+      "chunk_length": 272,
+      "contains_requirement_id": false,
+      "requirement_ids": []
+    },
+    "created_at": "2026-05-05T16:32:54.161040"
+  },
+  {
+    "chunk_id": "5922260f-a827-462b-9654-1cb4bb3b241f",
+    "doc_id": "요구사항분석_v2.0",
+    "text": "1.4.5 보안 및 특성\nNon-intrusive (비침습적 방식): 사용자에게 직접적인 신체 접촉이나 사생활 침해 없이 데이터를 수집하고 분석하는 방식이다.\nPrivacy (프라이버시): 사용자의 개인 정보 및 행동 데이터가 외부에 노출되지 않도록 보호하는 개념이다.",
+    "metadata": {
+      "section_title": "1.4.5 보안 및 특성",
+      "doc_type": "srs",
+      "source": "data/raw/srs/요구사항분석_v2.0.docx",
+      "chunk_index": 8,
+      "category": "requirement",
+      "keywords": [
+        "보안"
+      ],
+      "priority": "low",
+      "chunk_length": 150,
+      "contains_requirement_id": false,
+      "requirement_ids": []
+    },
+    "created_at": "2026-05-05T16:32:54.161054"
+  },
+  {
+    "chunk_id": "43432e55-fcbc-4cbf-8808-99584696e654",
+    "doc_id": "요구사항분석_v2.0",
+    "text": "1.4.6 도메인 및 기능\nFall Detection (낙상 감지): 사용자의 움직임 패턴을 분석하여 낙상 여부를 판단하는 기능이다.\nFalse Positive (오탐): 실제 낙상이 아닌 상황을 낙상으로 잘못 판단하는 경우이다.\nFalse Negative (미탐): 실제 낙상 상황을 감지하지 못하는 경우이다.\nConfidence (신뢰도): 시스템이 특정 이벤트를 판단하는 데 있어 가지는 확률적 신뢰 수준을 의미한다.",
+    "metadata": {
+      "section_title": "1.4.6 도메인 및 기능",
+      "doc_type": "srs",
+      "source": "data/raw/srs/요구사항분석_v2.0.docx",
+      "chunk_index": 9,
+      "category": "sensor",
+      "keywords": [
+        "fall",
+        "낙상",
+        "시스템",
+        "움직임"
+      ],
+      "priority": "medium",
+      "chunk_length": 236,
+      "contains_requirement_id": false,
+      "requirement_ids": []
+    },
+    "created_at": "2026-05-05T16:32:54.161076"
+  },
+  {
+    "chunk_id": "bb685649-9e6b-48de-9cb4-f1d57f451239",
+    "doc_id": "요구사항분석_v2.0",
+    "text": "Intended Audience and Reading Suggestions (대상 및 읽는 방법)\n본 문서는 다음과 같은 이해관계자를 대상으로 작성되었다.\n개발자: 시스템 구현을 위한 기능적 및 비기능적 요구사항을 참고한다.\n프로젝트 관리자: 요구사항을 기반으로 프로젝트 범위 및 일정 관리를 수행한다.\n협력 기업 담당자(LG전자): 시스템 요구사항의 타당성과 개발 방향을 검토한다.\n테스터 및 QA 담당자: 요구사항을 기반으로 테스트 케이스를 설계하고 시스템을 검증한다.\n지도교수 및 평가자: 프로젝트의 완성도와 요구사항 정의의 적절성을 평가한다.\n본 문서는 전체 시스템의 이해를 위해 Introduction부터 순차적으로 읽는 것을 권장한다.\n이후, 세부 구현과 관련된 내용은 각 요구사항 항목을 중심으로 선택적으로 참고할 수 있다.\n개발자 및 테스터는 기능적 요구사항과 비기능적 요구사항 항목을 중점적으로 확인하는 것을 권장한다.",
+    "metadata": {
+      "section_title": "Intended Audience and Reading Suggestions (대상 및 읽는 방법)",
+      "doc_type": "srs",
+      "source": "data/raw/srs/요구사항분석_v2.0.docx",
+      "chunk_index": 10,
+      "category": "general",
+      "keywords": [
+        "기능적 요구사항",
+        "시스템",
+        "요구사항"
+      ],
+      "priority": "low",
+      "chunk_length": 467,
+      "contains_requirement_id": false,
+      "requirement_ids": []
+    },
+    "created_at": "2026-05-05T16:32:54.161130"
+  },
+  {
+    "chunk_id": "23b42fcd-49db-4ed6-a9af-cb7adb491df6",
+    "doc_id": "요구사항분석_v2.0",
+    "text": "Output Format (산출물 형태)\n본 프로젝트의 산출물은 Wi-Fi CSI 기반 사용자 행동 인식 및 낙상 감지 기능을 제공하는 엣지 디바이스 기반의 임베디드 시스템 형태로 구성된다.\n해당 시스템은 Raspberry Pi와 같은 단일 보드 컴퓨터(SBC)를 기반으로 동작하며, Wi-Fi CSI 및 센서(PIR, ToF) 데이터를 수집·처리하는 모듈과 낙상 이벤트를 판단하고 사용자 및 보호자에게 대응을 수행하는 소프트웨어로 이루어진다.\n또한, 본 시스템은 디스플레이 없이 음성 안내(TTS)를 통해 사용자와 상호작용하는 Headless 구조를 따른다.\nOutput Name and Version (산출물명(가칭) 및 버전)\n산출물명: Wi-Fi CSI 기반 낙상 감지 시스템 (Smart Fall Detection System)\n버전: v1.0 (Prototype)",
+    "metadata": {
+      "section_title": "Output Format (산출물 형태)",
+      "doc_type": "srs",
+      "source": "data/raw/srs/요구사항분석_v2.0.docx",
+      "chunk_index": 11,
+      "category": "sensor",
+      "keywords": [
+        "CSI",
+        "PIR",
+        "TTS",
+        "ToF",
+        "Wi-Fi CSI",
+        "fall",
+        "구성",
+        "낙상",
+        "모듈",
+        "보호자",
+        "센서",
+        "시스템",
+        "음성 안내"
+      ],
+      "priority": "low",
+      "chunk_length": 433,
+      "contains_requirement_id": false,
+      "requirement_ids": []
+    },
+    "created_at": "2026-05-05T16:32:54.161164"
+  },
+  {
+    "chunk_id": "022eeebb-f4fa-43c1-b89c-5967c56b3c7c",
+    "doc_id": "요구사항분석_v2.0",
+    "text": "Patent Information (특허 출원 유무 및 내용)\n본 프로젝트는 Wi-Fi CSI 기반 신호 분석과 PIR, ToF 센서를 결합한 멀티모달 센싱을 통해 사용자의 행동을 인식하고 낙상을 감지하는 시스템을 포함한다.\n특히, Detect–Verify–Response 구조를 기반으로 센서 간 상관관계를 활용하여 낙상 여부를 판단하는 방식과, 카메라를 사용하지 않는 비침습적 행동 인식 구조는 향후 특허 출원이 가능한 아이디어로 고려될 수 있다.",
+    "metadata": {
+      "section_title": "Patent Information (특허 출원 유무 및 내용)",
+      "doc_type": "srs",
+      "source": "data/raw/srs/요구사항분석_v2.0.docx",
+      "chunk_index": 12,
+      "category": "sensor",
+      "keywords": [
+        "CSI",
+        "PIR",
+        "ToF",
+        "Wi-Fi CSI",
+        "낙상",
+        "센서",
+        "시스템",
+        "신호"
+      ],
+      "priority": "low",
+      "chunk_length": 252,
+      "contains_requirement_id": false,
+      "requirement_ids": []
+    },
+    "created_at": "2026-05-05T16:32:54.161179"
+  },
+  {
+    "chunk_id": "fe5f6a4e-36cd-4910-8292-eb531d0a0f4f",
+    "doc_id": "요구사항분석_v2.0",
+    "text": "Overall Description (전체 설명)\n본 프로젝트 산출물의 T0-BE 모습에 대한 전체적인 구성 및 동작, 기능 등에 대해 간략하게 기술한다.\n상세한 기능 스펙은 7장에서 기술한다.",
+    "metadata": {
+      "section_title": "Overall Description (전체 설명)",
+      "doc_type": "srs",
+      "source": "data/raw/srs/요구사항분석_v2.0.docx",
+      "chunk_index": 13,
+      "category": "system",
+      "keywords": [
+        "구성"
+      ],
+      "priority": "low",
+      "chunk_length": 108,
+      "contains_requirement_id": false,
+      "requirement_ids": []
+    },
+    "created_at": "2026-05-05T16:32:54.161195"
+  },
+  {
+    "chunk_id": "6b618943-104d-4a38-8dac-fdce3edee5f1",
+    "doc_id": "요구사항분석_v2.0",
+    "text": "Product Perspective (제품 조망)\n본 제품은 기존의 카메라 기반 홈 보안 시스템의 고질적인 문제인 사생활 침해를 해결하기 위해 설계된 '비접촉·비침습형 낙상 감지 시스템'이다. 이 시스템은 독립적인 가전 형태나 스마트홈 인프라의 확장 모듈로 동작할 수 있다.\n시스템 관계: Wi-Fi 신호(CSI)를 활용하므로 기존 환경 내 Wi-Fi 공유기 인프라를 신호원으로 활용하며, 응급 상황 발생 시 외부 클라우드(Gemini API) 및 메시징 플랫폼(알림톡)과 연동된다.\n경쟁력: 기존 가속도계 기반 웨어러블(착용 불편)이나 CCTV(사생활 노출)와 달리, 사용자의 행동 제약이 없고 사생활을 완벽히 보호하면서도 멀티모달 센서 퓨전을 통해 높은 판정 정확도를 제공한다.\nOverall System Configuration (전체 시스템 구성)\n본 프로젝트 산출물의 전체 시스템 구성도를 묘사한다. 내부의 관점에서 주요 Component를 도출하고 연관관계를 그린다.\n본 시스템은 엣지 노드와 센서부, 그리고 클라우드 AI로 구성된다rl.\nEdge Node (Raspberry Pi 4): 시스템의 메인 컨트롤러로서 모든 데이터의 허브 역할을 수행한다.\nCollector (ESP32 & USB WiFi Dongle): Wi-Fi CSI 데이터를 수집하여 라즈베리 파이로 전달한다.\nSensor Fusion (PIR & ToF): 물리적 움직임(PIR)과 거리/높이 변화(ToF) 수치를 수집하여 CSI 데이터의 보조 판정 근거로 활용한다.\nOutput Device: 상황 안내를 위한 7인치 HDMI 디스플레이 및 음성 출력을 위한 소형 스피커.\nCloud AI: 낙상 최종 판정 및 대응 시나리오 생성을 위한 Gemini API 연동부.\nNMP441 마이크: 사용자 음성 응답 확인 및 상황 모니터링용 오디오 입력",
+    "metadata": {
+      "section_title": "Product Perspective (제품 조망)",
+      "doc_type": "srs",
+      "source": "data/raw/srs/요구사항분석_v2.0.docx",
+      "chunk_index": 14,
+      "category": "sensor",
+      "keywords": [
+        "CSI",
+        "PIR",
+        "ToF",
+        "Wi-Fi CSI",
+        "거리",
+        "구성",
+        "낙상",
+        "모듈",
+        "보안",
+        "센서",
+        "시스템",
+        "신호",
+        "알림",
+        "움직임",
+        "응급",
+        "환경"
+      ],
+      "priority": "low",
+      "chunk_length": 911,
+      "contains_requirement_id": false,
+      "requirement_ids": []
+    },
+    "created_at": "2026-05-05T16:32:54.161237"
+  },
+  {
+    "chunk_id": "6c1298e4-39ab-4002-8ace-f619e2a6989f",
+    "doc_id": "요구사항분석_v2.0",
+    "text": "Overall Operation (전체 동작방식)\n본 프로젝트 산출물의 전체 시스템 구성도를 기준으로 동작 원리 및 시나리오 등을 기술한다.\n수집 단계: ESP32와 Wi-Fi 동글이 무선 신호의 CSI 데이터를 추출하고, PIR/ToF 센서가 실시간 거리와 재실 여부를 측정한다.\n분석 단계: 라즈베리 파이 내에서 MQTT를 통해 전송된 멀티모달 데이터를 수집하여 전처리한다.\n판정 단계: 1차적으로 라즈베리파이 내 낙상 후보 이벤트를 탐지하고, 중요도가 높은 경우 클라우드 AI(Gemini)에 데이터를 전송하여 정밀 추론 및 RAG 기반 정책을 결정한다.\n대응 단계:\n피보호자(사용자) 대응: 낙상 후보로 감지된 사용자에게 스피커(TTS)로 \"괜찮으신가요?\"라는 확인 음성을 송출한다. 사용자가 음성으로 응답하거나 다시 움직임을 보일 경우 시스템은 이벤트를 종료한다.\n관리자(Admin) 대응: 라즈베리 파이에 연결된 7인치 디스플레이를 통해 LLM 분석 전후 데이터(수치 vs 해석 결과), 실시간 센서 로그, 현재 시스템 상태(정상/후보/확정)를 상시 모니터링한다.\n보호자(Guardian) 대응: 사용자가 일정 시간 무응답 시 시스템은 최종 응급 상황으로 확정한다. 이때 사전에 등록된 보호자의 연락망(카카오 알림톡, SMS 등)으로 이벤트 발생 시각과 상황 요약 정보를 포함한 실시간 비상 알림을 발송한다.\nProduct Functions (제품 주요 기능)\n본 프로젝트 산출물은 사용자의 프라이버시를 보호하면서 낙상을 정밀하게 감지하고 대응하기 위해 다음과 같은 주요 기능을 수행한다. 상세 기능은 제7장(Functional Requirements)의 해당 항목을 참조한다.\n멀티모달 데이터 수집 및 실시간 전처리 (FR-COL)\nWi-Fi CSI 신호와 PIR(움직임), ToF(거리) 센서 데이터를 실시간으로 수집하고 동기화함.\n수집된 데이터의 노이즈를 제거(Smoothing)하고 분석 가능한 이벤트 단위로 구조화하여 메시지 기반(MQTT)으로 전달함.\nAI 기반 행동 인식 및 지능형 상황 분석 (FR-ANL)\n복합 센서 데이터를 분석하여 이상행동 및 낙상 후보 이벤트를 1차 탐지함.\nGemini AI 및 RAG(검색 증강 생성) 기술을 결합하여, 단순 수치 분석을 넘어 운영 정책에 기반한 정밀한 상황 해석과 낙상 확정 기능을 수행함.\n사용자 상호작용 및 멀티채널 응급 대응 (FR-RSP)\nHeadless UI(음성 안내 및 인식)를 통해 현장 사용자(피보호자)의 상태를 확인하고 응답 여부에 따라 대응 단계를 결정함.\n최종 응급 상황 판단 시 보호자에게 실시간 알림(메시지 등)을 전송하여 신속한 구호를 지원함.\n실시간 시스템 관제 및 관리자 운영 지원 (FR-RSP)\n7인치 디스플레이를 통해 실시간 센서 데이터, AI 추론 전/후 데이터 비교, 현재 시스템 상태 및 알림 전송 이력을 관리자에게 시각적으로 제공함.\n시스템 장애 감지 및 로그 기록을 통해 운영의 연속성과 재현성을 보장함.",
+    "metadata": {
+      "section_title": "Overall Operation (전체 동작방식)",
+      "doc_type": "srs",
+      "source": "data/raw/srs/요구사항분석_v2.0.docx",
+      "chunk_index": 15,
+      "category": "sensor",
+      "keywords": [
+        "CSI",
+        "PIR",
+        "TTS",
+        "ToF",
+        "Wi-Fi CSI",
+        "거리",
+        "구성",
+        "낙상",
+        "메시지",
+        "보호자",
+        "센서",
+        "시스템",
+        "신호",
+        "알림",
+        "운영",
+        "움직임",
+        "음성 안내",
+        "응급"
+      ],
+      "priority": "high",
+      "chunk_length": 1466,
+      "contains_requirement_id": false,
+      "requirement_ids": []
+    },
+    "created_at": "2026-05-05T16:32:54.161308"
+  },
+  {
+    "chunk_id": "dc1079a0-c8cd-48b4-a01d-7b79f671e3c7",
+    "doc_id": "요구사항분석_v2.0",
+    "text": "User Classes and Characteristics (사용자 계층과 특징)\n본 시스템은 사생활 보호와 실시간 감지가 동시에 필요한 다양한 환경에 적용 가능하며, 사용자의 역할에 따라 다음과 같이 세 계층으로 정의한다.\n피보호자 (Safety-vulnerable Groups & General Occupants)\n정의: 낙상이나 이상행동 감지가 필요한 관찰 대상자로, 고령자뿐만 아니라 환자, 어린이, 혹은 1인 가구 전체를 포함한다.\n특징:\n고령자 및 환자: 거동이 불편하여 낙상 위험이 높고 응급 상황 시 자가 대응이 어려운 계층.\n어린이 및 영유아: 보호자의 시야 밖에서 발생할 수 있는 안전사고(가구 전도, 낙상 등)에 노출된 계층.\n고위험군 1인 가구: 지병이 있거나 고독사 예방이 필요한 단독 거주자.\n기대 편익: 카메라에 찍히는 심리적 부담감 없이 24시간 비접촉 안전 모니터링 서비스를 제공받으며, 위급 상황 시 자동화된 인터페이스를 통해 즉각적인 도움을 받음.\n보호자 및 현장 관리자 (Primary Responders)\n정의: 피보호자의 안전 상태를 일차적으로 확인하고 대응하는 주체로, 가족·요양보호사부터 기관 관리자까지 포함한다.\n특징:\n개인형(가족): 스마트폰 앱/메신저 알림을 통해 원격으로 가족의 안부를 확인하고 비상 상황 시 긴급 출동을 결정함.\n기관형(병동 간호사/어린이집 교사): 다수의 피보호자를 동시에 관제해야 하는 직군으로, 시스템이 필터링해준 '확정 낙상' 로그를 보고 신속히 현장으로 이동함.\n기대 편익: 불필요한 단순 움직임 알림은 줄이고, 실제 위급 상황에만 집중할 수 있는 효율적인 관제 환경을 제공받음.\n시스템 관리자 및 개발자 (Technical Administrators)\n정의: 시스템의 안정성을 유지하고 환경 변화에 따른 최적화를 수행하는 기술 인력.\n특징: Grafana 대시보드 및 시스템 로그를 통해 Wi-Fi 신호의 감도, 센서 오탐률, 네트워크 지연 시간을 상시 모니터링함.\n주요 임무: 설치 환경(가구 배치, 공유기 위치 등) 변화에 따른 캘리브레이션 수행 및 RAG 기반 대응 정책(런북) 업데이트.",
+    "metadata": {
+      "section_title": "User Classes and Characteristics (사용자 계층과 특징)",
+      "doc_type": "srs",
+      "source": "data/raw/srs/요구사항분석_v2.0.docx",
+      "chunk_index": 16,
+      "category": "sensor",
+      "keywords": [
+        "긴급",
+        "낙상",
+        "보호자",
+        "설치",
+        "센서",
+        "시스템",
+        "신호",
+        "알림",
+        "움직임",
+        "위험",
+        "응급",
+        "환경"
+      ],
+      "priority": "high",
+      "chunk_length": 1048,
+      "contains_requirement_id": false,
+      "requirement_ids": []
+    },
+    "created_at": "2026-05-05T16:32:54.161371"
+  },
+  {
+    "chunk_id": "c196257f-2c52-44ab-b3fd-30572aafb175",
+    "doc_id": "요구사항분석_v2.0",
+    "text": "Assumptions and Dependencies (가정과 종속 관계)\n본 프로젝트를 수행하기 위해서 필요하거나, 반드시 수행 또는 결정되어야 할 전제조건 또는 선행되어야 할 프로젝트에 대해 기술하며, 그 결과에 따라 본 프로젝트의 어떤 부분에 어떻게 영향을 미칠지를 기술한다. 또한, 통제 불가능한 외부요소에 의해 영향을 받을 수 있는 경우, 그 요소에 대해 기술한다.\n… 생략\n네트워크 환경: 가정 내 2.4/5GHz Wi-Fi 환경이 구축되어 있어야 하며, 외부 API 연동을 위한 인터넷 접속이 필수적이다.\n설치 위치: ToF 센서의 정확한 거리 측정을 위해 천장 혹은 벽면의 특정 높이에 고정 설치되어야 함을 전제로 한다.\n하드웨어 수급: ESP32, 라즈베리 파이 4 등의 부품 수급 및 펌웨어(nexmon_csi) 호환성에 종속된다.",
+    "metadata": {
+      "section_title": "Assumptions and Dependencies (가정과 종속 관계)",
+      "doc_type": "srs",
+      "source": "data/raw/srs/요구사항분석_v2.0.docx",
+      "chunk_index": 17,
+      "category": "sensor",
+      "keywords": [
+        "CSI",
+        "ToF",
+        "거리",
+        "설치",
+        "센서",
+        "환경"
+      ],
+      "priority": "high",
+      "chunk_length": 418,
+      "contains_requirement_id": false,
+      "requirement_ids": []
+    },
+    "created_at": "2026-05-05T16:32:54.161395"
+  },
+  {
+    "chunk_id": "8331e8b9-741c-4ff4-92c3-ff1f91406d93",
+    "doc_id": "요구사항분석_v2.0",
+    "text": "Apportioning of Requirements (단계별 요구사항)\nIdentify requirements that may be delayed until future versions of the system. After you look at the project plan and hours available, you may realize that you just cannot get everything done.\n… 생략\nPhase 1 (MVP): CSI 및 센서 데이터 수집 파이프라인 구축 및 기본 낙상 감지 로직 구현.\nPhase 2 (고도화): Gemini API 기반 RAG 시스템 연동 및 맞춤형 음성 안내 시스템 구현.\nPhase 3 (확장): 다중 이벤트 감지(장시간 무동작 등) 확장 및 실시간 모니터링 대시보드 완성.",
+    "metadata": {
+      "section_title": "Apportioning of Requirements (단계별 요구사항)",
+      "doc_type": "srs",
+      "source": "data/raw/srs/요구사항분석_v2.0.docx",
+      "chunk_index": 18,
+      "category": "requirement",
+      "keywords": [
+        "CSI",
+        "낙상",
+        "센서",
+        "시스템",
+        "요구사항",
+        "음성 안내"
+      ],
+      "priority": "high",
+      "chunk_length": 413,
+      "contains_requirement_id": false,
+      "requirement_ids": []
+    },
+    "created_at": "2026-05-05T16:32:54.161418"
+  },
+  {
+    "chunk_id": "b859f2d8-27ea-4928-a3a2-2451324431e7",
+    "doc_id": "요구사항분석_v2.0",
+    "text": "Backward compatibility (하위 호환성)\n신규 개발이 아닌 경우, 기존 산출물과의 호환성을 보장하기 위한 방법 및 Migration 방법을 기술한다.\n본 프로젝트는 신규 개발 프로젝트로 기존 제품과의 하위 호환성 이슈는 없으나, 향후 표준 MQTT 프로토콜을 사용하는 타 스마트홈 기기와의 연동 가능성을 고려하여 설계한다.",
+    "metadata": {
+      "section_title": "Backward compatibility (하위 호환성)",
+      "doc_type": "srs",
+      "source": "data/raw/srs/요구사항분석_v2.0.docx",
+      "chunk_index": 19,
+      "category": "general",
+      "keywords": [],
+      "priority": "low",
+      "chunk_length": 189,
+      "contains_requirement_id": false,
+      "requirement_ids": []
+    },
+    "created_at": "2026-05-05T16:32:54.161435"
+  },
+  {
+    "chunk_id": "327758d0-319f-4130-8b4c-f8bcf660a37d",
+    "doc_id": "요구사항분석_v2.0",
+    "text": "Operating Environment (운영 환경)\n본 프로젝트의 산출물을 설치하고 운영하기 위한 하드웨어 환경 정보와 소프트웨어 환경 정보(OS 및 사전에 설치되어야 할 소프트웨어 등)를 기술한다.",
+    "metadata": {
+      "section_title": "Operating Environment (운영 환경)",
+      "doc_type": "srs",
+      "source": "data/raw/srs/요구사항분석_v2.0.docx",
+      "chunk_index": 20,
+      "category": "system",
+      "keywords": [
+        "설치",
+        "운영",
+        "환경"
+      ],
+      "priority": "medium",
+      "chunk_length": 112,
+      "contains_requirement_id": false,
+      "requirement_ids": []
+    },
+    "created_at": "2026-05-05T16:32:54.161453"
+  },
+  {
+    "chunk_id": "76f1e537-8efb-4940-99f8-2628e257e5cc",
+    "doc_id": "요구사항분석_v2.0",
+    "text": "Hardware Environment (하드웨어 환경)\n메인 컨트롤러\nRaspberry Pi 4 (8GB RAM).\n데이터 수집 기기\nESP32 DevKitC WROOM-32D V4 (CSI 수집용 단말).\n네트워크 인프라\nWi-Fi 공유기 (CSI 신호 발생원)\nipTIME 무선랜카드(CSI 수집 보조).\n멀티모달 센서\nPIR 센서 모듈(재실 감지)\nToF 거리 센서(높이 변화 측정)\n인터페이스 및 출력\n7인치 HDMI 디스플레이\n소형 스피커(3.5mm)\n마이크 모듈(ESP32 호환)\n브레드보드(400핀) 및 점퍼 케이블(M/M, M/F)\n저장 및 전원\nMicroSD 카드 64GB (Class10 A1)\n라즈베리 파이 4 전원공급장치 (WT-5V3A-C)",
+    "metadata": {
+      "section_title": "Hardware Environment (하드웨어 환경)",
+      "doc_type": "srs",
+      "source": "data/raw/srs/요구사항분석_v2.0.docx",
+      "chunk_index": 21,
+      "category": "sensor",
+      "keywords": [
+        "CSI",
+        "PIR",
+        "ToF",
+        "거리",
+        "모듈",
+        "센서",
+        "신호",
+        "환경"
+      ],
+      "priority": "medium",
+      "chunk_length": 371,
+      "contains_requirement_id": false,
+      "requirement_ids": []
+    },
+    "created_at": "2026-05-05T16:32:54.161538"
+  },
+  {
+    "chunk_id": "62412dac-459f-4947-af76-a69fe09cddc0",
+    "doc_id": "요구사항분석_v2.0",
+    "text": "3.1.2.1 OS Environment (운영체제 환경)\n본 프로젝트의 산출물이 지원하는 OS를 확인하기 위해 전사적으로 최신 OS 목록을 항상 가지고 있어야 한다.\n지원하는 플랫폼에 따라 내용을 확인하고, 필요에 따라 … 생략\n2) Unix/Linux 플랫폼\n최신 OS Coverage Sheet를 참조하여 작성하시기 바랍니다.\n1) Unix/Linux 플랫폼 (Main Controller)\n주 지원 OS: Raspberry Pi OS 64-bit (Debian Bookworm 기반)\n커널 버전: Linux Kernel 6.1.y 이상 (Raspberry Pi 4의 BCM2711 SoC 최적화 및 안정성 확보용)\n아키텍처: ARM64 (AArch64)\n비고: nexmon_csi 패치 및 커널 빌드가 완료된 특정 커널 릴리즈를 기준으로 지원함\n2) 임베디드 플랫폼 (Data Collector)\n주요 실행 환경: FreeRTOS 기반 ESP-IDF v5.1+ 또는 Arduino Core v3.0+\n대상 칩셋: ESP32-WROOM-32D (DevKitC V4 CH9102X)\n통신 스택: 저지연 MQTT 및 REST 통신을 위한 LwIP(Lightweight IP) 지원\n비고: Wi-Fi CSI Raw 데이터 추출 및 PIR/ToF 센서의 실시간 인터럽트 처리에 최적화된 환경임",
+    "metadata": {
+      "section_title": "3.1.2.1 OS Environment (운영체제 환경)",
+      "doc_type": "srs",
+      "source": "data/raw/srs/요구사항분석_v2.0.docx",
+      "chunk_index": 22,
+      "category": "sensor",
+      "keywords": [
+        "CSI",
+        "PIR",
+        "ToF",
+        "Wi-Fi CSI",
+        "센서",
+        "아키텍처",
+        "운영",
+        "환경"
+      ],
+      "priority": "medium",
+      "chunk_length": 666,
+      "contains_requirement_id": false,
+      "requirement_ids": []
+    },
+    "created_at": "2026-05-05T16:32:54.161607"
+  },
+  {
+    "chunk_id": "29ec6edf-f550-4be3-a4a2-1aa55d0a45ed",
+    "doc_id": "요구사항분석_v2.0",
+    "text": "3.1.2.2 OS외 software 환경\n1) Web Browser\n- MS Internet Explorer 버전 (필수 지원)\n- Mozilla Firefox 버전 (필수 지원)\n… 생략\n1) Web Browser\nMozilla Firefox 최신 버전 (필수 지원: Grafana 등을 활용한 실시간 시스템 운영 지표 시각화 및 대시보드 모니터링용)\n2) 통신 및 서버\nEclipse Mosquitto 버전 2.0 이상 (필수 지원: MQTT 프로토콜 기반의 엣지 기기 간 메시지 버스 및 로컬 브로커 구성용)\nGoogle Cloud REST API (필수 지원: 엣지 시스템과 클라우드 플랫폼 간의 데이터 송수신 및 클라우드 AI 서비스 연동용)\n3) AI 및 언어\nPython 버전 3.10 이상 (필수 지원: 멀티모달 센서 제어, 데이터 전처리 및 전체 에이전트 로직 실행용 메인 언어)\nGoogle Gemini API 버전 1.5 이상 (필수 지원: 수집된 데이터를 통한 낙상 여부 판정 추론 및 RAG 기반 운영 정책 에이전트 구동용)\ngTTS (Google Text-to-Speech) 라이브러리 (필수 지원: 디스플레이 없는 Headless UI 환경에서의 음성 상태 안내 및 사용자 상태 질문 출력용)",
+    "metadata": {
+      "section_title": "3.1.2.2 OS외 software 환경",
+      "doc_type": "srs",
+      "source": "data/raw/srs/요구사항분석_v2.0.docx",
+      "chunk_index": 23,
+      "category": "system",
+      "keywords": [
+        "TTS",
+        "구성",
+        "낙상",
+        "메시지",
+        "센서",
+        "시스템",
+        "운영",
+        "환경"
+      ],
+      "priority": "high",
+      "chunk_length": 627,
+      "contains_requirement_id": false,
+      "requirement_ids": []
+    },
+    "created_at": "2026-05-05T16:32:54.161675"
+  },
+  {
+    "chunk_id": "09c9b977-dccb-4b57-ab9e-43fd867229b2",
+    "doc_id": "요구사항분석_v2.0",
+    "text": "Product Installation and Configuration (제품 설치 및 설정)\n본 프로젝트의 산출물의 설치 과정에서의 요구사항을 기술한다. 또한 제품을 실행하는데 필요한 기본 설정 요소 및 방법에 대한 요구사항을 기술한다.\n… 생략\n개발 및 설치 담당자는 다음 순서에 따라 환경을 초기화해야 한다.\nCSI 펌웨어 플래싱:\nESP32에 CSI Data Extractor 코드를 업로드하여 공유기와의 통신 세션에서 CSI를 추출하도록 설정한다.\nRPi 센서 배선 및 I2C 활성화:\nToF (VL53L0X): I2C(SDA, SCL) 핀에 연결 후 raspi-config에서 I2C 인터페이스를 활성화한다.\nPIR: GPIO 핀에 연결하여 인터럽트 방식으로 신호를 수집한다.\n드라이버 및 의존성 설치:\npip install langchain google-generativeai paho-mqtt gtts 명령을 통해 필수 라이브러리를 설치한다.\n시스템 구성 파일(config.yaml) 설정:\nGemini API Key, MQTT Broker 주소, 낙상 감지를 위한 거리 임계치, CSI 드리프트 감지 기준선을 입력한다.",
+    "metadata": {
+      "section_title": "Product Installation and Configuration (제품 설치 및 설정)",
+      "doc_type": "srs",
+      "source": "data/raw/srs/요구사항분석_v2.0.docx",
+      "chunk_index": 24,
+      "category": "sensor",
+      "keywords": [
+        "CSI",
+        "PIR",
+        "TTS",
+        "ToF",
+        "거리",
+        "구성",
+        "낙상",
+        "설치",
+        "센서",
+        "시스템",
+        "신호",
+        "요구사항",
+        "해야 한다",
+        "환경"
+      ],
+      "priority": "high",
+      "chunk_length": 578,
+      "contains_requirement_id": false,
+      "requirement_ids": []
+    },
+    "created_at": "2026-05-05T16:32:54.161723"
+  },
+  {
+    "chunk_id": "77876082-b60f-4c07-a897-1f1c2d3d0974",
+    "doc_id": "요구사항분석_v2.0",
+    "text": "Master Configuration (마스터 구성)\n본 프로젝트의 산출물 마스터를 어떤 형태로 구성할 것인지를 기술한다. 외적인 구성 형태 및 마스터 내부 구성 형태를 미리 고려한다.\n예를 들어, 외적인 구성은 CD로 구성할지, 두 개의 CD로 구성할지 등을 결정한다.\n예를 들어, … 생략\n이미지 배포\nOS, 드라이버(nexmon_csi 등), 필수 라이브러리가 포함된 전용 SD 카드 이미지(.img) 형태로 구성한다.\n컨테이너 배포\n확장성을 위해 판정 에이전트 및 RAG 모듈은 Docker 컨테이너 이미지로 관리한다.",
+    "metadata": {
+      "section_title": "Master Configuration (마스터 구성)",
+      "doc_type": "srs",
+      "source": "data/raw/srs/요구사항분석_v2.0.docx",
+      "chunk_index": 25,
+      "category": "system",
+      "keywords": [
+        "CSI",
+        "구성",
+        "모듈",
+        "배포",
+        "확장성"
+      ],
+      "priority": "high",
+      "chunk_length": 294,
+      "contains_requirement_id": false,
+      "requirement_ids": []
+    },
+    "created_at": "2026-05-05T16:32:54.161760"
+  },
+  {
+    "chunk_id": "8aa2bdf4-d334-4064-a48b-f8e51cbc223d",
+    "doc_id": "요구사항분석_v2.0",
+    "text": "Distribution Method (배포 방법)\n본 프로젝트의 산출물 마스터를 어떤 방법으로 배포할 것인지를 기술한다.\n예를 들어, CD로 전달한다든지, 소프트웨어를 웹에서 다운로드 받게 한다든지 등의 배포 방법이 있다.\nGitHub 리포지토리를 통해 소스 코드 배포 및 패키지 설치 가이드를 제공한다.\n민감한 설정값(secrets.py, .env)은 배포 대상에서 제외한다.",
+    "metadata": {
+      "section_title": "Distribution Method (배포 방법)",
+      "doc_type": "srs",
+      "source": "data/raw/srs/요구사항분석_v2.0.docx",
+      "chunk_index": 26,
+      "category": "system",
+      "keywords": [
+        "배포",
+        "설치"
+      ],
+      "priority": "medium",
+      "chunk_length": 211,
+      "contains_requirement_id": false,
+      "requirement_ids": []
+    },
+    "created_at": "2026-05-05T16:32:54.161782"
+  },
+  {
+    "chunk_id": "fee5ea63-3f2d-4518-b316-6299c9b6c484",
+    "doc_id": "요구사항분석_v2.0",
+    "text": "Patch/Update Method (패치와 업데이트 방법)\n배포 이후, 제품 패치와 데이터나 구성 파일 업데이트 등의 업데이트 방법 및 환경을 기술한다.\n에이전트 업데이트\ngit pull 또는 전용 스크립트를 통해 원격 소프트웨어 패치를 진행한다.\n지식베이스 업데이트\nRAG 운영 정책은 클라우드 벡터 DB를 통해 실시간으로 동적 갱신이 가능한다.",
+    "metadata": {
+      "section_title": "Patch/Update Method (패치와 업데이트 방법)",
+      "doc_type": "srs",
+      "source": "data/raw/srs/요구사항분석_v2.0.docx",
+      "chunk_index": 27,
+      "category": "system",
+      "keywords": [
+        "구성",
+        "배포",
+        "운영",
+        "환경"
+      ],
+      "priority": "medium",
+      "chunk_length": 195,
+      "contains_requirement_id": false,
+      "requirement_ids": []
+    },
+    "created_at": "2026-05-05T16:32:54.161809"
+  },
+  {
+    "chunk_id": "21b0f5b5-4809-41a9-9d1a-8f3ed9eb3345",
+    "doc_id": "요구사항분석_v2.0",
+    "text": "Hardware Environment (하드웨어 환경)\n개발용 PC (Windows/macOS/Linux) 및 테스트용 Raspberry Pi 4 세트.\nESP32 개발 환경 연동을 위한 시리얼 통신 케이블.",
+    "metadata": {
+      "section_title": "Hardware Environment (하드웨어 환경)",
+      "doc_type": "srs",
+      "source": "data/raw/srs/요구사항분석_v2.0.docx",
+      "chunk_index": 28,
+      "category": "system",
+      "keywords": [
+        "환경"
+      ],
+      "priority": "medium",
+      "chunk_length": 116,
+      "contains_requirement_id": false,
+      "requirement_ids": []
+    },
+    "created_at": "2026-05-05T16:32:54.161832"
+  },
+  {
+    "chunk_id": "1f4d8cd3-c384-4936-aaf7-b184a7ee175f",
+    "doc_id": "요구사항분석_v2.0",
+    "text": "Software Environment (소프트웨어 환경)\nIDE: Visual Studio Code (Python, C++ 확장 도구 포함).\n버전 관리: Git, LangChain 프레임워크, Google Cloud SDK.",
+    "metadata": {
+      "section_title": "Software Environment (소프트웨어 환경)",
+      "doc_type": "srs",
+      "source": "data/raw/srs/요구사항분석_v2.0.docx",
+      "chunk_index": 29,
+      "category": "system",
+      "keywords": [
+        "환경"
+      ],
+      "priority": "medium",
+      "chunk_length": 126,
+      "contains_requirement_id": false,
+      "requirement_ids": []
+    },
+    "created_at": "2026-05-05T16:32:54.161848"
+  },
+  {
+    "chunk_id": "9c660ec8-eb19-4e4c-b57a-d277e56724e7",
+    "doc_id": "요구사항분석_v2.0",
+    "text": "Test Environment (테스트 환경)\n본 프로젝트의 산출물을 설치하고 테스트하기 위한 하드웨어 환경 정보와 소프트웨어 환경 정보(OS 및 사전에 설치되어야 할 소프트웨어 등)를 기술한다.",
+    "metadata": {
+      "section_title": "Test Environment (테스트 환경)",
+      "doc_type": "srs",
+      "source": "data/raw/srs/요구사항분석_v2.0.docx",
+      "chunk_index": 30,
+      "category": "system",
+      "keywords": [
+        "설치",
+        "환경"
+      ],
+      "priority": "medium",
+      "chunk_length": 109,
+      "contains_requirement_id": false,
+      "requirement_ids": []
+    },
+    "created_at": "2026-05-05T16:32:54.161861"
+  },
+  {
+    "chunk_id": "3b4d72e6-709f-4e8a-9a6e-931fd97aeb2a",
+    "doc_id": "요구사항분석_v2.0",
+    "text": "Hardware Environment (하드웨어 환경)\n실제 거주 환경과 유사한 Wi-Fi 신호 간섭이 존재하는 테스트 벤치.\n가로 4m, 세로 4m 이상의 거실 환경을 모사한 테스트 벤치를 구축한다.\n스니핑 전용 무선 랜카드: 데이터 패킷 캡처를 위해 모니터 모드(Monitor Mode)를 지원하는 ipTIME 무선랜카드를 테스트 장비에 추가로 연결한다.\n측정용 워크스테이션: 로그 분석 및 실시간 패킷 모니터링을 위한 별도의 노트북 또는 PC를 배치한다.",
+    "metadata": {
+      "section_title": "Hardware Environment (하드웨어 환경)",
+      "doc_type": "srs",
+      "source": "data/raw/srs/요구사항분석_v2.0.docx",
+      "chunk_index": 31,
+      "category": "sensor",
+      "keywords": [
+        "신호",
+        "환경"
+      ],
+      "priority": "medium",
+      "chunk_length": 257,
+      "contains_requirement_id": false,
+      "requirement_ids": []
+    },
+    "created_at": "2026-05-05T16:32:54.161881"
+  },
+  {
+    "chunk_id": "b0116983-2764-42a8-8ad3-dad97e23d428",
+    "doc_id": "요구사항분석_v2.0",
+    "text": "Software Environment (소프트웨어 환경)\n성능 평가 도구: 오탐률(False Positive) 및 미탐률(False Negative) 측정을 위한 데이터 라벨링 툴과 시나리오별 자동화 평가 스크립트를 운용한다.\n지연 시간 로거(Latency Logger): 수집-추론-알림 각 단계의 타임스탬프를 기록하여 End-to-End 지연 시간을 계산하는 Custom Python 스크립트를 구동한다.\n패킷 스니퍼(Packet Sniffer): 네트워크 패킷을 실시간으로 가로채 분석하기 위해 Wireshark 또는 tcpdump 툴을 설치하여 운용한다.\n운영 모니터링: 수집된 하드웨어 및 소프트웨어 로그를 시각화하기 위해 InfluxDB와 Grafana 대시보드를 구성한다.",
+    "metadata": {
+      "section_title": "Software Environment (소프트웨어 환경)",
+      "doc_type": "srs",
+      "source": "data/raw/srs/요구사항분석_v2.0.docx",
+      "chunk_index": 32,
+      "category": "system",
+      "keywords": [
+        "구성",
+        "설치",
+        "성능",
+        "알림",
+        "운영",
+        "환경"
+      ],
+      "priority": "medium",
+      "chunk_length": 383,
+      "contains_requirement_id": false,
+      "requirement_ids": []
+    },
+    "created_at": "2026-05-05T16:32:54.161903"
+  },
+  {
+    "chunk_id": "495d9707-5111-442c-85e2-2132644628f4",
+    "doc_id": "요구사항분석_v2.0",
+    "text": "Build Environment (빌드 환경)\n빌드머신 등의 빌드 환경을 어떻게 구축/운영할지 Build/Release 팀과 협의하여 기술한다.\n빌드 기계, 빌드 디렉터리, 특수하게 요구되는 빌드방법 등을 기술한다.\n본 프로젝트는 코드의 품질 유지와 배포 자동화를 위해 GitHub Actions 기반의 CI/CD 환경을 구축하여 운영한다.\n빌드 기계 (Build Machine): GitHub에서 제공하는 가상 환경인 GitHub-hosted Runners (Ubuntu-latest)를 사용한다. 이는 최신 리눅스 커널과 Python 3.10 이상의 런타임 환경을 제공하여 엣지 기기(Raspberry Pi)와 유사한 빌드 환경을 보장한다.\n빌드 디렉터리 (Build Directory): GitHub Actions 작업 시 자동으로 할당되는 워크스페이스인 { github.workspace }를 기본 빌드 경로로 사용한다. 모든 소스 코드와 라이브러리 의존성은 해당 디렉터리 내에서 격리되어 빌드된다.\n빌드 및 운영 방법:\n트리거: main 및 develop 브랜치에 소스 코드가 push 되거나 Pull Request가 발생할 때 자동으로 빌드 파이프라인이 시작된다.\n의존성 관리: requirements.txt에 명시된 필수 라이브러리(LangChain, Google Generative AI 등)를 자동으로 설치한다.\n검증 절차: 빌드 과정 중 PyLint를 통한 코드 정적 분석과 PyTest를 활용한 단위 테스트를 수행하여 로직의 결함을 사전에 차단한다.\n산출물 생성: 테스트 완료 후, 라즈베리 파이 4 및 클라우드 환경에서 즉시 실행 가능한 Docker 컨테이너 이미지를 빌드하여 레지스트리에 저장한다.",
+    "metadata": {
+      "section_title": "Build Environment (빌드 환경)",
+      "doc_type": "srs",
+      "source": "data/raw/srs/요구사항분석_v2.0.docx",
+      "chunk_index": 33,
+      "category": "system",
+      "keywords": [
+        "배포",
+        "설치",
+        "운영",
+        "환경"
+      ],
+      "priority": "high",
+      "chunk_length": 851,
+      "contains_requirement_id": false,
+      "requirement_ids": []
+    },
+    "created_at": "2026-05-05T16:32:54.161964"
+  },
+  {
+    "chunk_id": "a39e2052-8f13-45e6-9c4a-8b0616b0b94a",
+    "doc_id": "요구사항분석_v2.0",
+    "text": "Bugtrack System (버그트래킹)\n이 제품의 유지보수를 위해 사용할 버그트래킹 시스템과 버그트래킹에서 사용될 제품이름을 명시한다.\n시스템: GitHub Issues를 활용하여 버그 리포팅 및 작업 상태를 관리한다.\n관리 대상: 시스템 기능 결함, 센서 신뢰도 이슈, RAG 응답 정확도 등.",
+    "metadata": {
+      "section_title": "Bugtrack System (버그트래킹)",
+      "doc_type": "srs",
+      "source": "data/raw/srs/요구사항분석_v2.0.docx",
+      "chunk_index": 34,
+      "category": "sensor",
+      "keywords": [
+        "센서",
+        "시스템"
+      ],
+      "priority": "medium",
+      "chunk_length": 167,
+      "contains_requirement_id": false,
+      "requirement_ids": []
+    },
+    "created_at": "2026-05-05T16:32:54.161982"
+  },
+  {
+    "chunk_id": "2e35b4d3-f455-48a8-977f-da25402451de",
+    "doc_id": "요구사항분석_v2.0",
+    "text": "Other Environment (기타 환경)\n개인정보 보호: 프라이버시 강화를 위해 민감한 생성 데이터는 로컬 우선으로 처리하며, 외부 클라우드 전송 시에는 비식별화된 특징점 데이터만 전송하도록 설계한다.",
+    "metadata": {
+      "section_title": "Other Environment (기타 환경)",
+      "doc_type": "srs",
+      "source": "data/raw/srs/요구사항분석_v2.0.docx",
+      "chunk_index": 35,
+      "category": "system",
+      "keywords": [
+        "환경"
+      ],
+      "priority": "medium",
+      "chunk_length": 115,
+      "contains_requirement_id": false,
+      "requirement_ids": []
+    },
+    "created_at": "2026-05-05T16:32:54.161996"
+  },
+  {
+    "chunk_id": "18d18aaa-ab37-4806-827a-a3d6d70fbcaa",
+    "doc_id": "요구사항분석_v2.0",
+    "text": "External Interface Requirements (외부 인터페이스 요구사항)\n이 제품과 연결되어 있는 모든 종류의 인터페이스를 기술한다.\n[[ If the external interfaces are complicated, the separate IRS can replace this chapter. ]]\n… 생략\nSystem Interfaces (시스템 인터페이스)\n본 시스템은 낙상 감지 및 알림 기능을 수행하기 위해 다음과 같은 외부 시스템과 인터페이스를 가진다.\n1) Wi-Fi 네트워크 기반 CSI 수집 인터페이스\n본 시스템은 Wi-Fi 네트워크 환경에서 채널 상태 정보(Channel State Information, CSI)를 수집하기 위한 인터페이스를 가진다. 수집된 CSI 데이터는 사용자의 움직임 및 행동 변화를 분석하는 기초 데이터로 활용된다. 해당 인터페이스는 네트워크 인터페이스 카드(NIC) 및 CSI 수집 도구를 통해 구현되며, 실시간 데이터 수집 및 전처리를 지원한다.\n2) 메시지 브로커 인터페이스 (MQTT)\n본 시스템은 각 모듈 간 센서 데이터와 이벤트 정보를 전달하기 위해 MQTT 기반 메시지 브로커와 인터페이스를 가진다. 이를 통해 Wi-Fi CSI 데이터, PIR 및 ToF 센서 데이터, 낙상 의심 이벤트 정보가 publish/subscribe (Pub/Sub) 방식으로 전달되며, 시스템 구성 요소 간의 느슨한 결합과 실시간 데이터 처리를 지원한다.\n3) 클라우드 플랫폼 인터페이스 (GCP)\n본 시스템은 데이터 저장, 처리 및 서비스 확장을 위해 Google Cloud Platform(GCP)과 인터페이스를 가진다. GCP는 클라우드 기반의 컴퓨팅 자원 및 데이터 처리 환경을 제공하며, 엣지 디바이스에서 수집된 데이터를 저장하거나 추가 분석 및 서비스 운영에 활용될 수 있도록 지원한다.\n4) AI 분석 서비스 인터페이스 (Gemini API)\n본 시스템은 낙상 이벤트 분석 및 운영 지원 기능을 위해 Gemini API와 인터페이스를 가진다. Gemini API는 수집된 센서 데이터와 이벤트 정보를 기반으로 상황 해석, 추가 분석 및 운영 지식 기반 응답 생성에 활용될 수 있으며, HTTP 기반 API 호출 방식으로 연동된다.\n5) 외부 알림 서비스 인터페이스\n본 시스템은 낙상 발생 후 사용자 응답이 없을 경우 보호자에게 상황을 전달하기 위해 외부 알림 서비스와 인터페이스를 가진다. 해당 인터페이스는 REST API 기반 메시지 전송 방식을 사용하며, 문자 메시지, 메신저, 푸시 알림 등 다양한 수단을 통해 보호자에게 이벤트 정보를 전달한다.",
+    "metadata": {
+      "section_title": "External Interface Requirements (외부 인터페이스 요구사항)",
+      "doc_type": "srs",
+      "source": "data/raw/srs/요구사항분석_v2.0.docx",
+      "chunk_index": 36,
+      "category": "requirement",
+      "keywords": [
+        "CSI",
+        "Channel State Information",
+        "PIR",
+        "ToF",
+        "Wi-Fi CSI",
+        "구성",
+        "낙상",
+        "낙상 의심",
+        "메시지",
+        "모듈",
+        "보호자",
+        "사용자 응답",
+        "센서",
+        "시스템",
+        "알림",
+        "요구사항",
+        "운영",
+        "움직임",
+        "푸시",
+        "환경"
+      ],
+      "priority": "high",
+      "chunk_length": 1293,
+      "contains_requirement_id": false,
+      "requirement_ids": []
+    },
+    "created_at": "2026-05-05T16:32:54.162048"
+  },
+  {
+    "chunk_id": "4ce95c55-327d-400d-9f4f-515d13b8a76d",
+    "doc_id": "요구사항분석_v2.0",
+    "text": "User Interface (사용자 인터페이스)\nThis is a description of how the system will interact with its users.\nDescribe the logical characteristics of each interface between the software product and the users. This may include sample screen images, any GUI standards or product family style guides that are to be followed, screen layout constraints, standard buttons and functions (e.g., help) that will appear on every screen, keyboard shortcuts, error message display standards, and so on.\n… 생략\n본 시스템은 고령자 및 1인 가구를 주 대상으로 하므로, 복잡한 조작을 최소화하고 직관적인 정보 전달에 초점을 맞춘 Headless UI 모델을 채택한다.",
+    "metadata": {
+      "section_title": "User Interface (사용자 인터페이스)",
+      "doc_type": "srs",
+      "source": "data/raw/srs/요구사항분석_v2.0.docx",
+      "chunk_index": 37,
+      "category": "system",
+      "keywords": [
+        "시스템"
+      ],
+      "priority": "medium",
+      "chunk_length": 569,
+      "contains_requirement_id": false,
+      "requirement_ids": []
+    },
+    "created_at": "2026-05-05T16:32:54.162067"
+  },
+  {
+    "chunk_id": "c85f87fe-4fdc-48f6-8e17-f7b9118645fc",
+    "doc_id": "요구사항분석_v2.0",
+    "text": "4.2.1 GUI 설계 원칙 및 레이아웃 제약 (Screen Layout Constraints)\n7인치 HDMI 디스플레이(1024x600 해상도 권장)를 기준으로 다음과 같은 표준을 따른다.\n상태 표시줄 (Status Bar): 화면 상단에 항시 표시되며 Wi-Fi 연결 상태, 센서(CSI, PIR, ToF) 활성화 여부, 현재 시간을 노출한다.\n중앙 모니터링 영역: 실시간 움직임 감지 상태를 단순화된 애니메이션이나 게이지 형태로 표시하여 시스템이 정상 동작 중임을 알린다.\n에러 메시지 표준: 시스템 장애(센서 연결 끊김 등) 발생 시, 화면 하단에 붉은색 알림바와 함께 직관적인 아이콘을 표시한다.",
+    "metadata": {
+      "section_title": "4.2.1 GUI 설계 원칙 및 레이아웃 제약 (Screen Layout Constraints)",
+      "doc_type": "srs",
+      "source": "data/raw/srs/요구사항분석_v2.0.docx",
+      "chunk_index": 38,
+      "category": "sensor",
+      "keywords": [
+        "CSI",
+        "PIR",
+        "ToF",
+        "메시지",
+        "센서",
+        "시스템",
+        "알림",
+        "움직임"
+      ],
+      "priority": "medium",
+      "chunk_length": 339,
+      "contains_requirement_id": false,
+      "requirement_ids": []
+    },
+    "created_at": "2026-05-05T16:32:54.162087"
+  },
+  {
+    "chunk_id": "86668d14-fd0f-420a-be0b-72fdf479c13e",
+    "doc_id": "요구사항분석_v2.0",
+    "text": "4.2.2 음성 인터페이스 (VUI: Voice User Interface)\n본 제품은 버튼 없는 운영 흐름(Headless UI)을 지향하므로 스피커를 통한 음성 인터페이스가 핵심적인 역할을 한다.\n음성 안내 (TTS): gTTS를 활용하여 부드럽고 명확한 한국어 음성으로 안내한다.\n상황 1 (낙상 의심): \"사용자님, 몸 상태가 괜찮으신가요? 응답이 없으시면 보호자에게 연락합니다.\"\n상황 2 (알림 발송): \"보호자에게 낙상 위험 알림을 전송하였습니다.\"\n음성 인식: 마이크를 통해 사용자의 \"도와줘\" 또는 \"괜찮아\"라는 음성 명령을 인식하여 이벤트를 취소하거나 확정한다.",
+    "metadata": {
+      "section_title": "4.2.2 음성 인터페이스 (VUI: Voice User Interface)",
+      "doc_type": "srs",
+      "source": "data/raw/srs/요구사항분석_v2.0.docx",
+      "chunk_index": 39,
+      "category": "notification",
+      "keywords": [
+        "TTS",
+        "낙상",
+        "낙상 의심",
+        "보호자",
+        "알림",
+        "운영",
+        "위험",
+        "음성 안내"
+      ],
+      "priority": "medium",
+      "chunk_length": 324,
+      "contains_requirement_id": false,
+      "requirement_ids": []
+    },
+    "created_at": "2026-05-05T16:32:54.162112"
+  },
+  {
+    "chunk_id": "1da47b05-59b3-4f67-bf43-f2563240d52f",
+    "doc_id": "요구사항분석_v2.0",
+    "text": "4.2.3 하드웨어 인터페이스 연동 (Hardware Interaction)\n스피커 연동: 모든 알림은 스피커의 사운드 효과(Beep) 또는 TTS 안내와 동기화되어 출력되어야 한다.\n터치 피드백: 7인치 디스플레이의 터치 입력을 지원하며, 버튼 클릭 시 시각적 변화(색상 반전 등)를 통해 입력 성공 여부를 알린다.",
+    "metadata": {
+      "section_title": "4.2.3 하드웨어 인터페이스 연동 (Hardware Interaction)",
+      "doc_type": "srs",
+      "source": "data/raw/srs/요구사항분석_v2.0.docx",
+      "chunk_index": 40,
+      "category": "notification",
+      "keywords": [
+        "TTS",
+        "알림"
+      ],
+      "priority": "low",
+      "chunk_length": 177,
+      "contains_requirement_id": false,
+      "requirement_ids": []
+    },
+    "created_at": "2026-05-05T16:32:54.162128"
+  },
+  {
+    "chunk_id": "3163bdfe-cb77-4f79-b863-369ad873030f",
+    "doc_id": "요구사항분석_v2.0",
+    "text": "4.3.1 주요 하드웨어 컴포넌트 인터페이스 명세\nPIR 센서 모듈\n목적: 사용자의 공간 내 재실 유무 및 즉각적인 움직임 1차 감지\n통신 방식: GPIO (General Purpose Input/Output) 디지털 통신\n데이터 Input: 센서 렌즈를 통해 감지되는 인체의 적외선 열 변화 (물리적 아날로그 신호)\n데이터 Output: High(1, 움직임 있음) 또는 Low(0, 움직임 없음) 상태의 디지털 전기 신호\n상호작용: 소프트웨어는 리소스 낭비를 막기 위해 지속적으로 상태를 묻는 폴링(Polling) 방식 대신, 상태가 변할 때만 하드웨어 인터럽트(Interrupt)를 발생시키도록 설정하여 RPi4/ESP32가 즉각적으로 이벤트를 수신하고 타임스탬프를 기록\nToF 거리 센서\n목적: 바닥 또는 천장과의 거리 변화를 정밀 측정하여, 낙상 시 발생하는 급격한 높이 하락 패턴을 감지\n통신 방식: I2C (Inter-Integrated Circuit) 직렬 통신 버스\n데이터 Input: 물체에 반사되어 돌아오는 레이저 펄스의 비행 시간\n데이터 Output: 밀리미터(mm) 단위의 거리 측정값 (디지털 데이터 형태)\n상호작용: 소프트웨어는 지정된 샘플링 주기(예: 10Hz~50Hz)마다 I2C 버스의 특정 레지스터 주소(SDA/SCL 핀)에 접근하여 거리 값을 지속적으로 읽어 들임.\nESP32 개발보드 (보조 센서 수집 및 트래픽 송신기)\n목적: RPi4의 연산 부하를 줄이기 위해 PIR과 ToF 등 물리적 센서의 Raw data를 1차적으로 취합하는 동시에, RPi4가 무선 전파 파동(CSI)을 원활하게 캡처할 수 있도록 공유기(AP)를 향해 지속적인 Ping 트래픽을 유발하는 송신기 역할을 수행\n통신 방식: UART / Serial 직렬 통신 (RPi4 센서 데이터 전달용) 및 802.11 b/g/n 무선 네트워크 (AP Ping 전송용)\n데이터 Input: PIR 및 ToF 센서로부터 수집된 물리적 상태 변화 신호 (디지털/I2C)\n데이터 Output: 정형화된 JSON 형태의 문자열 패킷(디바이스 id, 시간스탬프, 센서 값 등) 및 공유기(AP)로 지속 송출되는 무선 ICMP Ping Request 패킷\n상호작용: 백그라운드에서 공유기(AP)로 고빈도의 Ping 패킷을 지속 전송하여 허공에 표준 WiFi 프레임을 고의로 발생, 이와 병행하여 유선 센서(PIR, ToF) 데이터를 파싱한 후 RPi4의 시리얼 포트로 끊임없이 스트리밍 송신\n무선 네트워크 통신 (내장 Wi-Fi & USB Wi-Fi 동글)\n목적: 내부망에서 발생하는 CSI 데이터 획득(내장 Wi-Fi)과 외부 클라우드망(GCP)과의 AI 통신(동글) 역할을 물리적/논리적으로 완전히 분리하여 네트워크 병목과 통신 간섭을 차단\n통신 방식: 802.11 b/g/n/ac 무선 랜 프로토콜, TCP/IP 기반 MQTT/REST\n데이터 Input: (내장 Wi-Fi) ESP32와 AP 간에 오가는 Ping/Pong 무선 패킷 트래픽 / (동글) 클라우드 AI에서 내려오는 판정 응답 및 제어 명령\n데이터 Output: (내장 Wi-Fi) 추출된 헥스(Hex) 형태의 원시 CSI 매트릭스 / (동글) RPi4에서 전처리 및 압축 완료된 CSI 특징 벡터와 센서 이벤트 로그\n상호작용: 라즈베리파이의 내장 Wi-Fi 인터페이스(예: wlan0)는 Nexmon CSI 펌웨어 패치를 적용하여 수신기(Receiver, Rx)로 작동하며 ESP32가 유발한 허공의 패킷을 스니핑하여 CSI 데이터를 추출함, 이와 동시에 물리적으로 독립된 USB Wi-Fi 동글(wlan1)은 일반 클라이언트 모드로 작동하여 클라우드 서버와 TLS/SSL 암호화 기반의 안전한 양방향 통신 세션을 유지함.\n클라우드 LLM 기반 데이터 추론 통신\n목적: RPi4의 1차 필터링(Rule-based)을 통과한 유의미한 이상 데이터만 클라우드 LLM으로 전달하여, 네트워크 비용을 최소화하고 정밀한 상황 추론을 수행\n통신 방식: HTTPS / REST API 호출\n데이터 Input: 클라우드 LLM이 분석을 마치고 반환한 상황 요약 텍스트 및 최종 낙상 여부 판정 결과 (JSON)\n데이터 Output: 로컬 Rule을 위반한 특정 시점의 센서 변화량 조각과 상황 분석을 요청하는 텍스트 프롬프트\n상호작용: 모든 실시간 센서 데이터를 클라우드에 전송하지 않고 RPi4 내부의 룰 엔진이 '특정 이상 패턴'을 감지했을 때만 해당 시점 전후의 압축된 데이터를 선별함. 선별된 데이터는 LLM이 이해할 수 있는 프롬프트 형태로 패키징되어 외부 클라우드망으로 전송되며, LLM은 이를 기반으로 복합적인 상황을 추론(예: \"단순히 물건을 떨어뜨린 것인지, 실제 사람이 넘어진 것인지\" 구분)하여 최종 결과를 RPi4로 반환함.\n사용자 피드백 장치 (음성 상호작용)\n목적: '낙상 후보' 상황 발생 시 사용자의 의식 상태를 확인하여 실제 위급 상황 여부를 판별하고, 결과에 따라 보호자 알림을 제어\n통신 방식: 아날로그 오디오 입/출력 (스피커 출력 및 마이크 입력)\n데이터 Input: 클라우드/로컬에서 생성된 상태 확인용 TTS 오디오, 사용자의 음성 응답 (STT 변환)\n데이터 Output: 사용자에게 송출되는 물리적 질의 음파 (\"괜찮으신가요?\"), 보호자 알림(Push/SMS) 트리거 신호\n상호작용: RPi4의 로컬 룰에 의해 '낙상 후보'로 1차 판정되면, 스피커를 통해 사용자에게 상태를 묻는 음성을 송출함. 일정 시간(예: 10초) 내에 마이크를 통해 사용자의 \"괜찮다\"는 정상 응답이 인식되면 오경보로 처리하여 알림을 취소함. 반대로 무응답이거나 신음 등 비정상 상황으로 인식될 경우, 즉각 보호자에게 알림을 전송함.\n관리자 모니터링 시스템 (디스플레이)\n목적: 시스템의 가동 상태와 데이터 흐름, 이벤트 로그를 관리자가 즉각적으로 파악할 수 있도록 실시간 시각화 제공\n통신 방식: 화면 출력 (HDMI/DSI 등 비디오 인터페이스)\n데이터 Input: RPi4 로컬 판정 상태, 센서 데이터 스트림, LLM 추론 전/후 데이터, 보호자 알림 발송 내역\n데이터 Output: 렌더링 된 대시보드 UI 화면 (단방향 출력)\n상호작용: 현재 시스템에서 발생하고 있는 모든 현황을 실시간으로 보여줌.\n현 상태 UI: 각각의 3가지 상태(행동상태/대응상태/알림상태)를 직관적인 색상과 텍스트로 표출\n데이터 흐름: 획득된 원시 데이터가 LLM을 거쳐 어떻게 해석되었는지 '전/후 비교' 형태로 시각화\n시스템 로그: 타임스탬프 기준의 센서 변화 이력, 판정 결과, 보호자(수신자) 정보 및 알림 전송 성공 여부를 리스트 형태로 출력",
+    "metadata": {
+      "section_title": "4.3.1 주요 하드웨어 컴포넌트 인터페이스 명세",
+      "doc_type": "srs",
+      "source": "data/raw/srs/요구사항분석_v2.0.docx",
+      "chunk_index": 41,
+      "category": "sensor",
+      "keywords": [
+        "CSI",
+        "PIR",
+        "TTS",
+        "ToF",
+        "거리",
+        "낙상",
+        "모듈",
+        "보호자",
+        "보호자 알림",
+        "센서",
+        "시스템",
+        "신호",
+        "알림",
+        "움직임"
+      ],
+      "priority": "high",
+      "chunk_length": 3250,
+      "contains_requirement_id": false,
+      "requirement_ids": []
+    },
+    "created_at": "2026-05-05T16:32:54.162316"
+  },
+  {
+    "chunk_id": "832f88c0-4ae6-40df-90a9-e8b0649b6276",
+    "doc_id": "요구사항분석_v2.0",
+    "text": "4.3.2. 하드웨어 데이터 상호작용 흐름 (Hardware Data Flow)\n전체 시스템 내에서 하드웨어와 소프트웨어가 데이터를 주고받는 'Detect-Verify-Respond' 물리적 흐름은 다음과 같은 5단계 사이클로 이루어진다.\n1) 물리적 환경 감지 (Sensing): 방 안의 Wi-Fi 공유기(AP)가 지속적으로 전파를 쏘고, 사용자의 움직임이 PIR 렌즈와 ToF 레이저, 그리고 Wi-Fi 전파(CSI)에 물리적인 간섭을 일으킨다.\n2) 엣지 1차 수집 (Data Aggregation): ESP32는 PIR과 ToF의 아날로그/디지털 변화를 읽어 USB 시리얼 케이블을 통해 라즈베리파이(RPi4)로 전송한다. 동시에 RPi4의 내장 Wi-Fi 칩셋은 AP 전파에서 CSI 데이터를 캡처한다.\n3) 엣지 전처리 및 클라우드 송신 (Processing & Tx): RPi4의 소프트웨어(수집 에이전트)가 세 가지 센서 데이터를 하나로 동기화(Sync)하고 노이즈를 필터링한 뒤, USB Wi-Fi 동글을 통해 구글 클라우드(GCP)로 가벼운 데이터 페이로드(Payload)를 송신한다.\n4) 클라우드 판정 및 응답 수신 (AI Inference & Rx): 클라우드의 Gemini API 및 RAG 에이전트가 낙상 여부를 판정한 뒤, 현장 확인이 필요할 경우 \"괜찮으신가요?\"라는 TTS 음성 파일(또는 텍스트)과 제어 명령을 RPi4의 USB Wi-Fi 동글로 내려보낸다.\n5) 현장 출력 및 모니터링 (Action & Display): 명령을 수신한 RPi4는 소형 스피커로 음성을 즉각 송출하여 사용자의 응답을 유도한다. 이 모든 데이터의 흐름과 기기별 정상 작동 여부는 7인치 HDMI 디스플레이(관리자 대시보드)에 실시간으로 그려진다.",
+    "metadata": {
+      "section_title": "4.3.2. 하드웨어 데이터 상호작용 흐름 (Hardware Data Flow)",
+      "doc_type": "srs",
+      "source": "data/raw/srs/요구사항분석_v2.0.docx",
+      "chunk_index": 42,
+      "category": "sensor",
+      "keywords": [
+        "CSI",
+        "PIR",
+        "TTS",
+        "ToF",
+        "낙상",
+        "센서",
+        "시스템",
+        "움직임",
+        "환경"
+      ],
+      "priority": "medium",
+      "chunk_length": 875,
+      "contains_requirement_id": false,
+      "requirement_ids": []
+    },
+    "created_at": "2026-05-05T16:32:54.162335"
+  },
+  {
+    "chunk_id": "316fdb5e-4d9c-489b-b40e-4d9c70691ac8",
+    "doc_id": "요구사항분석_v2.0",
+    "text": "Software Interface (소프트웨어 인터페이스)\nDescribe the connections between this product and other specific software components (name and version), including databases, operating systems, tools, libraries, and integrated commercial components. Identify the data items or messages coming into the system and going out and describe the purpose of each.\n… 생략\n본 시스템은 엣지(Edge) 기기에서 수집된 멀티모달 데이터를 클라우드 기반 AI 모델(Gemini)과 연동하여 분석하는 하이브리드 아키텍처를 가진다. 주요 소프트웨어 컴포넌트 간의 연결 방식과 데이터 명세는 다음과 같다.\n외부 컴포넌트 및 라이브러리 연동 상세\n데이터 항목별 목적 및 흐름 설명\nCSI 특징/이벤트 스트림: Wi-Fi 신호에서 추출된 움직임 패턴 데이터를 포함하며, 낙상 후보 이벤트를 생성하는 핵심 입력값이다.\n센서 동시 수신 데이터 (PIR/ToF): 물리적인 재실 유무와 높이/거리 변화 값을 수신하여 Wi-Fi 데이터의 오탐을 줄이는 검증(Verify) 데이터로 활용된다.\n상황별 대응 정책 및 런북: 시스템이 \"낙상\"으로 판단한 후, 시간대나 환경에 따라 \"바로 신고할지\" 또는 \"음성 질문을 먼저 할지\" 등의 운영 로직을 결정하는 지식 소스이다.\n사용자 응답 상태 (TTS Verification): 음성 질문 후 마이크 입력 또는 타이머 기반의 무응답 상태를 감지하여 최종 응급 상황 여부를 확정한다.",
+    "metadata": {
+      "section_title": "Software Interface (소프트웨어 인터페이스)",
+      "doc_type": "srs",
+      "source": "data/raw/srs/요구사항분석_v2.0.docx",
+      "chunk_index": 43,
+      "category": "sensor",
+      "keywords": [
+        "CSI",
+        "PIR",
+        "TTS",
+        "ToF",
+        "거리",
+        "낙상",
+        "사용자 응답",
+        "센서",
+        "시스템",
+        "신호",
+        "아키텍처",
+        "운영",
+        "움직임",
+        "응급",
+        "환경"
+      ],
+      "priority": "medium",
+      "chunk_length": 867,
+      "contains_requirement_id": false,
+      "requirement_ids": []
+    },
+    "created_at": "2026-05-05T16:32:54.162378"
+  },
+  {
+    "chunk_id": "46826b70-c7e2-4239-800a-788ca8edf7f2",
+    "doc_id": "요구사항분석_v2.0",
+    "text": "Communication Interface (통신 인터페이스)\nDescribe the requirements associated with any communications functions required by this product, including e-mail, web browser, network server communications protocols, electronic forms, and so on.\nDefine any pertinent message formatting.\nIdentify any communication standards that will be used, such as FTP or HTTP.\n본 시스템은 센서 데이터 수집, 이벤트 분석, 사용자 확인, 상태 관리, AI 기반 판단, 보호자 및 사용자 알림을 수행하기 위해 내부 및 외부 시스템과 다양한 통신 인터페이스를 가진다.\n통신 구조는 로컬 우선 구조를 기반으로 하며, 실시간성과 신뢰성을 확보하기 위해 MQTT와 HTTP/HTTPS 프로토콜을 주요 통신 수단으로 사용한다.\n또한 본 시스템은 단순 데이터 전달을 넘어, 행동 상태/대응 상태/알림 상태 기반의 이벤트 중심 통신 구조를 따른다.\n통신 구조 개요\n통신 인터페이스 종류\n센서 수집 인터페이스\n대상: CSI, PIR, ToF 센서\n프로토콜: GPIO, I2C, UART (내부 인터페이스)\n목적: 원시 데이터 수집\n특징: 실시간 데이터 스트림 기반, 센서별 상이한 샘플링 주기 지원\n내부 메시징 인터페이스\n대상: Edge ↔ 분석 모듈\n프로토콜: MQTT\n목적: 이벤트 및 상태 정보 전달\n특징: Pub/Sub 구조 기반 비동기 메시징, 실시간 이벤트 처리 지원\nAI 분석 인터페이스\n대상: 분석 모듈 ↔ Gemini API\n프로토콜: HTTP/HTTPS (REST)\n목적: 낙상 판단 및 상황 해석\n특징: 구조화된 JSON 기반 요청/응답, 선택적 요청\nRAG 검색 인터페이스\n대상: 분석 모듈 ↔ 지식 DB\n프로토콜: HTTP/HTTPS\n목적: 정책 및 대응 런북 검색\n특징: LLM 판단 보조 데이터 제공, 상황 기반 정책 조회\n사용자 확인 인터페이스\n대상: 대응 모듈 ↔ 외부 알림 API (TTS/STT)\n프로토콜: 로컬 API / 내부 프로세스 호출 / HTTP\n목적: 사용자 상태 확인 및 응답 해석\n구성 요소 : TTS(사용자에 질문 출력) / STT(Whisper)- 사용자 음성 -> 텍스트 변환\n알림 전송 인터페이스\n대상: 대응 모듈 ↔ 외부 알림 API (KakaoTalk, SMS 등)\n프로토콜: HTTP/HTTPS (REST)\n목적: 보호자 및 사용자 대상 알림 전송\n알림 유형: 낙상 발생 알림, 사용자 무응답 알림, 센서 장애 알림, 네트워크 장애 알림\n관리자 조회 인터페이스\n대상: UI ↔ 서버\n프로토콜: HTTP/HTTPS\n목적: 상태 및 로그 조회\n특징: 실시간 모니터링, 이벤트 및 상태 이력 조회\n메시지 형식 (Json)\n모든 통신 메시지는 JSON 형식을 사용하며, 공통적으로 다음 구조를 따른다.\n{\n\"messageId\": \"string\",\n\"eventId\": \"string\",\n\"timestamp\": \"ISO8601\",\n\"type\": \"string\",\n\"source\": \"string\",\n\"payload\": {\n\"behaviorState\": \"string\",\n\"responseState\": \"string\",\n\"notificationState\": \"string\"\n}\n}\n상태 정의 (통신 기준)\n행동 상태 (Behavior State)\nNORMAL [정상]\n사용자의 움직임이 정상 범위 내에 있으며 이상 징후가 없는 상태\nABNORMAL_DETECTED [이상 행동 감지]\n센서 기반으로 일반적인 패턴과 다른 움직임이 감지된 상태 (낙상 가능성 존재)\nFALL_ANALYZING [낙상 판정 중]\n이상행동이 감지되어 LLM 분석 또는 추가 판단이 진행 중인 상태\nFALL_CONFIRMED [낙상 확정]\n분석 결과 실제 낙상으로 판단된 상태\n대응 상태 (Response State)\nIDLE [대응 대기]\n별도의 대응이 필요하지 않거나 아직 대응이 시작되지 않은 상태\nUSER_CONFIRMING [사용자 확인 중]\nTTS를 통해 사용자에게 상태를 확인하고 응답을 기다리는 상태\nNOTIFYING_GUARDIAN [보호자 알림 전송 중]\n사용자 무응답 또는 낙상 확정으로 보호자에게 알림을 전송 중인 상태\nCOMPLETED [대응 완료]\n사용자 확인 또는 보호자 알림까지 모든 대응 절차가 종료된 상태\n알림 상태 (Notification State)\nPENDING [알림 대기]\n알림 전송이 필요하지만 아직 실행되지 않은 상태\nSENDING [알림 전송 중]\n외부 API를 통해 알림을 전송하고 있는 상태\nSENT [알림 전송 완료]\n알림이 정상적으로 전달된 상태\nFAILED [알림 전송 실패]\n알림 전송 과정에서 오류가 발생한 상태 (재시도 필요 가능)\n주요 메시지 예시\n이벤트 메시지 (MQTT)\n{\n\"type\": \"event.candidate\",\n\"payload\": {\n\"sensorSummary\": {\n\"csiChange\": 0.82,\n\"pirMotion\": false,\n\"tofDistanceChange\": -1.2\n},\n\"behaviorState\": \"ABNORMAL_DETECTED\"\n}\n}\nAI 요청 (HTTP)\n{\n\"type\": \"analysis.request\",\n\"payload\": {\n\"sensorSummary\": {},\n\"context\": {},\n\"behaviorState\": \"FALL_ANALYZING\"\n}\n}\n사용자 확인 요청 (TTS)\n{\n\"type\": \"verification.request\",\n\"payload\": {\n\"message\": \"괜찮으십니까? 괜찮으시다면 “네”라고 대답해주세요\",\n\"responseState\": \"USER_CONFIRMING\"\n}\n}\n사용자 응답 결과 (STT)\n{\n\"type\": \"verification.response\",\n\"payload\": {\n\"transcript\": \"네\",\n\"containsYes\": true\n}\n}\n보호자 알림 요청\n{\n\"type\": \"notification.request\",\n\"payload\": {\n\"riskLevel\": \"HIGH\",\n\"message\": \"사용자 응답 없음, 보호자 확인 필요\",\n\"notificationState\": \"SENDING\"\n}\n}\n시스템 장애 알림\n{\n\"type\": \"system.alert\",\n\"payload\": {\n\"alertType\": \"SENSOR_FAILURE\",\n\"message\": \"센서 연결이 끊어졌습니다\",\n\"target\": [\"guardian\", \"user\"]\n}\n}\n사용 통신 표준\nMQTT : 센서 데이터 및 이벤트 전달\nHTTP/HTTPS: AI 분석, 알림, 관리자 통신\nREST API : 외부 서비스 연동\nJSON: 데이터 포맷\n통신 요구사항\nMQTT는 Pub/Sub 방식으로 실시간 데이터 전달을 지원해야 한다.\n주요 이벤트 메시지는 최소 1회 이상 전달 보장을 가져야 한다.\nAI 및 외부 서비스 통신은 HTTPS를 사용해야 한다.\n통신 실패 시 재시도 또는 대체 처리 로직이 존재해야 한다.\n모든 메시지는 로그로 기록되어 추적 가능해야 한다\n보안 요구사항\n모든 외부 통신은 HTTPS 기반 암호화를 사용해야 한다.\nAPI 호출 시 인증 키 또는 토큰을 사용해야 한다.\n민감 데이터는 요약된 형태로만 전송해야 한다.\n사용자 음성 데이터는 필요 최소한으로 처리해야 한다.",
+    "metadata": {
+      "section_title": "Communication Interface (통신 인터페이스)",
+      "doc_type": "srs",
+      "source": "data/raw/srs/요구사항분석_v2.0.docx",
+      "chunk_index": 44,
+      "category": "notification",
+      "keywords": [
+        "CSI",
+        "PIR",
+        "TTS",
+        "ToF",
+        "fall",
+        "구성",
+        "낙상",
+        "메시지",
+        "모듈",
+        "보안",
+        "보호자",
+        "보호자 알림",
+        "사용자 응답",
+        "센서",
+        "시스템",
+        "알림",
+        "요구사항",
+        "움직임",
+        "응답 없음",
+        "이상 행동",
+        "해야 한다"
+      ],
+      "priority": "high",
+      "chunk_length": 3703,
+      "contains_requirement_id": false,
+      "requirement_ids": []
+    },
+    "created_at": "2026-05-05T16:32:54.162988"
+  },
+  {
+    "chunk_id": "de316c67-dc01-4607-b020-f05b24f3ff7d",
+    "doc_id": "요구사항분석_v2.0",
+    "text": "Performance requirements (성능 요구사항)\n프로젝트 목표 제품의 성능 측면의 요구사항을 기술한다. 즉, 성능 목표(가능한 수치화하여)를 도출한다.\n아래 항목은 프로젝트 별로 다른 성능 지표를 도출한 경우, 이를 적용하여 수정 및 추가 할 수 있다.\n… 생략",
+    "metadata": {
+      "section_title": "Performance requirements (성능 요구사항)",
+      "doc_type": "srs",
+      "source": "data/raw/srs/요구사항분석_v2.0.docx",
+      "chunk_index": 45,
+      "category": "requirement",
+      "keywords": [
+        "성능",
+        "요구사항"
+      ],
+      "priority": "high",
+      "chunk_length": 154,
+      "contains_requirement_id": false,
+      "requirement_ids": []
+    },
+    "created_at": "2026-05-05T16:32:54.163022"
+  },
+  {
+    "chunk_id": "a634b007-42f7-48d8-87b9-7b5222c4d42f",
+    "doc_id": "요구사항분석_v2.0",
+    "text": "Other Performance Requirements (기타 성능 요구사항)\n메모리, 디스크 공간 요구사항, DB 최대 row수와 같은 기타 성능 관련 요구사항들을 기술한다.\nNon-Functional Requirements (기능 이외의 요구사항)",
+    "metadata": {
+      "section_title": "Other Performance Requirements (기타 성능 요구사항)",
+      "doc_type": "srs",
+      "source": "data/raw/srs/요구사항분석_v2.0.docx",
+      "chunk_index": 46,
+      "category": "requirement",
+      "keywords": [
+        "성능",
+        "요구사항"
+      ],
+      "priority": "high",
+      "chunk_length": 140,
+      "contains_requirement_id": false,
+      "requirement_ids": []
+    },
+    "created_at": "2026-05-05T16:32:54.163069"
+  },
+  {
+    "chunk_id": "04425580-2fb6-4e47-b17d-989730d99a35",
+    "doc_id": "요구사항분석_v2.0",
+    "text": "Safety requirements (안전성 요구사항)\n본 시스템은 사용자의 낙상이라는 생명/안전과 직결된 이벤트를 다루므로, 시스템 장애 시 치명적인 결과가 초래될 수 있다. 그러한 결과를 방지하기 위해 아래와 같은 사항이 요구된다.\n네트워크 및 인프라 장애 감지: Edge 디바이스(RPi4)와 클라우드 AI 간의 네트워크 단절 또는 클라우드 서버 다운 시, 시스템은 이를 즉각 감지하는 페일세이프(Fail-safe) 메커니즘을 가동하여 관리자의 모니터링 디스플레이(대시보드)에 '네트워크/서버 장애' 경고를 즉각 표출해야 한다.\n센서 및 엔드포인트 무결성 장애 감지: RPi4에 연결된 물리적 센서(PIR, ToF)의 통신 단절, 센서 데이터 스트림의 장시간 정지, 또는 Wi-Fi CSI 수집 에이전트 이상 등 엣지 단의 상태 이상이 감지될 경우, 관리자 모니터링 디스플레이에 '장비/센서 점검 필요' 시각적 경고를 띄우고 상세 로그를 기록하여 즉각적인 유지보수 조치가 이루어질 수 있도록 해야 하며, 보호자에게도 기존 알림 장치로 상태 이상을 보고한다.",
+    "metadata": {
+      "section_title": "Safety requirements (안전성 요구사항)",
+      "doc_type": "srs",
+      "source": "data/raw/srs/요구사항분석_v2.0.docx",
+      "chunk_index": 47,
+      "category": "requirement",
+      "keywords": [
+        "CSI",
+        "PIR",
+        "ToF",
+        "Wi-Fi CSI",
+        "낙상",
+        "보호자",
+        "센서",
+        "시스템",
+        "알림",
+        "요구사항",
+        "해야 한다"
+      ],
+      "priority": "high",
+      "chunk_length": 538,
+      "contains_requirement_id": false,
+      "requirement_ids": []
+    },
+    "created_at": "2026-05-05T16:32:54.163086"
+  },
+  {
+    "chunk_id": "75602e4b-8af8-4d86-9544-e21e030cf670",
+    "doc_id": "요구사항분석_v2.0",
+    "text": "Security Requirements (보안 요구사항)\n카메라 기반 감시 시스템의 사생활 침해 문제를 해결하기 위한 시스템이므로 프라이버시 보호가 최우선으로 보장되어야 한다.\n데이터 전송 보안: Wi-Fi CSI 특징 및 PIR/ToF 센서 데이터가 RPi4에서 클라우드로 전송되므로, MQTT/REST 통신 구간에 반드시 TLS/SSL 암호화를 적용해야 한다.\n클라우드 API 보안: 클라우드에 배포되는 판정 및 RAG 에이전트 API는 악의적인 접근이나 데이터 탈취를 막기 위해 주요 웹 취약점(예: OWASP Top 10)에 대한 방어 대책(인증 토큰, Rate Limiting 등)을 갖추어야 한다.\nSoftware System Attributes (소프트웨어 시스템 특성)\n소프트웨어에는 요구 사항으로 작용할 수 있는 여러 가지 속성이 있다. 요구되는 속성을 아래와 같이 지정하였고, 그 성과를 객관적으로 검증하는 것이 중요하다. 속성에는 가용성, 정확성, 유연성, 상호 운용성, 유지 관리성, 휴대성, 신뢰성, 재사용성, 견고성, 테스트 가능성, 사용성 등이 포함되었다.",
+    "metadata": {
+      "section_title": "Security Requirements (보안 요구사항)",
+      "doc_type": "srs",
+      "source": "data/raw/srs/요구사항분석_v2.0.docx",
+      "chunk_index": 48,
+      "category": "requirement",
+      "keywords": [
+        "CSI",
+        "PIR",
+        "ToF",
+        "Wi-Fi CSI",
+        "가용성",
+        "배포",
+        "보안",
+        "센서",
+        "시스템",
+        "요구사항",
+        "해야 한다"
+      ],
+      "priority": "high",
+      "chunk_length": 550,
+      "contains_requirement_id": false,
+      "requirement_ids": []
+    },
+    "created_at": "2026-05-05T16:32:54.163108"
+  },
+  {
+    "chunk_id": "d01784ef-74e9-4cb2-8815-82d7c544fedf",
+    "doc_id": "요구사항분석_v2.0",
+    "text": "Availability (가용성)\n시스템은 야간 이상활동 등을 포함해 24시간 365일 무인 상태로 모니터링을 수행해야 하므로 높은 가용성을 요구한다.\n클라우드 AI 서비스는 로드 밸런싱 및 다중화를 통해 99.9% 이상의 가동 시간을 보장해야 하며, RPi4 수집 에이전트는 프로세스 크래시 발생 시 자동 재시작(Auto-restart) 메커니즘을 포함해야 합니다.",
+    "metadata": {
+      "section_title": "Availability (가용성)",
+      "doc_type": "srs",
+      "source": "data/raw/srs/요구사항분석_v2.0.docx",
+      "chunk_index": 49,
+      "category": "system",
+      "keywords": [
+        "가용성",
+        "시스템"
+      ],
+      "priority": "medium",
+      "chunk_length": 205,
+      "contains_requirement_id": false,
+      "requirement_ids": []
+    },
+    "created_at": "2026-05-05T16:32:54.163126"
+  },
+  {
+    "chunk_id": "cd4bfb98-b457-4a7f-9725-12cdffcdf1d4",
+    "doc_id": "요구사항분석_v2.0",
+    "text": "Maintainability (유지보수성)\n클라우드 인프라 내에 중앙 집중식 로깅 및 모니터링 시스템을 구축하여 에러 추적을 용이하게 해야 한다.\nRPi4에서 구동되는 수집 에이전트는 향후 센서 추가 및 로직 변경에 대비하여 모듈화되어야 하며, 원격 업데이트가 가능하도록 설계되어야 한다.",
+    "metadata": {
+      "section_title": "Maintainability (유지보수성)",
+      "doc_type": "srs",
+      "source": "data/raw/srs/요구사항분석_v2.0.docx",
+      "chunk_index": 50,
+      "category": "system",
+      "keywords": [
+        "모듈",
+        "센서",
+        "시스템",
+        "해야 한다"
+      ],
+      "priority": "high",
+      "chunk_length": 161,
+      "contains_requirement_id": false,
+      "requirement_ids": []
+    },
+    "created_at": "2026-05-05T16:32:54.163143"
+  },
+  {
+    "chunk_id": "4e7fb070-2485-411c-b3c8-79c40529f3ed",
+    "doc_id": "요구사항분석_v2.0",
+    "text": "Portability (이식성)\n수집 에이전트는 Raspberry Pi 4 외에도 다른 임베디드 리눅스 SBC 환경으로 쉽게 이식될 수 있도록 하드웨어 종속성을 최소화해야 한다.\n클라우드 AI 서비스(판정, RAG)는 특정 클라우드 벤더에 종속되지 않도록 컨테이너화(Docker 등)하여 배포되어야 한다.",
+    "metadata": {
+      "section_title": "Portability (이식성)",
+      "doc_type": "srs",
+      "source": "data/raw/srs/요구사항분석_v2.0.docx",
+      "chunk_index": 51,
+      "category": "system",
+      "keywords": [
+        "배포",
+        "해야 한다",
+        "환경"
+      ],
+      "priority": "high",
+      "chunk_length": 170,
+      "contains_requirement_id": false,
+      "requirement_ids": []
+    },
+    "created_at": "2026-05-05T16:32:54.163159"
+  },
+  {
+    "chunk_id": "217d2aa8-8e29-4fe7-a2c3-4fb2bf8934cf",
+    "doc_id": "요구사항분석_v2.0",
+    "text": "Reliability (신뢰성)\n센서 신뢰도 및 일관성을 바탕으로 한 확인 로직을 통해 낙상 감지의 오탐률(False Positive)과 미탐률(False Negative)을 실험 시나리오별 목표치 이하로 유지해야 한다.",
+    "metadata": {
+      "section_title": "Reliability (신뢰성)",
+      "doc_type": "srs",
+      "source": "data/raw/srs/요구사항분석_v2.0.docx",
+      "chunk_index": 52,
+      "category": "sensor",
+      "keywords": [
+        "낙상",
+        "센서",
+        "해야 한다"
+      ],
+      "priority": "high",
+      "chunk_length": 123,
+      "contains_requirement_id": false,
+      "requirement_ids": []
+    },
+    "created_at": "2026-05-05T16:32:54.163173"
+  },
+  {
+    "chunk_id": "4c5b4daa-a39d-4c23-909f-c7134f898f86",
+    "doc_id": "요구사항분석_v2.0",
+    "text": "Logical Database Requirements (데이터베이스 요구사항)\n시스템 내 데이터 무결성과 빠른 쿼리 성능, 그리고 원활한 운영을 위해 다음과 같은 주요 엔티티 구조로 설계되어야 한다.\n시계열 센서 데이터: Wi-Fi CSI 특징, PIR, ToF 등으로 수집되는 데이터.\n이벤트 및 로그: 낙상 후보 감지 이력, Headless 음성 안내 이력, 보호자 알림 발송 이력.\nRAG 기반 정책/지식베이스: 상황별 대응 정책, 환경 프로파일 등 LLM 에이전트가 빠르게 검색하고 적용할 수 있도록 텍스트 검색에 최적화된 지식베이스.\n사용자 및 보호자 정보: 기기 설치 장소, 사용자 정보, 비상시 연락을 취할 보호자의 연락처 및 알림 수신 채널(카카오톡/ 슬랙 API 등) 정보.",
+    "metadata": {
+      "section_title": "Logical Database Requirements (데이터베이스 요구사항)",
+      "doc_type": "srs",
+      "source": "data/raw/srs/요구사항분석_v2.0.docx",
+      "chunk_index": 53,
+      "category": "requirement",
+      "keywords": [
+        "CSI",
+        "PIR",
+        "ToF",
+        "Wi-Fi CSI",
+        "낙상",
+        "보호자",
+        "보호자 알림",
+        "설치",
+        "성능",
+        "센서",
+        "시스템",
+        "알림",
+        "요구사항",
+        "운영",
+        "음성 안내",
+        "환경"
+      ],
+      "priority": "high",
+      "chunk_length": 386,
+      "contains_requirement_id": false,
+      "requirement_ids": []
+    },
+    "created_at": "2026-05-05T16:32:54.163197"
+  },
+  {
+    "chunk_id": "dae759d7-d65a-4eab-b4fe-61553eb50315",
+    "doc_id": "요구사항분석_v2.0",
+    "text": "Business Rules (비즈니스 규칙)\nHeadless 앱을 통한 음성(TTS) 상태 확인 질문 시, 사용자로부터 정상 응답이 오면 이벤트를 종료하고 로그만 저장한다.\n보호자 알림(위치, 시간, 상태)은 사용자가 지정된 시간 내에 무응답(시간 초과)했을 경우에만 전송되어야 한다.\n민감한 이벤트 로그 및 환경 프로파일 정보는 인가된 관리자 또는 해당 사용자의 보호자만 조회할 수 있다.",
+    "metadata": {
+      "section_title": "Business Rules (비즈니스 규칙)",
+      "doc_type": "srs",
+      "source": "data/raw/srs/요구사항분석_v2.0.docx",
+      "chunk_index": 54,
+      "category": "notification",
+      "keywords": [
+        "TTS",
+        "보호자",
+        "보호자 알림",
+        "알림",
+        "환경"
+      ],
+      "priority": "medium",
+      "chunk_length": 218,
+      "contains_requirement_id": false,
+      "requirement_ids": []
+    },
+    "created_at": "2026-05-05T16:32:54.163217"
+  },
+  {
+    "chunk_id": "dc091b26-edfb-4d9e-be22-88979163da7c",
+    "doc_id": "요구사항분석_v2.0",
+    "text": "Standards Compliance (표준준수)\n메시징 버스 구성 및 API 연동은 표준 MQTT 및 REST 프로토콜을 준수해야 한다.\n사용자 행동 및 센서 데이터를 클라우드에 저장하므로 국내 개인정보보호법(PIPA) 등 관련 데이터 보호 규제를 준수해야 한다.",
+    "metadata": {
+      "section_title": "Standards Compliance (표준준수)",
+      "doc_type": "srs",
+      "source": "data/raw/srs/요구사항분석_v2.0.docx",
+      "chunk_index": 55,
+      "category": "sensor",
+      "keywords": [
+        "구성",
+        "센서",
+        "해야 한다"
+      ],
+      "priority": "high",
+      "chunk_length": 148,
+      "contains_requirement_id": false,
+      "requirement_ids": []
+    },
+    "created_at": "2026-05-05T16:32:54.163238"
+  },
+  {
+    "chunk_id": "cf4130d0-01c5-46f8-8fc4-5d8fb59dd5eb",
+    "doc_id": "요구사항분석_v2.0",
+    "text": "Other Constraints (기타 제한 사항)\n지정된 하드웨어 및 클라우드 환경 제약\n엣지 단의 데이터 수집 에이전트는 하드웨어 리소스가 제한된 Raspberry Pi 4 환경에서만 구동되도록 최적화해야 한다.\n데이터 판정 및 운영 관리는 로컬 기기가 아닌 구글 클라우드 플랫폼과 Gemini API를 활용한 클라우드 환경에서 이루어져야 한다.\n비전 센서 배제 원칙\n본 프로젝트는 기존 카메라 기반 감시 시스템의 사생활 침해 문제를 해결하기 위한 목적이므로, 어떠한 경우에도 카메라 렌즈를 통한 이미지/비디오 촬영 장비를 시스템에 추가하거나 관련 데이터를 수집해서는 안 된다. (오직 Wi-Fi CSI, PIR, ToF 등의 센서만 허용)\n실시간 네트워크 지연시간\n낙상 감지부터 클라우드 AI의 판정, 그리고 현장의 음성(TTS) 알림으로 이어지는 전체 흐름은 생명과 직결되므로, 지연시간이 1~2초 이내로 보장되도록 시스템 무거움을 경계해야 한다.",
+    "metadata": {
+      "section_title": "Other Constraints (기타 제한 사항)",
+      "doc_type": "srs",
+      "source": "data/raw/srs/요구사항분석_v2.0.docx",
+      "chunk_index": 56,
+      "category": "sensor",
+      "keywords": [
+        "CSI",
+        "PIR",
+        "TTS",
+        "ToF",
+        "Wi-Fi CSI",
+        "낙상",
+        "센서",
+        "시스템",
+        "알림",
+        "운영",
+        "해야 한다",
+        "환경"
+      ],
+      "priority": "high",
+      "chunk_length": 478,
+      "contains_requirement_id": false,
+      "requirement_ids": []
+    },
+    "created_at": "2026-05-05T16:32:54.163270"
+  },
+  {
+    "chunk_id": "206f0102-8a8a-4711-a3e1-2832669e38da",
+    "doc_id": "요구사항분석_v2.0",
+    "text": "Memory Constraints (메모리 제한 사항)\nRPi4의 물리적 메모리(8GB) 한계를 고려하여, 일시적인 네트워크 단절 시 CSI 특징 및 이벤트 스트림을 로컬에 버퍼링할 때 메모리 오버플로우가 발생하지 않도록 큐 사이즈 제한 및 오래된 데이터 삭제 정책 등을 구현해야 한다.",
+    "metadata": {
+      "section_title": "Memory Constraints (메모리 제한 사항)",
+      "doc_type": "srs",
+      "source": "data/raw/srs/요구사항분석_v2.0.docx",
+      "chunk_index": 57,
+      "category": "sensor",
+      "keywords": [
+        "CSI",
+        "해야 한다"
+      ],
+      "priority": "high",
+      "chunk_length": 160,
+      "contains_requirement_id": false,
+      "requirement_ids": []
+    },
+    "created_at": "2026-05-05T16:32:54.163282"
+  },
+  {
+    "chunk_id": "f05c587e-7ca5-4999-8598-1ee1bbc1060d",
+    "doc_id": "요구사항분석_v2.0",
+    "text": "Operations (운영 요구사항)\nRAG 기반 운영 지원 에이전트는 상황별 대응 정책 및 지식베이스을 주기적으로 검색하고 업데이트하여 운영 의사결정을 자동화해야 한다.\n클라우드 데이터베이스(이벤트 로그, RAG 지식베이스 등)는 데이터 유실 방지를 위해 정기적인 백업 및 복구 테스트가 자동으로 수행되어야 한다.",
+    "metadata": {
+      "section_title": "Operations (운영 요구사항)",
+      "doc_type": "srs",
+      "source": "data/raw/srs/요구사항분석_v2.0.docx",
+      "chunk_index": 58,
+      "category": "requirement",
+      "keywords": [
+        "요구사항",
+        "운영",
+        "해야 한다"
+      ],
+      "priority": "high",
+      "chunk_length": 176,
+      "contains_requirement_id": false,
+      "requirement_ids": []
+    },
+    "created_at": "2026-05-05T16:32:54.163299"
+  },
+  {
+    "chunk_id": "154d00d2-6c63-4c70-b32d-bd0de7936ea1",
+    "doc_id": "요구사항분석_v2.0",
+    "text": "Other Requirements (기타 요구 사항)\n..\nFunctional Requirements (기능요구사항)\n2장에서 설명되었던 제품 주요 기능을 상세하게 분류하고, 설명한다.\n각 기능을 구분 가능하도록 개별번호를 붙인다.\nWBS의 각 기능항목은 작업량이 1~2일 정도로 산정 가능하도록 세분하여 작성한다.\n카테고리 코드 정의\nFR-COL : 데이터 수집 및 전처리 기능\n센서 데이터 수집 및 입력 관리\n데이터 식별 및 메타데이터 구성\n데이터 식별 및 메타데이터 구성\n데이터 시간 동기화 및 정렬\n데이터 정제 및 이상치 처리\n분석 구간(Window) 생성\n특징 추출 및 이벤트 데이터 생성\n메시지 기반 데이터 전달 (MQTT 연계)\n실시간 처리 및 성능 관리\n로그 및 재현성 관리\n여기에 혹시\nFR-ANL : 사용자 행동 인식 및 상황 분석 기능\n분석 대상 이벤트 수신 및 분석 시작 조건 판단\n분석 대상 이벤트 수신 및 분석 시작 조건 판단\nLLM 입력 데이터 및 상황 요약 생성\nRAG 기반 지식 검색 및 운영 정책 결합\nLLM 기반 상황 해석 및 낙상 분석\nLLM 응답 검증 및 분석 결과 확정\n행동 상태 및 분석 상태 관리\n분석 결과 생성 및 후속 기능 연계\n예외 처리 및 안정성 지원\nFR-RSP : 알림 및 대응 기능\n대응 흐름 결정 및 알림 트리거 생성\n사용자 확인 기반 대응 (Headless TTS)\n보호자 알림 전송 기능\n알림 상태 및 대응 상태 관리\n관리자 모니터링 및 운영 기능\n로그 및 데이터 저장\n예외 처리 및 안정성\n여기에 혹시",
+    "metadata": {
+      "section_title": "Other Requirements (기타 요구 사항)",
+      "doc_type": "srs",
+      "source": "data/raw/srs/요구사항분석_v2.0.docx",
+      "chunk_index": 59,
+      "category": "requirement",
+      "keywords": [
+        "TTS",
+        "구성",
+        "낙상",
+        "메시지",
+        "보호자",
+        "보호자 알림",
+        "성능",
+        "센서",
+        "알림",
+        "요구사항",
+        "운영"
+      ],
+      "priority": "high",
+      "chunk_length": 763,
+      "contains_requirement_id": false,
+      "requirement_ids": []
+    },
+    "created_at": "2026-05-05T16:32:54.163480"
+  },
+  {
+    "chunk_id": "4369127f-4c8d-4fbf-8d34-faa3eca80588",
+    "doc_id": "요구사항분석_v2.0",
+    "text": "Change Management process (변경관리 프로세스)\nIdentify the change management process to be used to identify, log, evaluate, and update the SRS to reflect changes in project scope and requirements.\nHow are you going to control changes to the requirements?\nCan the customer just call up and ask for something new?\nDoes your team have to reach consensus?\nHow do changes to requirements get submitted to the team?\nFormally in writing, email or phone call?\nThis process can be specified in the one of the ‘Process Diagram’s of the company.",
+    "metadata": {
+      "section_title": "Change Management process (변경관리 프로세스)",
+      "doc_type": "srs",
+      "source": "data/raw/srs/요구사항분석_v2.0.docx",
+      "chunk_index": 60,
+      "category": "general",
+      "keywords": [],
+      "priority": "low",
+      "chunk_length": 526,
+      "contains_requirement_id": false,
+      "requirement_ids": []
+    },
+    "created_at": "2026-05-05T16:32:54.163520"
+  },
+  {
+    "chunk_id": "159c0d02-0dee-42de-ab56-232a808e9755",
+    "doc_id": "요구사항분석_v2.0",
+    "text": "Document Approvals (최종 승인자)\nIdentify the approvers of the SRS document. Approver name, signature, and date should be used.\nName Signature Date",
+    "metadata": {
+      "section_title": "Document Approvals (최종 승인자)",
+      "doc_type": "srs",
+      "source": "data/raw/srs/요구사항분석_v2.0.docx",
+      "chunk_index": 61,
+      "category": "general",
+      "keywords": [],
+      "priority": "low",
+      "chunk_length": 142,
+      "contains_requirement_id": false,
+      "requirement_ids": []
+    },
+    "created_at": "2026-05-05T16:32:54.163539"
+  }
+]

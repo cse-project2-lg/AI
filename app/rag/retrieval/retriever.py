@@ -3,9 +3,9 @@ from pathlib import Path
 from typing import List, Dict, Any
 
 from sentence_transformers import SentenceTransformer
-from app.retrieval.reranker import rerank_results
-from app.retrieval.similarity import cosine_similarity
-from app.retrieval.scoring import (
+from app.rag.retrieval.reranker import rerank_results
+from app.rag.retrieval.similarity import cosine_similarity
+from app.rag.retrieval.scoring import (
     calculate_keyword_score,
     calculate_metadata_score,
     calculate_final_score,

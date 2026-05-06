@@ -1,6 +1,6 @@
 from typing import Dict, Any, List
 
-from app.context.context_builder import build_context_summary
+from app.rag.context.context_builder import build_context_summary
 
 
 def build_rag_prompt(

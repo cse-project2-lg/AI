@@ -4,9 +4,9 @@ from typing import List, Dict, Any
 INTENT_KEYWORDS = {
     "fall_detection": ["낙상", "후보", "감지", "탐지", "판단", "판정", "분석", "기준"],
     "sensor": ["PIR", "ToF", "CSI", "센서", "거리", "움직임", "신호"],
-    "notification": ["알림", "보호자", "응급", "TTS", "대응"],
+    "notification": ["알림", "보호자", "응급", "TTS", "MP3", "STT", "대응", "notification"],
     "communication": ["통신", "전달", "MQTT", "메시지", "인터페이스"],
-    "user_confirmation": ["확인", "절차", "괜찮으신가요", "사용자", "응답"],
+    "user_confirmation": ["확인", "절차", "괜찮으신가요", "사용자", "응답", "MP3", "STT", "expectedOkText"],
     "admin_display": ["관리자", "화면", "디스플레이", "표시", "로그", "상태"],
     "llm_failure": ["클라우드", "LLM", "AI", "실패", "장애", "오류", "대응", "fallback", "대체"],
     "installation": ["설치", "구성", "환경", "드라이버", "의존성", "배선"],
@@ -28,9 +28,9 @@ SECTION_BOOST_KEYWORDS = {
 TEXT_BOOST_KEYWORDS = {
     "fall_detection": ["낙상 후보", "낙상", "탐지", "판정", "판단", "분석 단계", "판정 단계"],
     "sensor": ["PIR", "ToF", "CSI", "거리", "움직임", "신호", "센서"],
-    "notification": ["보호자", "알림", "응급", "TTS", "음성 안내"],
+    "notification": ["보호자", "알림", "응급", "TTS", "MP3", "STT", "음성 안내", "notification.request", "notification.result"],
     "communication": ["MQTT", "HTTP", "topic", "메시지", "전송", "통신"],
-    "user_confirmation": ["괜찮으신가요", "사용자 확인", "응답", "다시 움직임", "이벤트를 종료"],
+    "user_confirmation": ["괜찮으신가요", "사용자 확인", "응답", "다시 움직임", "이벤트를 종료", "expectedOkText", "LOCAL_MP3_STT"],
     "admin_display": ["관리자", "7인치", "디스플레이", "LLM 분석 전후", "상태", "로그", "표시"],
     "llm_failure": ["실패", "장애", "fallback", "대체", "로컬", "재시도", "오류", "클라우드"],
 }

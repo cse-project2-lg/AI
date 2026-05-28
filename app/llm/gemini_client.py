@@ -19,24 +19,37 @@ SYSTEM_INSTRUCTION = """
 출력 JSON 형식은 아래와 같다.
 
 {
+  "type": "analysis.result",
   "eventId": "입력 eventId 그대로 사용",
+  "timestamp": "ISO8601 현재 시각 또는 분석 시각",
   "isFall": true,
   "confidence": 0.0,
   "riskLevel": "LOW | MEDIUM | HIGH",
   "recommendedAction": "NO_ACTION | OBSERVE | VERIFY_USER | NOTIFY_GUARDIAN",
   "situationSummary": "1~2문장의 상황 요약",
-  "reasoning": "센서값과 RAG 근거를 바탕으로 한 판단 이유",
-  "verificationMessage": "사용자 확인이 필요할 때만 작성, 아니면 빈 문자열",
-  "timeoutSec": 10
+  "analysisReason": "센서값과 RAG 근거를 바탕으로 한 판단 이유",
+  "verificationPlan": {
+    "required": true,
+    "method": "LOCAL_MP3_STT",
+    "promptAsset": "are_you_ok_ko.mp3",
+    "expectedOkText": ["네"],
+    "timeoutSec": 10
+  },
+  "analysisStatus": "SUCCESS"
 }
 
 판단 기준:
 - 낙상 가능성이 낮으면 isFall=false, riskLevel=LOW, recommendedAction=NO_ACTION.
 - 불확실하지만 관찰이 필요하면 recommendedAction=OBSERVE.
 - 낙상 가능성이 있으나 사용자 확인이 먼저 필요하면 recommendedAction=VERIFY_USER.
-- 낙상 가능성이 매우 높고 즉시 조치가 필요하면 recommendedAction=NOTIFY_GUARDIAN.
+- 낙상 가능성이 매우 높거나 사용자 확인 장치 실패가 예상되면 recommendedAction=NOTIFY_GUARDIAN.
 - confidence는 0.0 이상 1.0 이하 숫자로 작성한다.
 - recommendedAction과 riskLevel은 반드시 위 enum 값 중 하나만 사용한다.
+- recommendedAction이 VERIFY_USER이면 verificationPlan.required=true, method=LOCAL_MP3_STT,
+  promptAsset=are_you_ok_ko.mp3, expectedOkText=["네"], timeoutSec=10으로 작성한다.
+- recommendedAction이 NO_ACTION, OBSERVE, NOTIFY_GUARDIAN이면 verificationPlan.required=false,
+  method=NONE, promptAsset=null, expectedOkText=[], timeoutSec=0으로 작성한다.
+- reasoning, verificationMessage, timeoutSec 단독 필드는 사용하지 않는다.
 """
 
 

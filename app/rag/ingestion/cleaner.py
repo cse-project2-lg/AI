@@ -1,5 +1,5 @@
 import re
-from app.schemas.document import Document
+from app.rag.schemas.document import Document
 
 # Document 객체의 원본 텍스트를 정제하고 cleaned_text에 저장
 

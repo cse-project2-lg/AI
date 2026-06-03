@@ -2,7 +2,7 @@ from pathlib import Path
 from typing import Optional
 from docx import Document as DocxDocument
 
-from app.schemas.document import Document
+from app.rag.schemas.document import Document
 
 
 SUPPORTED_EXTENSIONS = {".txt", ".docx"}

@@ -1,6 +1,6 @@
-from app.query.query_generator import generate_query_from_event
-from app.retrieval.retriever import JsonRetriever
-from app.prompt.prompt_builder import build_rag_prompt
+from app.rag.query.query_generator import generate_query_from_event
+from app.rag.retrieval.retriever import JsonRetriever
+from app.rag.prompt.prompt_builder import build_rag_prompt
 
 def main() -> None:
     retriever = JsonRetriever(

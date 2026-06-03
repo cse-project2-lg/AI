@@ -1,6 +1,6 @@
 # app/evaluation/retrieval_test.py
 
-from app.retrieval.retriever import JsonRetriever
+from app.rag.retrieval.retriever import JsonRetriever
 
 
 TEST_QUERIES = [

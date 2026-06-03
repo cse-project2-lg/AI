@@ -2,8 +2,8 @@ import re
 import uuid
 from typing import List
 
-from app.schemas.document import Document
-from app.schemas.chunk import Chunk
+from app.rag.schemas.document import Document
+from app.rag.schemas.chunk import Chunk
 
 # Document를 받아서 Chunk 리스트로 분할
 def split_into_chunks(document: Document) -> List[Chunk]:

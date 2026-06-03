@@ -2,11 +2,11 @@ import json
 from pathlib import Path
 from typing import List
 
-from app.ingestion.loader import load_document
-from app.ingestion.cleaner import clean_document
-from app.ingestion.chunker import split_into_chunks
-from app.ingestion.metadata import enrich_chunk_metadata
-from app.schemas.chunk import Chunk
+from app.rag.ingestion.loader import load_document
+from app.rag.ingestion.cleaner import clean_document
+from app.rag.ingestion.chunker import split_into_chunks
+from app.rag.ingestion.metadata import enrich_chunk_metadata
+from app.rag.schemas.chunk import Chunk
 
 
 def run_ingestion_pipeline(

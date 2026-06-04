@@ -6,7 +6,7 @@ from google import genai
 
 
 load_dotenv()
-GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
+# GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
 
 
 SYSTEM_INSTRUCTION = """
@@ -54,9 +54,10 @@ SYSTEM_INSTRUCTION = """
 
 
 def _get_client() -> genai.Client:
-    if not GOOGLE_API_KEY:
-        raise RuntimeError("GOOGLE_API_KEY 환경변수가 설정되지 않았습니다.")
-    return genai.Client(api_key=GOOGLE_API_KEY)
+    #if not GOOGLE_API_KEY:
+    #    raise RuntimeError("GOOGLE_API_KEY 환경변수가 설정되지 않았습니다.")
+    #return genai.Client(api_key=GOOGLE_API_KEY)
+    return genai.Client()
 
 
 def analyze_with_gemini(prompt: str, model: Optional[str] = None) -> str:

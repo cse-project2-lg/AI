@@ -16,7 +16,7 @@ app = FastAPI(title="Fall Detection AI/RAG API", version="1.1.0")
 
 
 def now_iso_millis() -> str:
-    return datetime.now(timezone.utc).astimezone().isoformat(timespec="milliseconds")
+    return datetime.now(timezone.utc).isoformat(timespec="milliseconds")
 
 
 @app.get("/health")

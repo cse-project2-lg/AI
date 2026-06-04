@@ -1,4 +1,5 @@
 import json
+import os
 from datetime import datetime, timezone
 from typing import Any, Dict, Optional
 
@@ -6,7 +7,10 @@ from app.llm.gemini_client import analyze_with_gemini
 from app.rag.prompt.prompt_builder import build_rag_prompt
 from app.rag.query.query_generator import generate_query_from_event
 from app.rag.retrieval.retriever import JsonRetriever
+from app.rag.retrieval.pg_retriever import PgVectorRetriever
+from app.rag.ingestion.event_store import save_analysis_result
 
+DB_CONN = os.getenv("DATABASE_URL")  # .env에서 관리
 
 ALLOWED_RISK_LEVELS = {"LOW", "MEDIUM", "HIGH"}
 ALLOWED_ACTIONS = {"NO_ACTION", "OBSERVE", "VERIFY_USER", "NOTIFY_GUARDIAN"}
@@ -145,27 +149,18 @@ def normalize_response(result: Dict[str, Any], sensor_event: Dict[str, Any]) -> 
     return normalized
 
 
-def analyze_sensor_event_with_rag(sensor_event: Dict[str, Any]) -> Dict[str, Any]:
-    try:
-        query = generate_query_from_event(sensor_event)
-        retriever = get_retriever()
-        retrieved_chunks = retriever.retrieve(query=query, top_k=3)
+def analyze_sensor_event_with_rag(sensor_event: Dict[str, Any]) -> str:
+    retriever = get_retriever()
+    query = generate_query_from_event(sensor_event)
+    retrieved_chunks = retriever.retrieve(query=query, top_k=3)
+    rag_prompt = build_rag_prompt(
+        sensor_event=sensor_event,
+        query=query,
+        retrieved_chunks=retrieved_chunks,
+    )
 
-        rag_prompt = build_rag_prompt(
-            sensor_event=sensor_event,
-            query=query,
-            retrieved_chunks=retrieved_chunks,
-        )
-
-        raw_response = analyze_with_gemini(rag_prompt)
-        parsed = parse_llm_json(raw_response)
-        return normalize_response(parsed, sensor_event)
-
-    except Exception as exc:
-        return fallback_response(
-            sensor_event,
-            f"AI/RAG 분석, 검색, LLM 호출 또는 응답 검증 실패: {exc}",
-        )
+    response_text = analyze_with_gemini(rag_prompt)
+    return response_text
 
 
 if __name__ == "__main__":

@@ -52,12 +52,15 @@ SYSTEM_INSTRUCTION = """
 - reasoning, verificationMessage, timeoutSec 단독 필드는 사용하지 않는다.
 """
 
+_CLIENT: Optional[genai.Client] = None
 
 def _get_client() -> genai.Client:
-    if not GOOGLE_API_KEY:
-        raise RuntimeError("GOOGLE_API_KEY 환경변수가 설정되지 않았습니다.")
-    return genai.Client(api_key=GOOGLE_API_KEY)
-
+    global _CLIENT
+    if _CLIENT is None:
+        if not GOOGLE_API_KEY:
+            raise RuntimeError("GOOGLE_API_KEY 환경변수가 설정되지 않았습니다.")
+        _CLIENT = genai.Client(api_key=GOOGLE_API_KEY)
+    return _CLIENT
 
 def analyze_with_gemini(prompt: str, model: Optional[str] = None) -> str:
     client = _get_client()

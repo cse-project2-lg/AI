@@ -21,7 +21,7 @@ class JsonRetriever:
     def __init__(
         self,
         embedding_file_path: str,
-        model_name: str = "sentence-transformers/all-MiniLM-L6-v2",
+        model_name: str = "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
     ) -> None:
         self.embedding_file_path = Path(embedding_file_path)
         self.model = SentenceTransformer(model_name)

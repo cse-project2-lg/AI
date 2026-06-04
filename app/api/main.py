@@ -26,8 +26,7 @@ def health_check():
 
 @app.post("/api/v1/fall-events/analyze", response_model=FallAnalyzeResponse)
 def analyze_fall_event(request: FallAnalyzeRequest):
-    result = analyze_sensor_event_with_rag(request.model_dump() if hasattr(request, "model_dump") else request.dict())
-    return result
+    return analyze_sensor_event_with_rag(request.model_dump() if hasattr(request, "model_dump") else request.dict())
 
 
 @app.post("/api/v1/notifications/guardian", response_model=NotificationResult)

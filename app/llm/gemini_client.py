@@ -3,7 +3,7 @@ from typing import Optional
 
 from dotenv import load_dotenv
 from google import genai
-
+from google.genai import types
 
 load_dotenv()
 GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
@@ -59,7 +59,10 @@ def _get_client() -> genai.Client:
     if _CLIENT is None:
         if not GOOGLE_API_KEY:
             raise RuntimeError("GOOGLE_API_KEY 환경변수가 설정되지 않았습니다.")
-        _CLIENT = genai.Client(api_key=GOOGLE_API_KEY)
+        _CLIENT = genai.Client(
+            api_key=GOOGLE_API_KEY,
+            http_options=types.HttpOptions(timeout=30)
+        )
     return _CLIENT
 
 def analyze_with_gemini(prompt: str, model: Optional[str] = None) -> str:

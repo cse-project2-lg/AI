@@ -17,7 +17,7 @@ _RETRIEVER: Optional[JsonRetriever] = None
 
 
 def now_iso_millis() -> str:
-    return datetime.now(timezone.utc).astimezone().isoformat(timespec="milliseconds")
+    return datetime.now(timezone.utc).isoformat(timespec="milliseconds")
 
 
 def get_retriever() -> JsonRetriever:

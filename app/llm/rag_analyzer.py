@@ -24,12 +24,22 @@ def now_iso_millis() -> str:
     return datetime.now(timezone.utc).astimezone().isoformat(timespec="milliseconds")
 
 
-def get_retriever() -> JsonRetriever:
+_RETRIEVER = None
+
+def get_retriever():
     global _RETRIEVER
     if _RETRIEVER is None:
-        _RETRIEVER = JsonRetriever(
-            embedding_file_path="data/chunks/chunk_embeddings.json"
-        )
+        if DB_CONN:
+            try:
+                _RETRIEVER = PgVectorRetriever(conn_string=DB_CONN)
+            except Exception:
+                _RETRIEVER = JsonRetriever(
+                    embedding_file_path="data/chunks/chunk_embeddings.json"
+                )
+        else:
+            _RETRIEVER = JsonRetriever(
+                embedding_file_path="data/chunks/chunk_embeddings.json"
+            )
     return _RETRIEVER
 
 
@@ -149,7 +159,7 @@ def normalize_response(result: Dict[str, Any], sensor_event: Dict[str, Any]) -> 
     return normalized
 
 
-def analyze_sensor_event_with_rag(sensor_event: Dict[str, Any]) -> str:
+def analyze_sensor_event_with_rag(sensor_event: Dict[str, Any]) -> Dict[str, Any]:
     retriever = get_retriever()
     query = generate_query_from_event(sensor_event)
     retrieved_chunks = retriever.retrieve(query=query, top_k=3)
@@ -160,8 +170,21 @@ def analyze_sensor_event_with_rag(sensor_event: Dict[str, Any]) -> str:
     )
 
     response_text = analyze_with_gemini(rag_prompt)
-    return response_text
 
+    try:
+        llm_result = parse_llm_json(response_text)
+        llm_result = normalize_response(llm_result, sensor_event)
+    except Exception:
+        llm_result = fallback_response(sensor_event, "LLM 응답 파싱 실패")
+
+    from app.rag.ingestion.event_store import build_embedding_payload
+    embedding_content, embedding_vector = build_embedding_payload(sensor_event, llm_result)
+
+    return {
+        "llm_result": llm_result,           # → DB에서 analysis_results에 저장
+        "embedding": embedding_vector,       # → DB에서 event_embeddings에 저장
+        "embedding_content": embedding_content
+    }
 
 if __name__ == "__main__":
     sample_event = {

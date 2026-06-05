@@ -131,6 +131,9 @@ def _is_section_title(line: str) -> bool:
         "Environment (환경)",
         "Functional Requirements (기능 요구사항)",
         "Non-functional Requirements (비기능 요구사항)",
+        "오탐(False Positive) 케이스 정리",
+        "낙상 정의 및 판단 기준",
+        "센서 패턴 가이드",
     }
 
     return line in known_section_titles

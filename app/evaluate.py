@@ -325,6 +325,15 @@ def main():
 
     for cond in args.conditions:
         name, fn = condition_map[cond]
+
+        if cond in ("B", "C") and dataset:
+            print(f"[{name}] 워밍업 중...")
+            try:
+                fn(dataset[0]["event"])
+            except Exception:
+                print(f"[{name}] 워밍업 중 오류 발생")
+                pass
+
         r = evaluate(name, fn, dataset)
         results.append(r)
 

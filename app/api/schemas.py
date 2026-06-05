@@ -1,6 +1,6 @@
 from typing import List, Literal, Optional
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, model_validator
 
 
 CsiStatus = Literal["AVAILABLE", "UNAVAILABLE", "STUB"]
@@ -30,6 +30,15 @@ class EventWindow(BaseModel):
     startMonotonicNs: int = Field(ge=0)
     endMonotonicNs: int = Field(ge=0)
     durationMs: int = Field(ge=0)
+
+    @model_validator(mode="after")
+    def check_time_consistency(self):
+        if self.endMonotonicNs < self.startMonotonicNs:
+            raise ValueError("endMonotonicNs는 startMonotonicNs보다 크거나 같아야 합니다.")
+        expected_ms = (self.endMonotonicNs - self.startMonotonicNs) / 1_000_000
+        if abs(self.durationMs - expected_ms) > 1:
+            raise ValueError(f"durationMs({self.durationMs})가 실제 구간({expected_ms:.1f}ms)과 일치하지 않습니다.")
+        return self
 
 
 class SensorSummary(BaseModel):

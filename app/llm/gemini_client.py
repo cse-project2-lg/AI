@@ -72,4 +72,7 @@ def analyze_with_gemini(prompt: str, model: Optional[str] = None) -> str:
         config={"system_instruction": SYSTEM_INSTRUCTION},
         contents=prompt,
     )
-    return response.text
+    text = response.text
+    if not text:
+        raise RuntimeError("Gemini 응답이 비어 있습니다(차단 또는 빈 후보).")
+    return text

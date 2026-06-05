@@ -38,7 +38,7 @@ def send_guardian_notification(request: NotificationRequest):
         "type": "notification.result",
         "eventId": request.eventId,
         "timestamp": now_iso_millis(),
-        "notificationStatus": "SENT",
+        "notificationStatus": "PENDING",
         "channels": request.notification.channels,
         "attemptCount": 1,
         "error": None,
@@ -49,4 +49,4 @@ def send_guardian_notification(request: NotificationRequest):
 def save_fall_outcome(request: FallOutcomeRequest):
     # TODO: Save to DB or log storage.
     print("RESPONSE.OUTCOME:", request.model_dump() if hasattr(request, "model_dump") else request.dict())
-    return {"saved": True}
+    return {"saved": False}

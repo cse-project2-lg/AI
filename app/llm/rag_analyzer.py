@@ -8,7 +8,7 @@ from app.rag.prompt.prompt_builder import build_rag_prompt
 from app.rag.query.query_generator import generate_query_from_event
 from app.rag.retrieval.retriever import JsonRetriever
 from app.rag.retrieval.pg_retriever import PgVectorRetriever
-from app.rag.ingestion.event_store import save_analysis_result
+from app.rag.ingestion.event_store import build_embedding_payload
 
 DB_CONN = os.getenv("DATABASE_URL")  # .env에서 관리
 

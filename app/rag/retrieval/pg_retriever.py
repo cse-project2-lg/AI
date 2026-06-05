@@ -19,7 +19,7 @@ class PgVectorRetriever:
                     ee.event_id,
                     ee.content,
                     ee.metadata,
-                    ar.is_fall,
+                    (ar.llm_result->>'isFall')::boolean AS is_fall,
                     ar.confidence,
                     ar.risk_level,
                     ar.recommended_action,
@@ -30,12 +30,11 @@ class PgVectorRetriever:
                     1 - (ee.embedding <=> %s::vector) AS score
                 FROM event_embeddings ee
                 JOIN analysis_results ar ON ee.event_id = ar.event_id
-                JOIN event_window_summary ews ON ee.event_id = ews.event_id
+                LEFT JOIN event_window_summary ews ON ee.event_id = ews.event_id
                 WHERE ee.embedding IS NOT NULL
                 ORDER BY ee.embedding <=> %s::vector
                 LIMIT %s
             """, (query_embedding, query_embedding, top_k))
-
             for row in cur.fetchall():
                 llm_result = row[7] or {}
                 results.append({

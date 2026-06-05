@@ -2,8 +2,7 @@ import json
 from pathlib import Path
 from typing import List, Dict, Any
 
-from app.embeddings.embedder import Embedder
-
+from app.rag.embeddings.embedder import Embedder
 
 def create_chunk_embeddings(
     chunk_file_path: str = "data/chunks/chunks.json",

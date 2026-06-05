@@ -7,6 +7,8 @@ from app.rag.prompt.prompt_builder import build_rag_prompt
 from app.rag.query.query_generator import generate_query_from_event
 from app.rag.retrieval.retriever import JsonRetriever
 
+import logging 
+logger = logging.getLogger(__name__)
 
 ALLOWED_RISK_LEVELS = {"LOW", "MEDIUM", "HIGH"}
 ALLOWED_ACTIONS = {"NO_ACTION", "OBSERVE", "VERIFY_USER", "NOTIFY_GUARDIAN"}
@@ -146,26 +148,32 @@ def normalize_response(result: Dict[str, Any], sensor_event: Dict[str, Any]) -> 
 
 
 def analyze_sensor_event_with_rag(sensor_event: Dict[str, Any]) -> Dict[str, Any]:
-    try:
-        query = generate_query_from_event(sensor_event)
-        retriever = get_retriever()
-        retrieved_chunks = retriever.retrieve(query=query, top_k=3)
+    last_exc = None
+    for attempt in range(2):  # 최대 2회 시도
+        try:
+            query = generate_query_from_event(sensor_event)
+            retriever = get_retriever()
+            retrieved_chunks = retriever.retrieve(query=query, top_k=3)
+            rag_prompt = build_rag_prompt(
+                sensor_event=sensor_event,
+                query=query,
+                retrieved_chunks=retrieved_chunks,
+            )
+            raw_response = analyze_with_gemini(rag_prompt)
+            parsed = parse_llm_json(raw_response)
+            return normalize_response(parsed, sensor_event)
 
-        rag_prompt = build_rag_prompt(
-            sensor_event=sensor_event,
-            query=query,
-            retrieved_chunks=retrieved_chunks,
-        )
+        except (FileNotFoundError, PermissionError, ValueError) as exc:
+            # 영구 오류는 재시도 없이 바로 폴백
+            logger.exception("RAG 분석 영구 오류 (재시도 안함)")
+            return fallback_response(sensor_event, f"영구 오류: {exc}")
 
-        raw_response = analyze_with_gemini(rag_prompt)
-        parsed = parse_llm_json(raw_response)
-        return normalize_response(parsed, sensor_event)
+        except Exception as exc:
+            last_exc = exc
+            logger.warning("RAG 분석 실패 (시도 %d/2): %s", attempt + 1, exc)
 
-    except Exception as exc:
-        return fallback_response(
-            sensor_event,
-            f"AI/RAG 분석, 검색, LLM 호출 또는 응답 검증 실패: {exc}",
-        )
+    logger.exception("RAG 분석 최종 실패, 폴백 적용")
+    return fallback_response(sensor_event, f"분석 실패: {last_exc}")
 
 
 if __name__ == "__main__":

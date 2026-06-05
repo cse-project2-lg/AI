@@ -308,9 +308,9 @@ def main():
     if args.dataset:
         dataset = load_dataset(args.dataset)
     else:
-        print("[경고] --dataset 미지정. 내장 예시 데이터로 실행합니다.")
-        print("  실제 실험 시에는 --dataset test_data.json 으로 지정하세요.\n")
-        dataset = _EXAMPLE_DATASET
+        print("[오류] --dataset 을 지정해주세요.", file=sys.stderr)
+        print("  예시: python evaluate.py --dataset test_data.json", file=sys.stderr)
+        sys.exit(1)
 
     # --no-api 플래그가 있으면 A만
     if args.no_api:

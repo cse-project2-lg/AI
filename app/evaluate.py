@@ -146,7 +146,7 @@ def llm_only_predict(event: Dict[str, Any]) -> bool:
 
     except Exception as e:
         print(f"  [LLM-Only 오류] {event.get('eventId')}: {e}", file=sys.stderr)
-        # 오류 시 localScore 기반 fallback
+        event["fallback"] = True
         return event.get("localScore", 0.0) >= 0.70
 
 
@@ -247,12 +247,18 @@ def evaluate(condition_name: str, predict_fn, dataset: List[Dict]) -> EvalResult
             "predicted": predicted,
             "outcome": outcome,
             "latency_ms": round(elapsed * 1000, 1),
+            "fallback": event.get("fallback", False),
         })
         print(f"  {outcome:5s} | {scenario:30s} | {elapsed*1000:6.0f}ms")
 
     print(f"  → Acc={result.accuracy:.3f}  Pre={result.precision:.3f}  "
           f"Rec={result.recall:.3f}  F1={result.f1:.3f}  "
           f"AvgLat={result.avg_latency_ms:.0f}ms")
+    
+    fallback_count = sum(1 for s in result.per_sample if s.get("fallback"))
+    if fallback_count:
+        print(f"  ⚠ 폴백 발생: {fallback_count}/{len(result.per_sample)} (결과 신뢰도 낮음)")
+
     return result
 
 

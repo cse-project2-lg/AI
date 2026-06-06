@@ -8,12 +8,18 @@ def main() -> None:
     )
 
     sensor_event = {
-        "pir_detected": True,
-        "tof_distance_drop_cm": 45,
-        "csi_variance_level": "high",
-        "user_response": "no_response",
-        "llm_status": "available",
-        "event_type": "fall_candidate",
+        "type": "event.candidate",
+        "eventId": "EVT-TEST-001",
+        "sensorSummary": {
+            "pirMotion": False,
+            "pirLastMotionMs": 2400,
+            "tofChangeMm": 680,
+            "tofStableMs": 2100,
+            "csi": {"status": "AVAILABLE", "changeScore": 0.87},
+        },
+        "localScore": 0.86,
+        "localRiskLevel": "HIGH",
+        "candidateReason": ["CSI 급격 변화", "ToF 거리 급변"],
     }
 
     query = generate_query_from_event(sensor_event)

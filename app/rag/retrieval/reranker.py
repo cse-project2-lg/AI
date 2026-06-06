@@ -48,15 +48,6 @@ INTENT_CATEGORY_PREFERENCE = {
 
 
 def infer_query_intents(query: str) -> List[str]:
-    """
-    query에 포함된 단어를 기반으로 사용자의 검색 의도를 추정한다.
-
-    예:
-    - '낙상 후보 판단 기준' → fall_detection
-    - 'PIR ToF 센서 데이터' → sensor
-    - '보호자 알림 방식' → notification
-    """
-
     normalized_query = query.lower()
     matched_intents = []
 
@@ -68,8 +59,8 @@ def infer_query_intents(query: str) -> List[str]:
 
     return matched_intents
 
-def calculate_section_boost(metadata: Dict[str, Any], intents: List[str]) -> float:
 
+def calculate_section_boost(metadata: Dict[str, Any], intents: List[str]) -> float:
     section_title = metadata.get("section_title", "").lower()
 
     if not section_title:
@@ -85,27 +76,33 @@ def calculate_section_boost(metadata: Dict[str, Any], intents: List[str]) -> flo
 
     return boost
 
-def calculate_text_boost(text: str, intents: List[str]) -> float:
-    """
-    chunk 본문에 query 의도와 직접 관련된 표현이 있으면 boost를 부여한다.
-    """
 
+def calculate_text_boost(
+    text: str,
+    intents: List[str],
+    intent_weights: Dict[str, float] | None = None,
+) -> float:
     normalized_text = text.lower()
     boost = 0.0
 
     for intent in intents:
+        weight = (intent_weights or {}).get(intent, 1.0)
         matched_count = 0
 
         for keyword in TEXT_BOOST_KEYWORDS.get(intent, []):
             if keyword.lower() in normalized_text:
                 matched_count += 1
 
-        boost += min(matched_count * 0.03, 0.12)
+        boost += min(matched_count * 0.03, 0.12) * weight
 
     return boost
 
-def calculate_category_penalty(metadata: Dict[str, Any], intents: List[str]) -> float:
 
+def calculate_category_penalty(
+    metadata: Dict[str, Any],
+    intents: List[str],
+    intent_weights: Dict[str, float] | None = None,
+) -> float:
     category = metadata.get("category", "")
 
     if not category:
@@ -114,16 +111,16 @@ def calculate_category_penalty(metadata: Dict[str, Any], intents: List[str]) -> 
     penalty = 0.0
 
     for intent in intents:
-        preferred_categories = INTENT_CATEGORY_PREFERENCE.get(intent)
+        preferred = INTENT_CATEGORY_PREFERENCE.get(intent)
+        weight = (intent_weights or {}).get(intent, 1.0)
 
-        if preferred_categories and category not in preferred_categories:
-            penalty += 0.04
+        if preferred and category not in preferred:
+            penalty += 0.04 * weight
 
-    return min(penalty, 0.12)
+    return min(penalty, 0.15)
 
-# query의 의도와 chunk의 section context가 어긋나는 경우 감점
+
 def calculate_context_penalty(metadata: Dict[str, Any], intents: List[str]) -> float:
-
     section_title = metadata.get("section_title", "").lower()
 
     if not section_title:
@@ -154,53 +151,39 @@ def calculate_context_penalty(metadata: Dict[str, Any], intents: List[str]) -> f
 
     return penalty
 
-# query의 핵심 키워드를 기반으로 intent별 가중치를 계산
+
 def calculate_intent_weights(query: str) -> Dict[str, float]:
-
     weights = {}
-
     normalized_query = query.lower()
 
-    # 기본 가중치
     for intent in INTENT_KEYWORDS.keys():
         weights[intent] = 1.0
 
-    # 역할 관련 질문 → sensor 강화
     if "역할" in normalized_query or "어떻게 활용" in normalized_query:
         weights["sensor"] += 0.5
         weights["fall_detection"] += 0.3
 
-    # 통신 관련 질문 → communication 강화
     if "통신" in normalized_query or "전달" in normalized_query:
         weights["communication"] += 0.6
         weights["notification"] += 0.3
-
-        # hardware는 약간 깎기
         weights["sensor"] -= 0.2
 
-    # 확인 절차 질문
     if "확인" in normalized_query or "절차" in normalized_query:
         weights["user_confirmation"] += 0.6
 
-    # 관리자 화면 질문
     if "관리자" in normalized_query or "화면" in normalized_query:
         weights["admin_display"] += 0.7
 
-    # 실패 대응 질문
     if "실패" in normalized_query or "장애" in normalized_query:
         weights["llm_failure"] += 0.7
 
     return weights
 
-# 검색 결과를 재정렬 
+
 def rerank_results(
     query: str,
     results: List[Dict[str, Any]],
 ) -> List[Dict[str, Any]]:
-    """
-    1차 검색 결과를 query intent, section_title, chunk text, category 기반으로 재정렬한다.
-    """
-
     intents = infer_query_intents(query)
     intent_weights = calculate_intent_weights(query)
     reranked_results = []
@@ -210,32 +193,9 @@ def rerank_results(
         text = result.get("text", "")
 
         section_boost = calculate_section_boost(metadata, intents)
+        text_boost = calculate_text_boost(text, intents, intent_weights)
+        category_penalty = calculate_category_penalty(metadata, intents, intent_weights)
         context_penalty = calculate_context_penalty(metadata, intents)
-
-        text_boost = 0.0
-
-        for intent in intents:
-            weight = intent_weights.get(intent, 1.0)
-
-            matched_count = 0
-            for keyword in TEXT_BOOST_KEYWORDS.get(intent, []):
-                if keyword.lower() in text.lower():
-                    matched_count += 1
-
-            text_boost += min(matched_count * 0.03, 0.12) * weight
-        
-        category_penalty = 0.0
-
-        category = metadata.get("category", "")
-
-        for intent in intents:
-            preferred = INTENT_CATEGORY_PREFERENCE.get(intent)
-            weight = intent_weights.get(intent, 1.0)
-
-            if preferred and category not in preferred:
-                category_penalty += 0.04 * weight
-
-        category_penalty = min(category_penalty, 0.15)
 
         section_title = metadata.get("section_title", "").lower()
         normalized_query = query.lower()
@@ -243,7 +203,6 @@ def rerank_results(
         intent_priority_boost = 0.0
         intent_priority_penalty = 0.0
 
-        # ToF/CSI/PIR의 "역할"을 묻는 경우: Communication Interface보다 Overall Operation / Hardware Interface가 더 적절함
         if "역할" in normalized_query or "어떻게 활용" in normalized_query:
             if "overall operation" in section_title or "전체 동작방식" in section_title:
                 intent_priority_boost += 0.08
@@ -254,7 +213,6 @@ def rerank_results(
             if "communication interface" in section_title or "통신 인터페이스" in section_title:
                 intent_priority_penalty += 0.06
 
-        # "통신 방식", "전달"을 묻는 경우: Communication Interface가 가장 우선되어야 함
         if "통신 방식" in normalized_query or "전달" in normalized_query:
             if "communication interface" in section_title or "통신 인터페이스" in section_title:
                 intent_priority_boost += 0.10

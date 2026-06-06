@@ -19,6 +19,8 @@ def create_chunk_embeddings(
     for index, chunk in enumerate(chunks):
         if "text" not in chunk:
             raise ValueError(f"{index}번째 chunk에 text 필드가 없습니다.")
+        if not chunk["text"].strip(): 
+            raise ValueError(f"{index}번째 chunk의 text가 비어 있습니다.")
         texts.append(chunk["text"])
 
     embedder = Embedder()

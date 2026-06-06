@@ -9,6 +9,16 @@ class PgVectorRetriever:
         self.conn = psycopg2.connect(conn_string)
         self.embedder = Embedder()
 
+    def close(self):
+        if self.conn and not self.conn.closed:
+            self.conn.close()
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self.close()
+
     def retrieve(self, query: str, top_k: int = 3) -> List[Dict[str, Any]]:
         query_embedding = self.embedder.embed_text(query)
         query_embedding_str = json.dumps(query_embedding)

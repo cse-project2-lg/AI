@@ -178,26 +178,17 @@ def analyze_sensor_event_with_rag(sensor_event: Dict[str, Any]) -> Dict[str, Any
             raw_response = analyze_with_gemini(rag_prompt)
             parsed = parse_llm_json(raw_response)
             return normalize_response(parsed, sensor_event)
-
+        except json.JSONDecodeError as exc:
+            last_exc = exc
+            logger.warning("JSON 파싱 실패 (시도 %d/2): %s", attempt + 1, exc)
         except (FileNotFoundError, PermissionError, ValueError) as exc:
             logger.exception("RAG 분석 영구 오류 (재시도 안함)")
             return fallback_response(sensor_event, f"영구 오류: {exc}")
-
         except Exception as exc:
             last_exc = exc
             logger.warning("RAG 분석 실패 (시도 %d/2): %s", attempt + 1, exc)
-
     logger.exception("RAG 분석 최종 실패, 폴백 적용")
     return fallback_response(sensor_event, f"분석 실패: {last_exc}")
-
-    from app.rag.ingestion.event_store import build_embedding_payload
-    embedding_content, embedding_vector = build_embedding_payload(sensor_event, llm_result)
-
-    return {
-        "llm_result": llm_result,           # → DB에서 analysis_results에 저장
-        "embedding": embedding_vector,       # → DB에서 event_embeddings에 저장
-        "embedding_content": embedding_content
-    }
 
 if __name__ == "__main__":
     sample_event = {

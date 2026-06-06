@@ -1,6 +1,8 @@
 from __future__ import annotations
 
+import os
 from datetime import datetime, timezone
+from uuid import uuid4
 
 from app.db.database import check_db_connection, get_db_session
 from app.db.repositories import (
@@ -18,11 +20,14 @@ from app.db.repositories import (
 
 
 def main() -> None:
+    if os.getenv("RUN_DB_INTEGRATION_TEST") != "true":
+        raise RuntimeError("RUN_DB_INTEGRATION_TEST=true 일 때만 실행됩니다.")
+
     if not check_db_connection():
         raise RuntimeError("DB 연결에 실패했습니다. DATABASE_URL과 승인된 네트워크를 확인해주세요.")
 
     now = datetime.now(timezone.utc)
-    event_id = f"EVT-TEST-{now.strftime('%Y%m%d%H%M%S')}"
+    event_id = f"EVT-TEST-{uuid4().hex[:16].upper()}"
 
     llm_result = {
         "summary": "센서 변화 패턴을 기준으로 낙상 가능성이 높다고 판단됨",

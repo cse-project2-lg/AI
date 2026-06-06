@@ -68,7 +68,6 @@ def infer_query_intents(query: str) -> List[str]:
 
     return matched_intents
 
-# query에 포함된 단어를 기반으로 사용자의 검색 의도를 추정
 def calculate_section_boost(metadata: Dict[str, Any], intents: List[str]) -> float:
 
     section_title = metadata.get("section_title", "").lower()

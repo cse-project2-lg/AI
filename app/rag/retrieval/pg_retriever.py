@@ -11,6 +11,7 @@ class PgVectorRetriever:
 
     def retrieve(self, query: str, top_k: int = 3) -> List[Dict[str, Any]]:
         query_embedding = self.embedder.embed_text(query)
+        query_embedding_str = json.dumps(query_embedding)
         results = []
 
         with self.conn.cursor() as cur:
@@ -34,9 +35,14 @@ class PgVectorRetriever:
                 WHERE ee.embedding IS NOT NULL
                 ORDER BY ee.embedding <=> %s::vector
                 LIMIT %s
-            """, (query_embedding, query_embedding, top_k))
+            """, (query_embedding_str, query_embedding_str, top_k))
             for row in cur.fetchall():
-                llm_result = row[7] or {}
+                llm_result = row[7]
+                if isinstance(llm_result, str):
+                    llm_result = json.loads(llm_result)
+                elif not llm_result:
+                    llm_result = {}
+
                 results.append({
                     "chunk_id": row[0],
                     "section_title": "과거 낙상 판단 이력",

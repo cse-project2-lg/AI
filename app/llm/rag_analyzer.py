@@ -166,7 +166,13 @@ def analyze_sensor_event_with_rag(sensor_event: Dict[str, Any]) -> Dict[str, Any
             parsed = parse_llm_json(raw_response)
             return normalize_response(parsed, sensor_event)
 
+        except json.JSONDecodeError as exc:
+            # 일시적 오류 — 재시도 흐름으로
+            last_exc = exc
+            logger.warning("JSON 파싱 실패 (시도 %d/2): %s", attempt + 1, exc)
+
         except (FileNotFoundError, PermissionError, ValueError) as exc:
+            # 영구 오류 — 즉시 폴백
             logger.exception("RAG 분석 영구 오류 (재시도 안함)")
             return fallback_response(sensor_event, f"영구 오류: {exc}")
 

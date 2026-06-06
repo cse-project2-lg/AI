@@ -1,5 +1,5 @@
 import re
-import uuid
+import hashlib
 from typing import List
 
 from app.rag.schemas.document import Document
@@ -35,7 +35,8 @@ def split_into_chunks(document: Document) -> List[Chunk]:
                     chunk = _build_chunk(
                         document,
                         current_title,
-                        current_content
+                        current_content,
+                        len(chunks)
                     )
                     chunks.append(chunk)
 
@@ -52,7 +53,8 @@ def split_into_chunks(document: Document) -> List[Chunk]:
             chunk = _build_chunk(
                 document,
                 current_title,
-                current_content
+                current_content,
+                len(chunks)
             )
             chunks.append(chunk)
 
@@ -139,12 +141,14 @@ def _is_section_title(line: str) -> bool:
     return line in known_section_titles
 
 # "제목 + 내용" 단위로 Chunk 객체를 생성
-def _build_chunk(document: Document, title: str, content_lines: List[str]) -> Chunk:
+def _build_chunk(document: Document, title: str, content_lines: List[str], chunk_index: int) -> Chunk:
 
     content = "\n".join(content_lines)
 
+    raw_key = f"{document.doc_id}:{title}"
+    chunk_id = hashlib.sha1(raw_key.encode("utf-8")).hexdigest()
     return Chunk(
-        chunk_id=str(uuid.uuid4()),
+        chunk_id=chunk_id,
         doc_id=document.doc_id,
         text=f"{title}\n{content}",
         metadata={

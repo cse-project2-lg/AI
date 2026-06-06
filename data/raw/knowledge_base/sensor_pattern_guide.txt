@@ -96,9 +96,9 @@
 - 원칙 3: 단일 센서 이상만으로는 FALL_CONFIRMED로 확정하지 않는다. 복수 센서 조합을 통해 상태를 결정한다.
 - 원칙 4: ABNORMAL_DETECTED 또는 FALL_ANALYZING 상태에서는 반드시 TTS 음성 확인 절차를 수행한다.
 - 원칙 5: 판단이 불확실한 경우 FALL_ANALYZING 상태를 유지하며 LLM 분석을 수행한다.
-- 원칙 6: LLM 판단 실패 시 rule-based 보수적 판단으로 폴백하여 FALL_CONFIRMED로 처리한다.
+- 원칙 6: LLM 판단 실패 시 rule-based 보수적 판단으로 폴백하여 FALL_ANALYZING 상태를 유지하고, TTS 음성 확인 절차를 수행한다. 사용자 무응답 시에만 FALL_CONFIRMED로 확정한다.
 
-## 6. 시간대별 민감도 조정
+6. 시간대별 민감도 조정
 
 - 주간(06시~22시): 일반 민감도 적용. 복수 센서 확인을 통해 오탐 방지.
 - 야간(22시~06시): 높은 민감도 적용. ABNORMAL_DETECTED 발생 시 즉시 FALL_ANALYZING으로 전이 가능.

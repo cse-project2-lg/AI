@@ -1,9 +1,9 @@
 import re
-import uuid
+import hashlib
 from typing import List
 
-from app.schemas.document import Document
-from app.schemas.chunk import Chunk
+from app.rag.schemas.document import Document
+from app.rag.schemas.chunk import Chunk
 
 # Document를 받아서 Chunk 리스트로 분할
 def split_into_chunks(document: Document) -> List[Chunk]:
@@ -35,7 +35,8 @@ def split_into_chunks(document: Document) -> List[Chunk]:
                     chunk = _build_chunk(
                         document,
                         current_title,
-                        current_content
+                        current_content,
+                        len(chunks)
                     )
                     chunks.append(chunk)
 
@@ -52,7 +53,8 @@ def split_into_chunks(document: Document) -> List[Chunk]:
             chunk = _build_chunk(
                 document,
                 current_title,
-                current_content
+                current_content,
+                len(chunks)
             )
             chunks.append(chunk)
 
@@ -131,17 +133,22 @@ def _is_section_title(line: str) -> bool:
         "Environment (환경)",
         "Functional Requirements (기능 요구사항)",
         "Non-functional Requirements (비기능 요구사항)",
+        "오탐(False Positive) 케이스 정리",
+        "낙상 정의 및 판단 기준",
+        "센서 패턴 가이드",
     }
 
     return line in known_section_titles
 
 # "제목 + 내용" 단위로 Chunk 객체를 생성
-def _build_chunk(document: Document, title: str, content_lines: List[str]) -> Chunk:
+def _build_chunk(document: Document, title: str, content_lines: List[str], chunk_index: int) -> Chunk:
 
     content = "\n".join(content_lines)
 
+    raw_key = f"{document.doc_id}:{title}"
+    chunk_id = hashlib.sha1(raw_key.encode("utf-8")).hexdigest()
     return Chunk(
-        chunk_id=str(uuid.uuid4()),
+        chunk_id=chunk_id,
         doc_id=document.doc_id,
         text=f"{title}\n{content}",
         metadata={

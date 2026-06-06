@@ -4,6 +4,7 @@ from typing import List, Dict, Any
 
 from app.rag.embeddings.embedder import Embedder
 
+
 def create_chunk_embeddings(
     chunk_file_path: str = "data/chunks/chunks.json",
     output_file_path: str = "data/chunks/chunk_embeddings.json",
@@ -14,7 +15,13 @@ def create_chunk_embeddings(
     if not chunks:
         raise ValueError("chunk 데이터가 비어 있습니다.")
 
-    texts = [chunk["text"] for chunk in chunks]
+    texts = []
+    for index, chunk in enumerate(chunks):
+        if "text" not in chunk:
+            raise ValueError(f"{index}번째 chunk에 text 필드가 없습니다.")
+        if not chunk["text"].strip(): 
+            raise ValueError(f"{index}번째 chunk의 text가 비어 있습니다.")
+        texts.append(chunk["text"])
 
     embedder = Embedder()
     embeddings = embedder.embed_texts(texts)

@@ -3,7 +3,7 @@ from typing import Optional
 
 from dotenv import load_dotenv
 from google import genai
-
+from google.genai import types
 
 load_dotenv()
 GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
@@ -52,12 +52,18 @@ SYSTEM_INSTRUCTION = """
 - reasoning, verificationMessage, timeoutSec 단독 필드는 사용하지 않는다.
 """
 
+_CLIENT: Optional[genai.Client] = None
 
 def _get_client() -> genai.Client:
-    if not GOOGLE_API_KEY:
-        raise RuntimeError("GOOGLE_API_KEY 환경변수가 설정되지 않았습니다.")
-    return genai.Client(api_key=GOOGLE_API_KEY)
-
+    global _CLIENT
+    if _CLIENT is None:
+        if not GOOGLE_API_KEY:
+            raise RuntimeError("GOOGLE_API_KEY 환경변수가 설정되지 않았습니다.")
+        _CLIENT = genai.Client(
+            api_key=GOOGLE_API_KEY,
+            http_options=types.HttpOptions(timeout=30)
+        )
+    return _CLIENT
 
 def analyze_with_gemini(prompt: str, model: Optional[str] = None) -> str:
     client = _get_client()
@@ -66,4 +72,7 @@ def analyze_with_gemini(prompt: str, model: Optional[str] = None) -> str:
         config={"system_instruction": SYSTEM_INSTRUCTION},
         contents=prompt,
     )
-    return response.text
+    text = response.text
+    if not text:
+        raise RuntimeError("Gemini 응답이 비어 있습니다(차단 또는 빈 후보).")
+    return text

@@ -1,6 +1,7 @@
 import json
 import os
 from datetime import datetime, timezone
+from pathlib import Path
 from typing import Any, Dict, Optional
 
 from app.llm.gemini_client import analyze_with_gemini
@@ -11,6 +12,8 @@ from app.rag.retrieval.pg_retriever import PgVectorRetriever
 from app.rag.ingestion.event_store import build_embedding_payload
 
 DB_CONN = os.getenv("DATABASE_URL")  # .env에서 관리
+import logging
+logger = logging.getLogger(__name__)
 
 ALLOWED_RISK_LEVELS = {"LOW", "MEDIUM", "HIGH"}
 ALLOWED_ACTIONS = {"NO_ACTION", "OBSERVE", "VERIFY_USER", "NOTIFY_GUARDIAN"}
@@ -19,9 +22,12 @@ DEFAULT_PROMPT_ASSET = "are_you_ok_ko.mp3"
 DEFAULT_EXPECTED_OK_TEXT = ["네"]
 _RETRIEVER: Optional[JsonRetriever] = None
 
+PROJECT_ROOT = Path(__file__).parent.parent.parent
+EMBEDDING_FILE = PROJECT_ROOT / "data" / "chunks" / "chunk_embeddings.json"
+
 
 def now_iso_millis() -> str:
-    return datetime.now(timezone.utc).astimezone().isoformat(timespec="milliseconds")
+    return datetime.now(timezone.utc).isoformat(timespec="milliseconds")
 
 
 _RETRIEVER = None
@@ -34,14 +40,13 @@ def get_retriever():
                 _RETRIEVER = PgVectorRetriever(conn_string=DB_CONN)
             except Exception:
                 _RETRIEVER = JsonRetriever(
-                    embedding_file_path="data/chunks/chunk_embeddings.json"
+                    embedding_file_path=str(EMBEDDING_FILE)
                 )
         else:
             _RETRIEVER = JsonRetriever(
-                embedding_file_path="data/chunks/chunk_embeddings.json"
+                embedding_file_path=str(EMBEDDING_FILE)
             )
     return _RETRIEVER
-
 
 def parse_llm_json(text: str) -> Dict[str, Any]:
     cleaned = text.strip()
@@ -139,7 +144,6 @@ def normalize_response(result: Dict[str, Any], sensor_event: Dict[str, Any]) -> 
 
     normalized.setdefault("situationSummary", "")
 
-    # Backward-compatible migration from old LLM contract.
     if "analysisReason" not in normalized:
         normalized["analysisReason"] = normalized.pop("reasoning", "")
     else:
@@ -160,22 +164,31 @@ def normalize_response(result: Dict[str, Any], sensor_event: Dict[str, Any]) -> 
 
 
 def analyze_sensor_event_with_rag(sensor_event: Dict[str, Any]) -> Dict[str, Any]:
-    retriever = get_retriever()
-    query = generate_query_from_event(sensor_event)
-    retrieved_chunks = retriever.retrieve(query=query, top_k=3)
-    rag_prompt = build_rag_prompt(
-        sensor_event=sensor_event,
-        query=query,
-        retrieved_chunks=retrieved_chunks,
-    )
+    last_exc = None
+    for attempt in range(2):
+        try:
+            query = generate_query_from_event(sensor_event)
+            retriever = get_retriever()
+            retrieved_chunks = retriever.retrieve(query=query, top_k=3)
+            rag_prompt = build_rag_prompt(
+                sensor_event=sensor_event,
+                query=query,
+                retrieved_chunks=retrieved_chunks,
+            )
+            raw_response = analyze_with_gemini(rag_prompt)
+            parsed = parse_llm_json(raw_response)
+            return normalize_response(parsed, sensor_event)
 
-    response_text = analyze_with_gemini(rag_prompt)
+        except (FileNotFoundError, PermissionError, ValueError) as exc:
+            logger.exception("RAG 분석 영구 오류 (재시도 안함)")
+            return fallback_response(sensor_event, f"영구 오류: {exc}")
 
-    try:
-        llm_result = parse_llm_json(response_text)
-        llm_result = normalize_response(llm_result, sensor_event)
-    except Exception:
-        llm_result = fallback_response(sensor_event, "LLM 응답 파싱 실패")
+        except Exception as exc:
+            last_exc = exc
+            logger.warning("RAG 분석 실패 (시도 %d/2): %s", attempt + 1, exc)
+
+    logger.exception("RAG 분석 최종 실패, 폴백 적용")
+    return fallback_response(sensor_event, f"분석 실패: {last_exc}")
 
     from app.rag.ingestion.event_store import build_embedding_payload
     embedding_content, embedding_vector = build_embedding_payload(sensor_event, llm_result)

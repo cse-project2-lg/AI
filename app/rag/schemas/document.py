@@ -1,6 +1,6 @@
 from dataclasses import dataclass, field
 from typing import Optional, Dict
-from datetime import datetime
+from datetime import datetime, timezone
 
 
 @dataclass
@@ -24,7 +24,7 @@ class Document:
     doc_type: Optional[str] = None       # srs / policy / rule
 
     # 추적/디버깅
-    created_at: datetime = field(default_factory=datetime.utcnow)
+    created_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     extra_metadata: Dict = field(default_factory=dict)
 
     def get_active_text(self) -> str:

@@ -1,5 +1,5 @@
 import re
-from app.schemas.document import Document
+from app.rag.schemas.document import Document
 
 # Document 객체의 원본 텍스트를 정제하고 cleaned_text에 저장
 
@@ -83,8 +83,8 @@ def _remove_table_of_contents(text: str) -> str:
         if not toc_started and toc_line_pattern.match(stripped):
             continue
 
-        # 목차 제거 후 남은 잔여 목차 줄 제거
-        if toc_started and toc_line_pattern.match(stripped):
+        # 잔여 목차 줄은 본문(intro) 시작 전에만 제거한다
+        if toc_started and in_toc_area and toc_line_pattern.match(stripped):
             continue
 
         cleaned_lines.append(line)

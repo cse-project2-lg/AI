@@ -1,6 +1,6 @@
 from dataclasses import dataclass, field
 from typing import Dict
-from datetime import datetime
+from datetime import datetime, timezone
 
 
 @dataclass
@@ -18,7 +18,7 @@ class Chunk:
     metadata: Dict = field(default_factory=dict)
 
     # 추적 정보
-    created_at: datetime = field(default_factory=datetime.utcnow)
+    created_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
 
     def to_dict(self) -> Dict:
         # JSON 저장용 변환

@@ -146,7 +146,7 @@ def llm_only_predict(event: Dict[str, Any]) -> bool:
 
     except Exception as e:
         print(f"  [LLM-Only 오류] {event.get('eventId')}: {e}", file=sys.stderr)
-        # 오류 시 localScore 기반 fallback
+        event["fallback"] = True
         return event.get("localScore", 0.0) >= 0.70
 
 
@@ -247,12 +247,18 @@ def evaluate(condition_name: str, predict_fn, dataset: List[Dict]) -> EvalResult
             "predicted": predicted,
             "outcome": outcome,
             "latency_ms": round(elapsed * 1000, 1),
+            "fallback": event.get("fallback", False),
         })
         print(f"  {outcome:5s} | {scenario:30s} | {elapsed*1000:6.0f}ms")
 
     print(f"  → Acc={result.accuracy:.3f}  Pre={result.precision:.3f}  "
           f"Rec={result.recall:.3f}  F1={result.f1:.3f}  "
           f"AvgLat={result.avg_latency_ms:.0f}ms")
+    
+    fallback_count = sum(1 for s in result.per_sample if s.get("fallback"))
+    if fallback_count:
+        print(f"  ⚠ 폴백 발생: {fallback_count}/{len(result.per_sample)} (결과 신뢰도 낮음)")
+
     return result
 
 
@@ -302,9 +308,9 @@ def main():
     if args.dataset:
         dataset = load_dataset(args.dataset)
     else:
-        print("[경고] --dataset 미지정. 내장 예시 데이터로 실행합니다.")
-        print("  실제 실험 시에는 --dataset test_data.json 으로 지정하세요.\n")
-        dataset = _EXAMPLE_DATASET
+        print("[오류] --dataset 을 지정해주세요.", file=sys.stderr)
+        print("  예시: python evaluate.py --dataset test_data.json", file=sys.stderr)
+        sys.exit(1)
 
     # --no-api 플래그가 있으면 A만
     if args.no_api:
@@ -319,6 +325,17 @@ def main():
 
     for cond in args.conditions:
         name, fn = condition_map[cond]
+
+        if cond in ("B", "C") and dataset:
+            print(f"[{name}] 워밍업 중...")
+            try:
+                fn(dataset[0]["event"])
+            except Exception as e:
+                print(f"[{name}] 워밍업 중 오류 발생: {e}", file=sys.stderr)
+                if any(keyword in str(e).lower() for keyword in ("api key", "authentication", "permission denied")):
+                    print(f"[{name}] API 키 또는 인증 오류로 평가를 중단합니다.", file=sys.stderr)
+                    sys.exit(1)
+
         r = evaluate(name, fn, dataset)
         results.append(r)
 

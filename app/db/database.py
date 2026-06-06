@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import os
+import logging
 from contextlib import contextmanager
 from typing import Generator
 
@@ -8,6 +9,8 @@ from dotenv import load_dotenv
 from sqlalchemy import create_engine, text
 from sqlalchemy.engine import Engine
 from sqlalchemy.orm import Session, declarative_base, sessionmaker
+
+logger = logging.getLogger("app.db.database")
 
 load_dotenv()
 
@@ -25,6 +28,11 @@ engine: Engine = create_engine(
     pool_size=5,
     max_overflow=10,
     pool_recycle=1800,
+    pool_timeout=30,
+    connect_args={
+        "connect_timeout": 5,
+        "options": "-c statement_timeout=5000",
+    },
 )
 
 SessionLocal = sessionmaker(
@@ -56,6 +64,6 @@ def check_db_connection() -> bool:
         with engine.connect() as connection:
             connection.execute(text("SELECT 1"))
         return True
-    except Exception as exc:
-        print(f"DB 연결 실패 상세 원인: {exc}")
+    except Exception:
+        logger.error("데이터베이스 연결 실패: 데이터베이스 서버 상태나 네트워크 설정을 확인하세요.")
         return False

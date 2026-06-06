@@ -29,9 +29,6 @@ EMBEDDING_FILE = PROJECT_ROOT / "data" / "chunks" / "chunk_embeddings.json"
 def now_iso_millis() -> str:
     return datetime.now(timezone.utc).isoformat(timespec="milliseconds")
 
-
-_RETRIEVER = None
-
 def get_retriever():
     global _RETRIEVER
     if _RETRIEVER is None:
@@ -50,16 +47,11 @@ def get_retriever():
 
 def parse_llm_json(text: str) -> Dict[str, Any]:
     cleaned = text.strip()
-
-    if cleaned.startswith("```json"):
-        cleaned = cleaned.replace("```json", "", 1).strip()
-    if cleaned.startswith("```"):
-        cleaned = cleaned.replace("```", "", 1).strip()
-    if cleaned.endswith("```"):
-        cleaned = cleaned[:-3].strip()
-
-    return json.loads(cleaned)
-
+    start = cleaned.find("{")
+    end = cleaned.rfind("}")
+    if start == -1 or end == -1 or end < start:
+        raise ValueError(f"JSON 블록을 찾을 수 없습니다: {cleaned[:200]}")
+    return json.loads(cleaned[start:end + 1])
 
 def _verification_plan_for_action(action: str) -> Dict[str, Any]:
     if action == "VERIFY_USER":

@@ -1,5 +1,6 @@
 import json
 import os
+
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, Optional
@@ -35,9 +36,10 @@ def get_retriever():
         if DB_CONN:
             try:
                 _RETRIEVER = PgVectorRetriever(conn_string=DB_CONN)
-            except Exception:
+            except Exception as e:
+                logger.warning(f"PgVectorRetriever 초기화 실패, JsonRetriever로 폴백: {e}")
                 _RETRIEVER = JsonRetriever(
-                    embedding_file_path=str(EMBEDDING_FILE)
+                    embedding_file_path="data/chunks/chunk_embeddings.json"
                 )
         else:
             _RETRIEVER = JsonRetriever(

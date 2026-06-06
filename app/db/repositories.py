@@ -18,6 +18,25 @@ from app.db.models import (
     VoiceInteraction,
 )
 
+ALLOWED_EVENT_STATUSES = {
+    "CANDIDATE",
+    "AI_ANALYZED",
+    "VERIFYING_USER",
+    "NOTIFIED",
+    "RESOLVED",
+}
+
+
+def _validate_status(value: str | None, field_name: str) -> str | None:
+    if value is None:
+        return None
+    normalized = value.strip().upper()
+    if not normalized:
+        raise ValueError(f"{field_name}는 빈 문자열일 수 없습니다.")
+    if normalized not in ALLOWED_EVENT_STATUSES:
+        raise ValueError(f"허용되지 않은 상태값입니다: {normalized}")
+    return normalized
+
 
 def create_event(
     db: Session,
@@ -32,11 +51,13 @@ def create_event(
     낙상 후보 이벤트 기본 정보를 저장
     - 중복 event_id가 들어오면 IntegrityError가 발생한다.
     """
+    validated_status = _validate_status(event_status, "event_status")
+    
     event = Event(
         event_id=event_id,
         device_id=device_id,
         location=location,
-        event_status=event_status,
+        event_status=validated_status,
         rule_score=rule_score,
     )
 
@@ -62,6 +83,7 @@ def update_event_status(
     save_history: bool = True,
 ) -> Event:
 
+    validated_status = _validate_status(event_status, "event_status")
     event = get_event_by_id(db, event_id)
 
     if event is None:
@@ -69,13 +91,13 @@ def update_event_status(
 
     previous_status = event.event_status
 
-    event.event_status = event_status
+    event.event_status = validated_status
 
     if save_history:
         history = EventStatusHistory(
             event_id=event_id,
             from_status=previous_status,
-            to_status=event_status,
+            to_status=validated_status,
             reason=reason,
         )
         db.add(history)
@@ -94,13 +116,16 @@ def save_event_status_history(
     reason: str | None = None,
 ) -> EventStatusHistory:
 
-    if not to_status.strip():
-        raise ValueError("to_status는 빈 문자열일 수 없습니다.")
+    validated_to_status = _validate_status(to_status, "to_status")
+    validated_from_status = _validate_status(from_status, "from_status")
+
+    if validated_to_status is None:
+        raise ValueError("to_status는 필수 입력값입니다.")
 
     history = EventStatusHistory(
         event_id=event_id,
-        from_status=from_status,
-        to_status=to_status,
+        from_status=validated_from_status,
+        to_status=validated_to_status,
         reason=reason,
     )
 
@@ -272,6 +297,9 @@ def list_recent_events(
     *,
     limit: int = 10,
 ) -> list[Event]:
+
+    if limit <= 0:
+        raise ValueError(f"limit 값은 0보다 큰 양수여야 합니다. 입력값: {limit}")
 
     statement = (
         select(Event)

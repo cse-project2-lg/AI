@@ -6,3 +6,6 @@ google-genai
 sentence-transformers
 numpy
 python-docx
+sqlalchemy
+psycopg2-binary
+pgvector

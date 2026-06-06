@@ -41,13 +41,10 @@ def create_event(
     )
 
     db.add(event)
-
-    try:
-        db.flush()
-    except IntegrityError as exc:
-        raise ValueError(f"이미 존재하는 event_id입니다: {event_id}") from exc
+    _flush_or_raise(db, event_id=event_id)
 
     return event
+
 
 #event_id로 이벤트를 조회
 def get_event_by_id(db: Session, event_id: str) -> Event | None:
@@ -83,7 +80,7 @@ def update_event_status(
         )
         db.add(history)
 
-    db.flush()
+    _flush_or_raise(db, event_id=event_id)
 
     return event
 
@@ -96,8 +93,6 @@ def save_event_status_history(
     to_status: str,
     reason: str | None = None,
 ) -> EventStatusHistory:
-    
-    _ensure_event_exists(db, event_id)
 
     if not to_status.strip():
         raise ValueError("to_status는 빈 문자열일 수 없습니다.")
@@ -110,7 +105,7 @@ def save_event_status_history(
     )
 
     db.add(history)
-    db.flush()
+    _flush_or_raise(db, event_id=event_id)
 
     return history
 
@@ -128,8 +123,6 @@ def save_event_window_summary(
     summary: str | None,
 ) -> EventWindowSummary:
 
-    _ensure_event_exists(db, event_id)
-
     window_summary = EventWindowSummary(
         event_id=event_id,
         window_start=window_start,
@@ -141,7 +134,7 @@ def save_event_window_summary(
     )
 
     db.add(window_summary)
-    db.flush()
+    _flush_or_raise(db, event_id=event_id)
 
     return window_summary
 
@@ -157,8 +150,6 @@ def save_analysis_result(
     recommended_action: str | None,
 ) -> AnalysisResult:
 
-    _ensure_event_exists(db, event_id)
-
     analysis_result = AnalysisResult(
         event_id=event_id,
         risk_level=risk_level,
@@ -168,7 +159,7 @@ def save_analysis_result(
     )
 
     db.add(analysis_result)
-    db.flush()
+    _flush_or_raise(db, event_id=event_id)
 
     return analysis_result
 
@@ -182,8 +173,6 @@ def save_event_embedding(
     embedding: list[float] | None,
     metadata: dict[str, Any] | None,
 ) -> EventEmbedding:
-    _ensure_event_exists(db, event_id)
-
     if not content.strip():
         raise ValueError("content는 빈 문자열일 수 없습니다.")
 
@@ -201,7 +190,7 @@ def save_event_embedding(
     )
 
     db.add(event_embedding)
-    db.flush()
+    _flush_or_raise(db, event_id=event_id)
 
     return event_embedding
 
@@ -216,8 +205,6 @@ def save_voice_interaction(
     response_type: str | None,
 ) -> VoiceInteraction:
 
-    _ensure_event_exists(db, event_id)
-
     voice_interaction = VoiceInteraction(
         event_id=event_id,
         question_text=question_text,
@@ -226,7 +213,7 @@ def save_voice_interaction(
     )
 
     db.add(voice_interaction)
-    db.flush()
+    _flush_or_raise(db, event_id=event_id)
 
     return voice_interaction
 
@@ -242,8 +229,6 @@ def save_notification(
     sent_at: datetime | None = None,
 ) -> Notification:
 
-    _ensure_event_exists(db, event_id)
-
     notification = Notification(
         event_id=event_id,
         guardian_id=guardian_id,
@@ -253,7 +238,7 @@ def save_notification(
     )
 
     db.add(notification)
-    db.flush()
+    _flush_or_raise(db, event_id=event_id)
 
     return notification
 
@@ -268,8 +253,6 @@ def save_response_outcome(
     resolved_at: datetime | None = None,
 ) -> ResponseOutcome:
 
-    _ensure_event_exists(db, event_id)
-
     response_outcome = ResponseOutcome(
         event_id=event_id,
         final_status=final_status,
@@ -278,7 +261,7 @@ def save_response_outcome(
     )
 
     db.add(response_outcome)
-    db.flush()
+    _flush_or_raise(db, event_id=event_id)
 
     return response_outcome
 
@@ -315,13 +298,19 @@ def list_event_embeddings(
     return list(db.execute(statement).scalars().all())
 
 
-# FK 오류가 나기 전에 event_id 존재 여부를 명확히 확인
-def _ensure_event_exists(db: Session, event_id: str) -> None:
+def _flush_or_raise(db: Session, event_id: str | None = None) -> None:
+    try:
+        db.flush()
+    except IntegrityError as exc:
+        pgcode = getattr(exc.orig, "pgcode", None)
 
-    event = get_event_by_id(db, event_id)
+        if pgcode == "23503":
+            raise ValueError(
+                f"존재하지 않는 event_id입니다: {event_id}. "
+                "먼저 events 테이블에 이벤트를 생성해야 합니다."
+            ) from exc
 
-    if event is None:
-        raise ValueError(
-            f"존재하지 않는 event_id입니다: {event_id}. "
-            "먼저 events 테이블에 이벤트를 생성해야 합니다."
-        )
+        if pgcode == "23505":
+            raise ValueError(f"이미 존재하는 event_id입니다: {event_id}") from exc
+
+        raise

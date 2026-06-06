@@ -89,7 +89,7 @@ def _infer_doc_type(path: Path) -> str:
 
     parent_dir = path.parent.name
 
-    if parent_dir in {"srs", "policies", "states", "rules", "meeting_notes"}:
+    if parent_dir in {"srs", "policies", "states", "rules", "meeting_notes", "knowledge_base"}:
         return parent_dir
 
     return "unknown"

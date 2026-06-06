@@ -3,7 +3,7 @@ from typing import Optional
 
 from dotenv import load_dotenv
 from google import genai
-
+from google.genai import types
 
 load_dotenv()
 # GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
@@ -52,13 +52,37 @@ SYSTEM_INSTRUCTION = """
 - reasoning, verificationMessage, timeoutSec 단독 필드는 사용하지 않는다.
 """
 
+_CLIENT: Optional[genai.Client] = None
 
 def _get_client() -> genai.Client:
-    #if not GOOGLE_API_KEY:
-    #    raise RuntimeError("GOOGLE_API_KEY 환경변수가 설정되지 않았습니다.")
-    #return genai.Client(api_key=GOOGLE_API_KEY)
-    return genai.Client()
-
+    global _CLIENT
+    if _CLIENT is None:
+        # 1. .env에 GOOGLE_API_KEY가 있으면 그걸로 즉시 실행 (로컬 방식)
+        if GOOGLE_API_KEY:
+            _CLIENT = genai.Client(
+                api_key=GOOGLE_API_KEY,
+                http_options=types.HttpOptions(timeout=30)
+            )
+        # 2. API 키가 없다면 ADC(Application Default Credentials) 방식으로 시도
+        else:
+            if platform.system() == "Windows":
+                adc_path = Path(os.environ.get("APPDATA", "")) / "gcloud/application_default_credentials.json"
+            else:
+                adc_path = Path.home() / ".config/gcloud/application_default_credentials.json"
+            
+            if not adc_path.exists():
+                raise RuntimeError(
+                    "[Gemini 인증 에러] 설정된 API 키가 없습니다.\n"
+                    "로컬 환경이라면 .env 파일에 GOOGLE_API_KEY를 입력해 주시고,\n"
+                    "클라우드 서버라면 터미널에 'gcloud auth application-default login'을 실행해 주세요!"
+                )
+            
+            # 파일이 잘 있다면 아무 메시지 없이 바로 클라이언트 생성해서 사용
+            _CLIENT = genai.Client(
+                http_options=types.HttpOptions(timeout=30)
+            )
+            
+    return _CLIENT
 
 def analyze_with_gemini(prompt: str, model: Optional[str] = None) -> str:
     client = _get_client()
@@ -67,4 +91,7 @@ def analyze_with_gemini(prompt: str, model: Optional[str] = None) -> str:
         config={"system_instruction": SYSTEM_INSTRUCTION},
         contents=prompt,
     )
-    return response.text
+    text = response.text
+    if not text:
+        raise RuntimeError("Gemini 응답이 비어 있습니다(차단 또는 빈 후보).")
+    return text

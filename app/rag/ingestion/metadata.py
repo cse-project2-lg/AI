@@ -1,7 +1,7 @@
 import re
 from typing import List
 
-from app.schemas.chunk import Chunk
+from app.rag.schemas.chunk import Chunk
 
 
 HIGH_PRIORITY_KEYWORDS = [

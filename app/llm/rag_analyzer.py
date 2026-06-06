@@ -1,5 +1,6 @@
 import json
 from datetime import datetime, timezone
+from pathlib import Path
 from typing import Any, Dict, Optional
 
 from app.llm.gemini_client import analyze_with_gemini
@@ -7,6 +8,8 @@ from app.rag.prompt.prompt_builder import build_rag_prompt
 from app.rag.query.query_generator import generate_query_from_event
 from app.rag.retrieval.retriever import JsonRetriever
 
+import logging
+logger = logging.getLogger(__name__)
 
 ALLOWED_RISK_LEVELS = {"LOW", "MEDIUM", "HIGH"}
 ALLOWED_ACTIONS = {"NO_ACTION", "OBSERVE", "VERIFY_USER", "NOTIFY_GUARDIAN"}
@@ -15,16 +18,19 @@ DEFAULT_PROMPT_ASSET = "are_you_ok_ko.mp3"
 DEFAULT_EXPECTED_OK_TEXT = ["네"]
 _RETRIEVER: Optional[JsonRetriever] = None
 
+PROJECT_ROOT = Path(__file__).parent.parent.parent
+EMBEDDING_FILE = PROJECT_ROOT / "data" / "chunks" / "chunk_embeddings.json"
+
 
 def now_iso_millis() -> str:
-    return datetime.now(timezone.utc).astimezone().isoformat(timespec="milliseconds")
+    return datetime.now(timezone.utc).isoformat(timespec="milliseconds")
 
 
 def get_retriever() -> JsonRetriever:
     global _RETRIEVER
     if _RETRIEVER is None:
         _RETRIEVER = JsonRetriever(
-            embedding_file_path="data/chunks/chunk_embeddings.json"
+            embedding_file_path=str(EMBEDDING_FILE)
         )
     return _RETRIEVER
 
@@ -125,7 +131,6 @@ def normalize_response(result: Dict[str, Any], sensor_event: Dict[str, Any]) -> 
 
     normalized.setdefault("situationSummary", "")
 
-    # Backward-compatible migration from old LLM contract.
     if "analysisReason" not in normalized:
         normalized["analysisReason"] = normalized.pop("reasoning", "")
     else:
@@ -146,26 +151,31 @@ def normalize_response(result: Dict[str, Any], sensor_event: Dict[str, Any]) -> 
 
 
 def analyze_sensor_event_with_rag(sensor_event: Dict[str, Any]) -> Dict[str, Any]:
-    try:
-        query = generate_query_from_event(sensor_event)
-        retriever = get_retriever()
-        retrieved_chunks = retriever.retrieve(query=query, top_k=3)
+    last_exc = None
+    for attempt in range(2):
+        try:
+            query = generate_query_from_event(sensor_event)
+            retriever = get_retriever()
+            retrieved_chunks = retriever.retrieve(query=query, top_k=3)
+            rag_prompt = build_rag_prompt(
+                sensor_event=sensor_event,
+                query=query,
+                retrieved_chunks=retrieved_chunks,
+            )
+            raw_response = analyze_with_gemini(rag_prompt)
+            parsed = parse_llm_json(raw_response)
+            return normalize_response(parsed, sensor_event)
 
-        rag_prompt = build_rag_prompt(
-            sensor_event=sensor_event,
-            query=query,
-            retrieved_chunks=retrieved_chunks,
-        )
+        except (FileNotFoundError, PermissionError, ValueError) as exc:
+            logger.exception("RAG 분석 영구 오류 (재시도 안함)")
+            return fallback_response(sensor_event, f"영구 오류: {exc}")
 
-        raw_response = analyze_with_gemini(rag_prompt)
-        parsed = parse_llm_json(raw_response)
-        return normalize_response(parsed, sensor_event)
+        except Exception as exc:
+            last_exc = exc
+            logger.warning("RAG 분석 실패 (시도 %d/2): %s", attempt + 1, exc)
 
-    except Exception as exc:
-        return fallback_response(
-            sensor_event,
-            f"AI/RAG 분석, 검색, LLM 호출 또는 응답 검증 실패: {exc}",
-        )
+    logger.exception("RAG 분석 최종 실패, 폴백 적용")
+    return fallback_response(sensor_event, f"분석 실패: {last_exc}")
 
 
 if __name__ == "__main__":

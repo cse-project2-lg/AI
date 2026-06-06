@@ -54,6 +54,9 @@ def _remove_table_of_contents(text: str) -> str:
 
     in_toc_area = False
     toc_started = False
+    toc_line_count = 0
+    MAX_TOC_LINES = 100
+
 
     toc_title_pattern = re.compile(r"^\s*목\s*차\s*$")
     intro_body_pattern = re.compile(r"^\s*Introduction\s*\(개요\)\s*$")
@@ -74,8 +77,11 @@ def _remove_table_of_contents(text: str) -> str:
             cleaned_lines.append(line)
             continue
 
-        # 목차 영역 안의 모든 줄 제거
         if in_toc_area:
+            toc_line_count += 1
+            if toc_line_count > MAX_TOC_LINES:
+                in_toc_area = False  # 강제 탈출
+                cleaned_lines.append(line)
             continue
 
         # 목차 제목 탐지가 불완전했을 경우를 대비해

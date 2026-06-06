@@ -1,4 +1,6 @@
 import json
+import os
+
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, Optional
@@ -7,7 +9,10 @@ from app.llm.gemini_client import analyze_with_gemini
 from app.rag.prompt.prompt_builder import build_rag_prompt
 from app.rag.query.query_generator import generate_query_from_event
 from app.rag.retrieval.retriever import JsonRetriever
+from app.rag.retrieval.pg_retriever import PgVectorRetriever
+from app.rag.ingestion.event_store import build_embedding_payload
 
+DB_CONN = os.getenv("DATABASE_URL")  # .env에서 관리
 import logging
 logger = logging.getLogger(__name__)
 
@@ -25,28 +30,30 @@ EMBEDDING_FILE = PROJECT_ROOT / "data" / "chunks" / "chunk_embeddings.json"
 def now_iso_millis() -> str:
     return datetime.now(timezone.utc).isoformat(timespec="milliseconds")
 
-
-def get_retriever() -> JsonRetriever:
+def get_retriever():
     global _RETRIEVER
     if _RETRIEVER is None:
-        _RETRIEVER = JsonRetriever(
-            embedding_file_path=str(EMBEDDING_FILE)
-        )
+        if DB_CONN:
+            try:
+                _RETRIEVER = PgVectorRetriever(conn_string=DB_CONN)
+            except Exception as e:
+                logger.warning(f"PgVectorRetriever 초기화 실패, JsonRetriever로 폴백: {e}")
+                _RETRIEVER = JsonRetriever(
+                    embedding_file_path="data/chunks/chunk_embeddings.json"
+                )
+        else:
+            _RETRIEVER = JsonRetriever(
+                embedding_file_path=str(EMBEDDING_FILE)
+            )
     return _RETRIEVER
-
 
 def parse_llm_json(text: str) -> Dict[str, Any]:
     cleaned = text.strip()
-
-    if cleaned.startswith("```json"):
-        cleaned = cleaned.replace("```json", "", 1).strip()
-    if cleaned.startswith("```"):
-        cleaned = cleaned.replace("```", "", 1).strip()
-    if cleaned.endswith("```"):
-        cleaned = cleaned[:-3].strip()
-
-    return json.loads(cleaned)
-
+    start = cleaned.find("{")
+    end = cleaned.rfind("}")
+    if start == -1 or end == -1 or end < start:
+        raise ValueError(f"JSON 블록을 찾을 수 없습니다: {cleaned[:200]}")
+    return json.loads(cleaned[start:end + 1])
 
 def _verification_plan_for_action(action: str) -> Dict[str, Any]:
     if action == "VERIFY_USER":
@@ -165,18 +172,17 @@ def analyze_sensor_event_with_rag(sensor_event: Dict[str, Any]) -> Dict[str, Any
             raw_response = analyze_with_gemini(rag_prompt)
             parsed = parse_llm_json(raw_response)
             return normalize_response(parsed, sensor_event)
-
+        except json.JSONDecodeError as exc:
+            last_exc = exc
+            logger.warning("JSON 파싱 실패 (시도 %d/2): %s", attempt + 1, exc)
         except (FileNotFoundError, PermissionError, ValueError) as exc:
             logger.exception("RAG 분석 영구 오류 (재시도 안함)")
             return fallback_response(sensor_event, f"영구 오류: {exc}")
-
         except Exception as exc:
             last_exc = exc
             logger.warning("RAG 분석 실패 (시도 %d/2): %s", attempt + 1, exc)
-
     logger.exception("RAG 분석 최종 실패, 폴백 적용")
     return fallback_response(sensor_event, f"분석 실패: {last_exc}")
-
 
 if __name__ == "__main__":
     sample_event = {

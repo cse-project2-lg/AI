@@ -1,0 +1,8 @@
+fastapi
+uvicorn
+pydantic>=2.0.0,<3.0.0
+python-dotenv
+google-genai
+sentence-transformers
+numpy
+python-docx==1.1.2

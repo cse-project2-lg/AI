@@ -11,6 +11,7 @@ from sqlalchemy import (
     String,
     Text,
     func,
+    Index,
 )
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import Mapped, mapped_column, relationship
@@ -21,6 +22,10 @@ from app.db.database import Base
 
 class Event(Base):
     __tablename__ = "events"
+    
+    __table_args__ = (
+        Index("ix_events_created_at_desc", "created_at"),
+    )
 
     event_id: Mapped[str] = mapped_column(String(100), primary_key=True)
     device_id: Mapped[str | None] = mapped_column(String(100), nullable=True)
@@ -39,6 +44,7 @@ class Event(Base):
     updated_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True),
         server_default=func.now(),
+        onupdate=func.now(),
         nullable=False,
     )
 
@@ -199,6 +205,10 @@ class ResponseOutcome(Base):
 
 class EventEmbedding(Base):
     __tablename__ = "event_embeddings"
+
+    __table_args__ = (
+        Index("ix_event_embeddings_event_id_created_at", "event_id", "created_at"),
+    )
 
     id: Mapped[int] = mapped_column(BigInteger, primary_key=True, autoincrement=True)
     event_id: Mapped[str] = mapped_column(

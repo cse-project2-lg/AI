@@ -23,6 +23,7 @@ import json
 import sys
 import time
 import argparse
+import copy
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from pathlib import Path
@@ -336,7 +337,7 @@ def main():
                     print(f"[{name}] API 키 또는 인증 오류로 평가를 중단합니다.", file=sys.stderr)
                     sys.exit(1)
 
-        r = evaluate(name, fn, dataset)
+        r = evaluate(name, fn, copy.deepcopy(dataset))
         results.append(r)
 
     print_summary(results)

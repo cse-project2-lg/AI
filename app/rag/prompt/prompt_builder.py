@@ -1,3 +1,4 @@
+import json
 from typing import Any, Dict, List
 
 from app.rag.context.context_builder import build_context_summary
@@ -46,7 +47,7 @@ score: {score_text}
 8. reasoning, verificationMessage, timeoutSec 단독 필드는 사용하지 않는다.
 
 [센서 이벤트]
-{sensor_event}
+{json.dumps(sensor_event, ensure_ascii=False)}
 
 [검색 Query]
 {query}

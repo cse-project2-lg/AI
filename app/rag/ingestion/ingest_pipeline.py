@@ -1,4 +1,5 @@
 import json
+import logging
 from pathlib import Path
 from typing import List
 
@@ -7,6 +8,8 @@ from app.rag.ingestion.cleaner import clean_document
 from app.rag.ingestion.chunker import split_into_chunks
 from app.rag.ingestion.metadata import enrich_chunk_metadata
 from app.rag.schemas.chunk import Chunk
+
+logger = logging.getLogger(__name__)
 
 
 def run_ingestion_pipeline(
@@ -48,6 +51,7 @@ def run_ingestion_directory(
     output_file_path: str = "data/chunks/chunks.json",
 ) -> List[Chunk]:
     all_chunks = []
+    failed_files = []
 
     input_dir = Path(input_dir_path)
 
@@ -55,25 +59,32 @@ def run_ingestion_directory(
         raise FileNotFoundError(f"입력 폴더를 찾을 수 없습니다: {input_dir_path}")
 
     for file_path in sorted(input_dir.rglob("*")):
-        print("FOUND:", file_path)
-
         if file_path.suffix.lower() not in [".txt", ".docx"]:
             continue
 
-        document = load_document(str(file_path))
-        document = clean_document(document)
+        try:
+            document = load_document(str(file_path))
+            document = clean_document(document)
 
-        chunks = split_into_chunks(document)
-        chunks = enrich_chunk_metadata(chunks)
+            chunks = split_into_chunks(document)
+            chunks = enrich_chunk_metadata(chunks)
 
-        print(file_path.name, "chunk 수:", len(chunks))
+            logger.info("%s chunk 수: %d", file_path.name, len(chunks))
 
-        all_chunks.extend(chunks)
-        
+            all_chunks.extend(chunks)
+
+        except Exception:
+            logger.exception("문서 처리 실패: %s", file_path)
+            failed_files.append(str(file_path))
+
+    if failed_files:
+        logger.warning("처리 실패한 파일 %d개: %s", len(failed_files), failed_files)
+
     _save_chunks(all_chunks, output_file_path)
 
     return all_chunks
 
 if __name__ == "__main__":
+    logging.basicConfig(level=logging.INFO)
     chunks = run_ingestion_directory()
-    print(f"{len(chunks)}개의 chunk를 저장했습니다.")
+    logger.info("%d개의 chunk를 저장했습니다.", len(chunks))

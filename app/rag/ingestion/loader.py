@@ -20,9 +20,9 @@ def load_document(file_path: str, doc_type: Optional[str] = None) -> Document:
 
     _validate_file(path)
 
-    if path.suffix == ".txt":
+    if path.suffix.lower() == ".txt":
         text = _load_txt(path)
-    elif path.suffix == ".docx":
+    elif path.suffix.lower() == ".docx":
         text = _load_docx(path)
     else:
         raise ValueError(f"지원하지 않는 파일 형식입니다: {path.suffix}")
@@ -50,7 +50,7 @@ def _validate_file(path: Path) -> None:
     if not path.is_file():
         raise ValueError(f"파일이 아닙니다: {path}")
 
-    if path.suffix not in SUPPORTED_EXTENSIONS:
+    if path.suffix.lower() not in SUPPORTED_EXTENSIONS:
         raise ValueError(
             f"지원하지 않는 파일 형식입니다: {path.suffix}. "
             f"지원 형식: {', '.join(SUPPORTED_EXTENSIONS)}"
@@ -89,7 +89,7 @@ def _infer_doc_type(path: Path) -> str:
 
     parent_dir = path.parent.name
 
-    if parent_dir in {"srs", "policies", "states", "rules", "meeting_notes"}:
+    if parent_dir in {"srs", "policies", "states", "rules", "meeting_notes", "knowledge_base"}:
         return parent_dir
 
     return "unknown"

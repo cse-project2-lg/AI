@@ -330,9 +330,11 @@ def main():
             print(f"[{name}] 워밍업 중...")
             try:
                 fn(dataset[0]["event"])
-            except Exception:
-                print(f"[{name}] 워밍업 중 오류 발생")
-                pass
+            except Exception as e:
+                print(f"[{name}] 워밍업 중 오류 발생: {e}", file=sys.stderr)
+                if any(keyword in str(e).lower() for keyword in ("api key", "authentication", "permission denied")):
+                    print(f"[{name}] API 키 또는 인증 오류로 평가를 중단합니다.", file=sys.stderr)
+                    sys.exit(1)
 
         r = evaluate(name, fn, dataset)
         results.append(r)

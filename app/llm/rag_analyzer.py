@@ -1,5 +1,6 @@
 import json
 from datetime import datetime, timezone
+from pathlib import Path
 from typing import Any, Dict, Optional
 
 from app.llm.gemini_client import analyze_with_gemini
@@ -7,7 +8,7 @@ from app.rag.prompt.prompt_builder import build_rag_prompt
 from app.rag.query.query_generator import generate_query_from_event
 from app.rag.retrieval.retriever import JsonRetriever
 
-import logging 
+import logging
 logger = logging.getLogger(__name__)
 
 ALLOWED_RISK_LEVELS = {"LOW", "MEDIUM", "HIGH"}
@@ -16,6 +17,9 @@ ALLOWED_ANALYSIS_STATUS = {"SUCCESS", "FALLBACK_RULE", "FAILED"}
 DEFAULT_PROMPT_ASSET = "are_you_ok_ko.mp3"
 DEFAULT_EXPECTED_OK_TEXT = ["네"]
 _RETRIEVER: Optional[JsonRetriever] = None
+
+PROJECT_ROOT = Path(__file__).parent.parent.parent
+EMBEDDING_FILE = PROJECT_ROOT / "data" / "chunks" / "chunk_embeddings.json"
 
 
 def now_iso_millis() -> str:
@@ -26,7 +30,7 @@ def get_retriever() -> JsonRetriever:
     global _RETRIEVER
     if _RETRIEVER is None:
         _RETRIEVER = JsonRetriever(
-            embedding_file_path="data/chunks/chunk_embeddings.json"
+            embedding_file_path=str(EMBEDDING_FILE)
         )
     return _RETRIEVER
 
@@ -127,7 +131,6 @@ def normalize_response(result: Dict[str, Any], sensor_event: Dict[str, Any]) -> 
 
     normalized.setdefault("situationSummary", "")
 
-    # Backward-compatible migration from old LLM contract.
     if "analysisReason" not in normalized:
         normalized["analysisReason"] = normalized.pop("reasoning", "")
     else:
@@ -149,7 +152,7 @@ def normalize_response(result: Dict[str, Any], sensor_event: Dict[str, Any]) -> 
 
 def analyze_sensor_event_with_rag(sensor_event: Dict[str, Any]) -> Dict[str, Any]:
     last_exc = None
-    for attempt in range(2):  # 최대 2회 시도
+    for attempt in range(2):
         try:
             query = generate_query_from_event(sensor_event)
             retriever = get_retriever()
@@ -164,7 +167,6 @@ def analyze_sensor_event_with_rag(sensor_event: Dict[str, Any]) -> Dict[str, Any
             return normalize_response(parsed, sensor_event)
 
         except (FileNotFoundError, PermissionError, ValueError) as exc:
-            # 영구 오류는 재시도 없이 바로 폴백
             logger.exception("RAG 분석 영구 오류 (재시도 안함)")
             return fallback_response(sensor_event, f"영구 오류: {exc}")
 

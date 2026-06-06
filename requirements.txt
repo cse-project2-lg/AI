@@ -1,11 +1,12 @@
 fastapi
 uvicorn
-pydantic
+pydantic>=2.0.0,<3.0.0
 python-dotenv
 google-genai
 sentence-transformers
 numpy
-python-docx
+
+python-docx==1.1.2
 sqlalchemy
 psycopg2-binary
 pgvector

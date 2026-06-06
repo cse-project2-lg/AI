@@ -11,7 +11,6 @@ from app.rag.retrieval.scoring import (
     calculate_final_score,
 )
 
-# JSON 파일로부터 chunk 임베딩 데이터를 로드하여 사용자 query와 유사한 chunk를 검색하는 클래스
 class JsonRetriever:
     """
     embedding similarity만 사용하는 것이 아니라,
@@ -24,8 +23,9 @@ class JsonRetriever:
         model_name: str = "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
     ) -> None:
         self.embedding_file_path = Path(embedding_file_path)
-        self.model = SentenceTransformer(model_name)
+        self.model_name = model_name
         self.chunks = self._load_chunks()
+        self.model = SentenceTransformer(model_name)
 
     def _load_chunks(self) -> List[Dict[str, Any]]:
 
@@ -51,6 +51,15 @@ class JsonRetriever:
 
             valid_chunks.append(item)
 
+        if valid_chunks:
+            stored_model = valid_chunks[0].get("embedding_metadata", {}).get("model_name")
+            if stored_model and stored_model != self.model_name:
+                raise ValueError(
+                    f"저장된 임베딩 모델({stored_model})과 "
+                    f"현재 모델({self.model_name})이 다릅니다. "
+                    f"re-ingestion이 필요합니다."
+                )
+
         return valid_chunks
 
     def _embed_query(self, query: str) -> List[float]:
@@ -71,6 +80,9 @@ class JsonRetriever:
             2. keyword_score: query에 chunk metadata의 keyword가 포함되어 있는 정도
             3. metadata_score: chunk의 priority, category 기반 중요도
         """
+
+        if not isinstance(top_k, int) or top_k < 1:
+            raise ValueError(f"top_k는 1 이상의 정수여야 합니다: {top_k}")
 
         query_embedding = self._embed_query(query)
 

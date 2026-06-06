@@ -14,7 +14,7 @@ ResponseOutcome = Literal[
     "ESCALATED_TO_GUARDIAN",
     "NOTIFICATION_FAILED",
 ]
-NotificationStatus = Literal["NOT_REQUIRED", "SENT", "FAILED"]
+NotificationStatus = Literal["NOT_REQUIRED", "PENDING", "SENT", "FAILED"]
 AnalysisStatus = Literal["SUCCESS", "FALLBACK_RULE", "FAILED"]
 VerificationMethod = Literal["NONE", "LOCAL_MP3_STT"]
 

@@ -63,21 +63,24 @@ def _load_txt(path: Path) -> str:
         return file.read()
 
 
-# docx 파일에서 문단 단위 텍스트를 추출한다. 줄바꿈을 유지하여 원본 문서의 구조를 최대한 보존
 def _load_docx(path: Path) -> str:
 
     docx = DocxDocument(path)
 
-    paragraphs = []
+    blocks = []
 
     for paragraph in docx.paragraphs:
         text = paragraph.text.strip()
-
         if text:
-            paragraphs.append(text)
+            blocks.append(text)
 
-    return "\n".join(paragraphs)
+    for table in docx.tables:
+        for row in table.rows:
+            cells = [cell.text.strip() for cell in row.cells if cell.text.strip()]
+            if cells:
+                blocks.append(" | ".join(cells))
 
+    return "\n".join(blocks)
 
 def _build_doc_id(path: Path) -> str:
 

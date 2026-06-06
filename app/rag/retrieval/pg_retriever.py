@@ -70,6 +70,7 @@ class PgVectorRetriever:
                         "source": "event_history"
                     },
                     "final_score": float(row[11]),
+                    "rerank_score": float(row[11]),
                 })
 
         return results

@@ -24,8 +24,8 @@ class JsonRetriever:
     ) -> None:
         self.embedding_file_path = Path(embedding_file_path)
         self.model_name = model_name
-        self.model = SentenceTransformer(model_name)
         self.chunks = self._load_chunks()
+        self.model = SentenceTransformer(model_name)
 
     def _load_chunks(self) -> List[Dict[str, Any]]:
 
@@ -80,6 +80,9 @@ class JsonRetriever:
             2. keyword_score: query에 chunk metadata의 keyword가 포함되어 있는 정도
             3. metadata_score: chunk의 priority, category 기반 중요도
         """
+
+        if not isinstance(top_k, int) or top_k < 1:
+            raise ValueError(f"top_k는 1 이상의 정수여야 합니다: {top_k}")
 
         query_embedding = self._embed_query(query)
 

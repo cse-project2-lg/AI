@@ -11,7 +11,6 @@ from app.rag.retrieval.scoring import (
     calculate_final_score,
 )
 
-# JSON 파일로부터 chunk 임베딩 데이터를 로드하여 사용자 query와 유사한 chunk를 검색하는 클래스
 class JsonRetriever:
     """
     embedding similarity만 사용하는 것이 아니라,
@@ -24,6 +23,7 @@ class JsonRetriever:
         model_name: str = "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
     ) -> None:
         self.embedding_file_path = Path(embedding_file_path)
+        self.model_name = model_name
         self.model = SentenceTransformer(model_name)
         self.chunks = self._load_chunks()
 
@@ -50,6 +50,15 @@ class JsonRetriever:
                 raise ValueError(f"{index}번째 chunk에 text 필드가 없습니다.")
 
             valid_chunks.append(item)
+
+        if valid_chunks:
+            stored_model = valid_chunks[0].get("embedding_metadata", {}).get("model_name")
+            if stored_model and stored_model != self.model_name:
+                raise ValueError(
+                    f"저장된 임베딩 모델({stored_model})과 "
+                    f"현재 모델({self.model_name})이 다릅니다. "
+                    f"re-ingestion이 필요합니다."
+                )
 
         return valid_chunks
 

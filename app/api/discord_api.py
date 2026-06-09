@@ -1,13 +1,13 @@
 import os
 import time
-import logger
+import logging
 import requests
 from typing import Optional
 from dotenv import load_dotenv
 
 load_dotenv()
 
-logger = l.getLogger(__name__)
+logger = logging.getLogger(__name__)
 
 WEBHOOK_URL = os.environ.get("DISCORD_WEBHOOK_URL")
 

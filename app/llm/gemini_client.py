@@ -6,7 +6,6 @@ from google import genai
 from google.genai import types
 
 load_dotenv()
-# GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
 
 
 SYSTEM_INSTRUCTION = """
@@ -45,10 +44,13 @@ SYSTEM_INSTRUCTION = """
 - 낙상 가능성이 매우 높거나 사용자 확인 장치 실패가 예상되면 recommendedAction=NOTIFY_GUARDIAN.
 - confidence는 0.0 이상 1.0 이하 숫자로 작성한다.
 - recommendedAction과 riskLevel은 반드시 위 enum 값 중 하나만 사용한다.
-- recommendedAction이 VERIFY_USER이면 verificationPlan.required=true, method=LOCAL_MP3_STT,
+- analysisStatus는 특별한 실패 상황이 아닌 한 "SUCCESS"로 작성한다.
+- situationSummary는 현 상태에 대한 직관적인 요약문이어야 하며, analysisReason은 센서값 기반의 구체적인 분석 근거를 포함해야 한다.
+- recommendedAction이 VERIFY_USER이면 verificationPlan.required=true, method=LOCAL_MP3_STT,  
   promptAsset=are_you_ok_ko.mp3, expectedOkText=["네"], timeoutSec=10으로 작성한다.
 - recommendedAction이 NO_ACTION, OBSERVE, NOTIFY_GUARDIAN이면 verificationPlan.required=false,
   method=NONE, promptAsset=null, expectedOkText=[], timeoutSec=0으로 작성한다.
+- expectedOkText는 반드시 대괄호로 감싸진 문자열 배열 형식(예: ["네"])을 준수해야 한다.
 - reasoning, verificationMessage, timeoutSec 단독 필드는 사용하지 않는다.
 """
 
@@ -57,30 +59,16 @@ _CLIENT: Optional[genai.Client] = None
 def _get_client() -> genai.Client:
     global _CLIENT
     if _CLIENT is None:
-        # 1. .env에 GOOGLE_API_KEY가 있으면 그걸로 즉시 실행 (로컬 방식)
-        if GOOGLE_API_KEY:
-            _CLIENT = genai.Client(
-                api_key=GOOGLE_API_KEY,
-                http_options=types.HttpOptions(timeout=30)
-            )
-        # 2. API 키가 없다면 ADC(Application Default Credentials) 방식으로 시도
-        else:
-            if platform.system() == "Windows":
-                adc_path = Path(os.environ.get("APPDATA", "")) / "gcloud/application_default_credentials.json"
-            else:
-                adc_path = Path.home() / ".config/gcloud/application_default_credentials.json"
-            
-            if not adc_path.exists():
-                raise RuntimeError(
-                    "[Gemini 인증 에러] 설정된 API 키가 없습니다.\n"
-                    "로컬 환경이라면 .env 파일에 GOOGLE_API_KEY를 입력해 주시고,\n"
-                    "클라우드 서버라면 터미널에 'gcloud auth application-default login'을 실행해 주세요!"
-                )
-            
-            # 파일이 잘 있다면 아무 메시지 없이 바로 클라이언트 생성해서 사용
+        try:
             _CLIENT = genai.Client(
                 http_options=types.HttpOptions(timeout=30)
             )
+        except Exception as e:
+            # rag_analyzer가 무한 재시도를 돌지 않고 즉시 인지할 수 있도록 ValueError를 던집니다.
+            raise ValueError(
+                "[Gemini 인증 에러] 구글 클라우드 ADC 인증 정보를 가져올 수 없습니다.\n"
+                "서버 터미널에서 'gcloud auth application-default login'을 실행해 주세요!"
+            ) from e
             
     return _CLIENT
 
@@ -88,8 +76,10 @@ def analyze_with_gemini(prompt: str, model: Optional[str] = None) -> str:
     client = _get_client()
     response = client.models.generate_content(
         model=model or "gemini-2.5-flash-lite",
-        config={"system_instruction": SYSTEM_INSTRUCTION},
-        contents=prompt,
+        config={
+            "system_instruction": SYSTEM_INSTRUCTION,
+            "response_mime_type": "application/json"
+        },
     )
     text = response.text
     if not text:

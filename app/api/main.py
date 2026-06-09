@@ -165,6 +165,8 @@ def send_guardian_notification(request: NotificationRequest):
     if discord_result.get("success"):
         logger.info("Notification successfully sent via DISCORD for eventId=%s", request.eventId)
 
+        timestamp = now_iso_millis()
+
         save_notification_flow(
             event_id=request.eventId,
             question_text=request.verification.promptAsset if request.verification else None,
@@ -173,13 +175,13 @@ def send_guardian_notification(request: NotificationRequest):
             guardian_id=None,
             notification_type="DISCORD",
             notification_status="SENT",
-            sent_at=parse_iso_datetime(now_iso_millis()),
+            sent_at=parse_iso_datetime(timestamp),
         )
 
         return {
             "type": "notification.result",
             "eventId": request.eventId,
-            "timestamp": now_iso_millis(),
+            "timestamp": timestamp,
             "notificationStatus": "SENT",
             "channels": ["DISCORD"],
             "attemptCount": 1,
@@ -187,7 +189,13 @@ def send_guardian_notification(request: NotificationRequest):
         }
 
     # 알림 전송 실패 시 응답 구조
-    logger.error("Notification failed via DISCORD for eventId=%s, error=%s", request.eventId, discord_result.get("error"))
+    logger.error(
+        "Notification failed via DISCORD for eventId=%s, error=%s",
+        request.eventId,
+        discord_result.get("error"),
+    )
+
+    timestamp = now_iso_millis()
 
     save_notification_flow(
         event_id=request.eventId,
@@ -197,13 +205,13 @@ def send_guardian_notification(request: NotificationRequest):
         guardian_id=None,
         notification_type="DISCORD",
         notification_status="FAILED",
-        sent_at=parse_iso_datetime(now_iso_millis()),
+        sent_at=parse_iso_datetime(timestamp),
     )
 
     return {
         "type": "notification.result",
         "eventId": request.eventId,
-        "timestamp": now_iso_millis(),
+        "timestamp": timestamp,
         "notificationStatus": "FAILED",
         "channels": ["DISCORD"],
         "attemptCount": 1,

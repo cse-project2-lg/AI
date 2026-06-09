@@ -1,10 +1,13 @@
 import os
 import time
+import logger
 import requests
 from typing import Optional
 from dotenv import load_dotenv
 
 load_dotenv()
+
+logger = l.getLogger(__name__)
 
 WEBHOOK_URL = os.environ.get("DISCORD_WEBHOOK_URL")
 
@@ -45,7 +48,7 @@ def send_discord_notification(
 
     if not WEBHOOK_URL:
         error_message = ".env 파일에 DISCORD_WEBHOOK_URL이 설정되지 않았습니다."
-        print(f"에러: {error_message}")
+        logger.error(f"에러: {error_message}")
         return {
             "success": False,
             "status_code": None,
@@ -110,7 +113,7 @@ def send_discord_notification(
         ],
     }
 
-    print("디스코드 외부 알림 채널 호출 중...")
+    logger.info("디스코드 외부 알림 채널 호출 중...")
 
     try:
         response = requests.post(WEBHOOK_URL, json=payload, timeout=3.0)
@@ -118,15 +121,15 @@ def send_discord_notification(
         # Discord Webhook은 일반적으로 성공 시 204를 반환한다.
         # wait=true 옵션이 붙는 경우 200이 올 수도 있으므로 둘 다 성공 처리한다.
         if response.status_code in (200, 204):
-            print("디스코드 보호자 관제 채널로 비상 알림 전송 성공!")
+            logger.info("디스코드 보호자 관제 채널로 비상 알림 전송 성공!")
             return {
                 "success": True,
                 "status_code": response.status_code,
                 "error": None,
             }
 
-        print(f"전송 실패 HTTP 상태 코드: {response.status_code}")
-        print(response.text)
+        logger.error(f"전송 실패 HTTP 상태 코드: {response.status_code}")
+        logger.error(response.text)
 
         return {
             "success": False,
@@ -135,7 +138,7 @@ def send_discord_notification(
         }
 
     except Exception as e:
-        print(f"네트워크 단절 또는 요청 에러 발생: {e}")
+        logger.error(f"디스코드 알림 전송 중 오류 발생: {e}")
         return {
             "success": False,
             "status_code": None,

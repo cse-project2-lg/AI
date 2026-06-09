@@ -76,6 +76,7 @@ def analyze_with_gemini(prompt: str, model: Optional[str] = None) -> str:
     client = _get_client()
     response = client.models.generate_content(
         model=model or "gemini-2.5-flash-lite",
+        contents=prompt,
         config={
             "system_instruction": SYSTEM_INSTRUCTION,
             "response_mime_type": "application/json"

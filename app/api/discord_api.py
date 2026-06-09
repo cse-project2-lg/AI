@@ -62,47 +62,42 @@ def send_discord_notification(
         "avatar_url": DEFAULT_AVATAR_URL,
         "embeds": [
             {
-                "title": "🚨 [응급 상황] 피보호자 안전 이상 감지",
+                "title": "🚨 **[응급 상황] 피보호자 안전 이상 감지**",
                 "color": 15158332,
                 "fields": [
                     {
                         "name": "📌 사건 식별 ID",
-                        "value": _truncate(event_id, 1000),
+                        "value": _truncate(event_id, 1000) + "\n\n",
                         "inline": True,
                     },
                     {
                         "name": "⏰ 발생 시각",
-                        "value": _truncate(occurred_at, 1000),
+                        "value": _truncate(occurred_at, 1000) + "\n\n",
                         "inline": True,
                     },
                     {
                         "name": "📍 감지 위치",
-                        "value": _truncate(room_id, 1000),
+                        "value": _truncate(room_id, 1000) + "\n\n",
                         "inline": True,
                     },
                     {
                         "name": "📊 위험도",
-                        "value": _truncate(risk_level, 1000),
+                        "value": _truncate(risk_level, 1000) + "\n\n",
                         "inline": True,
                     },
                     {
                         "name": "🗣 사용자 응답 상태",
-                        "value": _truncate(user_response, 1000),
+                        "value": _truncate(user_response, 1000) + "\n\n",
                         "inline": True,
                     },
                     {
-                        "name": "🎙 STT 인식 결과",
-                        "value": _truncate(transcript, 1000),
-                        "inline": False,
-                    },
-                    {
                         "name": "📝 복합 상황 요약",
-                        "value": _truncate(situation_summary, 1000),
+                        "value": _truncate(situation_summary, 1000) + "\n\n",
                         "inline": False,
                     },
                     {
                         "name": "🚨 보호자 알림 사유",
-                        "value": _truncate(escalation_reason, 1000),
+                        "value": _truncate(escalation_reason, 1000) + "\n\n",
                         "inline": False,
                     },
                 ],

@@ -5,7 +5,7 @@ python-dotenv
 google-genai
 sentence-transformers
 numpy
-
+requests
 python-docx==1.1.2
 sqlalchemy>=2.0.0,<2.1.0
 psycopg2-binary>=2.9.0,<3.0.0

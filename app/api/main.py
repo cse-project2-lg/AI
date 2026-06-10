@@ -29,7 +29,7 @@ logger = logging.getLogger(__name__)
 def now_iso_millis() -> str:
     return datetime.now(timezone.utc).isoformat(timespec="milliseconds")
 
-def parse_iso_datetime(value: str | None):
+def parse_iso_datetime(value: str | None) -> datetime | None:
     if value is None:
         return None
 
@@ -165,7 +165,8 @@ def send_guardian_notification(request: NotificationRequest):
     if discord_result.get("success"):
         logger.info("Notification successfully sent via DISCORD for eventId=%s", request.eventId)
 
-        timestamp = now_iso_millis()
+        now = datetime.now(timezone.utc)
+        timestamp = now.isoformat(timespec="milliseconds")
 
         save_notification_flow(
             event_id=request.eventId,
@@ -175,7 +176,7 @@ def send_guardian_notification(request: NotificationRequest):
             guardian_id=None,
             notification_type="DISCORD",
             notification_status="SENT",
-            sent_at=parse_iso_datetime(timestamp),
+            sent_at=now,
         )
 
         return {
@@ -195,7 +196,8 @@ def send_guardian_notification(request: NotificationRequest):
         discord_result.get("error"),
     )
 
-    timestamp = now_iso_millis()
+    now = datetime.now(timezone.utc)
+    timestamp = now.isoformat(timespec="milliseconds")
 
     save_notification_flow(
         event_id=request.eventId,
@@ -205,7 +207,7 @@ def send_guardian_notification(request: NotificationRequest):
         guardian_id=None,
         notification_type="DISCORD",
         notification_status="FAILED",
-        sent_at=parse_iso_datetime(timestamp),
+        sent_at=now,
     )
 
     return {

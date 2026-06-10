@@ -1,18 +1,9 @@
 from __future__ import annotations
 
+from datetime import datetime
 from typing import Any
 
 from app.db.database import get_db_session
-from app.db.repositories import (
-    create_event,
-    save_analysis_result,
-    save_event_embedding,
-    save_event_window_summary,
-    save_notification,
-    save_response_outcome,
-    save_voice_interaction,
-    update_event_status,
-)
 from app.db.repositories import (
     create_event,
     save_analysis_result,
@@ -96,77 +87,7 @@ def save_notification_flow(
     guardian_id: str | None,
     notification_type: str | None,
     notification_status: str | None,
-    sent_at,
-) -> dict[str, Any]:
-    with get_db_session() as db:
-        save_voice_interaction(
-            db,
-            event_id=event_id,
-            question_text=question_text,
-            stt_text=stt_text,
-            response_type=response_type,
-        )
-
-        save_notification(
-            db,
-            event_id=event_id,
-            guardian_id=guardian_id,
-            notification_type=notification_type,
-            status=notification_status,
-            sent_at=sent_at,
-        )
-
-        update_event_status(
-            db,
-            event_id=event_id,
-            event_status="NOTIFIED",
-            reason="보호자 알림 요청 및 전송 결과 저장",
-        )
-
-    return {
-        "event_id": event_id,
-        "status": "NOTIFICATION_SAVED",
-    }
-
-
-def save_outcome_flow(
-    *,
-    event_id: str,
-    final_status: str | None,
-    action_taken: str | None,
-    resolved_at,
-) -> dict[str, Any]:
-    with get_db_session() as db:
-        save_response_outcome(
-            db,
-            event_id=event_id,
-            final_status=final_status,
-            action_taken=action_taken,
-            resolved_at=resolved_at,
-        )
-
-        update_event_status(
-            db,
-            event_id=event_id,
-            event_status="RESOLVED",
-            reason="최종 대응 결과 저장 완료",
-        )
-
-    return {
-        "event_id": event_id,
-        "status": "OUTCOME_SAVED",
-    }
-
-def save_notification_flow(
-    *,
-    event_id: str,
-    question_text: str | None,
-    stt_text: str | None,
-    response_type: str | None,
-    guardian_id: str | None,
-    notification_type: str | None,
-    notification_status: str | None,
-    sent_at,
+    sent_at: datetime | None,
 ) -> dict[str, str]:
     with get_db_session() as db:
         save_voice_interaction(
@@ -186,12 +107,20 @@ def save_notification_flow(
             sent_at=sent_at,
         )
 
-        update_event_status(
-            db,
-            event_id=event_id,
-            event_status="NOTIFIED",
-            reason="보호자 알림 요청 및 전송 결과 저장",
-        )
+        if notification_status == "FAILED":
+            update_event_status(
+                db,
+                event_id=event_id,
+                event_status="NOTIFICATION_FAILED",
+                reason="보호자 알림 전송 실패 및 결과 저장",
+            )
+        else:
+            update_event_status(
+                db,
+                event_id=event_id,
+                event_status="NOTIFIED",
+                reason="보호자 알림 요청 및 전송 결과 저장",
+            )
 
     return {
         "event_id": event_id,
@@ -204,7 +133,7 @@ def save_outcome_flow(
     event_id: str,
     final_status: str | None,
     action_taken: str | None,
-    resolved_at,
+    resolved_at: datetime | None,
 ) -> dict[str, str]:
     with get_db_session() as db:
         save_response_outcome(
